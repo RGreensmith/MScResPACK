@@ -1,13 +1,16 @@
 
-#' A Cat Function
+#' Create polygon of raster outline
 #'
-#' This function allows you to express your love of cats.
-#' @param plot Do you love cats? Defaults to TRUE.
+#' This function allows you to create a polygon of the outline of a raster object.
+#' @param x raster object that outline will be based on
+#' @param plot do you want the original raster and new outline plotting to check? (TRUE/FALSE), default is TRUE.
+#' @param installRgeos should rgeos be installed? (TRUE/FALSE), default is FALSE.
 #' @keywords cats
 #' @export
 #' @examples
 #' rasOutline()
 #'
+
 rasOutline = function(x,plot = TRUE,installRgeos = FALSE) {
 
   if (installRgeos == TRUE) {

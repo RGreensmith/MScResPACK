@@ -2,15 +2,19 @@
 % Please edit documentation in R/rasOutline function.R
 \name{rasOutline}
 \alias{rasOutline}
-\title{A Cat Function}
+\title{Create polygon of raster outline}
 \usage{
 rasOutline(x, plot = TRUE, installRgeos = FALSE)
 }
 \arguments{
-\item{plot}{Do you love cats? Defaults to TRUE.}
+\item{x}{raster object that outline will be based on}
+
+\item{plot}{do you want the original raster and new outline plotting to check? (TRUE/FALSE), default is TRUE.}
+
+\item{installRgeos}{should rgeos be installed? (TRUE/FALSE), default is FALSE.}
 }
 \description{
-This function allows you to express your love of cats.
+This function allows you to create a polygon of the outline of a raster object.
 }
 \examples{
 rasOutline()
