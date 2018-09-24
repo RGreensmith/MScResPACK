@@ -131,7 +131,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
   seasonsInd=seasonsIndFun(dataset)
   dataset=prepDF(dataset)
-  
+
   #####################################################################
   # create empty summary table, create spatial autocorrelation vector #
   #####################################################################
@@ -158,6 +158,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
     tableLength=tableLenFun(fams,effortVec)
     summaryTable=summaryTblFun(tableLength)
+    rm(tableLength)
 
     ############################################
     # Print model section status #
@@ -173,26 +174,8 @@ for (m in c(2)) { # length(formulas$model_index)
   for (effort in 1:length(effortVec)) { # :length(effortVec)
 
     if (effort > 1) {
-      #
-      # dataset$dummy <- numFactor(dataset$dummy)
-      # levels(dataset$dummy)
 
-      dataset$monthfrom0 <- as.factor(dataset$monthfrom0)
-      dataset$dummy <- as.factor(dataset$dummy)
-
-      dataset$LonSpCov=dataset$Lon
-      dataset$LatSpCov=dataset$Lat
-      # dataset$MonthSpCov=dataset$Month
-
-      x=dataset$LonSpCov
-      y=dataset$LatSpCov
-      pos=numFactor(x,y)
-      parseNumLevels(levels(pos))
-
-      # dataset$SeasonNumeric <- numFactor(dataset$SeasonNumeric)
-      # levels(dataset$SeasonNumeric)
-      #
-
+      pos=spACsetup(dataset)
 
     }
 
