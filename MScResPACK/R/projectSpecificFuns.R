@@ -291,6 +291,53 @@ formFun = function(formulaType=c("cond"),response=NULL,predictors,effExt) {
 }
 
 ############################################################
+# create model #
+############################################################
+
+#' Create model
+#'
+#' This function allows you to write a glmmTMB model.
+#' @param fams
+#'
+#' @param fam
+#'
+#' @param linkTypes
+#'
+#' @param link
+#'
+#' @param dataset
+#'
+#' @param fcond
+#'
+#' @param fzeroi
+#'
+#' @keywords cats
+#' @export
+#' @examples
+#' modelFun()
+#'
+
+modelFun = function(fams,fam,linkTypes,link,dataset,fcond,fzeroi) {
+
+  familyFull=paste(fams[fam],'(link = ','"',linkTypes[link],'"',')',sep="")
+
+  modelText = paste("try(glmmTMB(formula = fcond, data = dataset, family=",
+                    familyFull,", ziformula = fzeroi,verbose=TRUE, se = TRUE))",sep="")
+
+  start=Sys.time()
+
+  model=eval(parse(text=modelText))
+
+  end=Sys.time()
+  diffFun=end-start
+  print(diffFun)
+  rm(start,end,diffFun)
+
+  return(model)
+
+}
+
+############################################################
 # Fitted vs explanatory variables: conditional/zero inflated
 ############################################################
 
@@ -431,7 +478,7 @@ barsFun = function(bars,main,xlab,barNames) {
 
 #####
 # test
-####
+#########
 
 k=function(hello) {
 
