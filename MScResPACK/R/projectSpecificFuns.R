@@ -361,7 +361,7 @@ modelFun = function(fams,fam,linkTypes,link,dataset,fcond,fzeroi) {
 
 # filePath = paste(Path,"Plots/vcov varcorr matrix plots/",sep = "")
 
-plot2DMatrix = function(Path,ModelRefNo,ModelRefFull,summ) {
+plot2DMatrix = function(filePath,ModelRefNo,ModelRefFull,summ) {
 
   abbrv=c("cond","zi")
   full=c("conditional","zero-inflated")

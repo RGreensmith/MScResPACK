@@ -4,16 +4,16 @@
 \alias{plot2DMatrix}
 \title{2D matrix plot of variance covariance matrices}
 \usage{
-plot2DMatrix(Path, ModelRefNo, ModelRefFull, summ)
+plot2DMatrix(filePath, ModelRefNo, ModelRefFull, summ)
 }
 \arguments{
+\item{filePath}{file pathway to plot location, e.g. filePath = paste(Path,"Plots/vcov varcorr matrix plots/",sep = "")}
+
 \item{ModelRefNo}{model reference number}
 
 \item{ModelRefFull}{full model reference}
 
 \item{summ}{model summary object}
-
-\item{filePath}{file pathway to plot location, e.g. filePath = paste(Path,"Plots/vcov varcorr matrix plots/",sep = "")}
 }
 \description{
 This function allows you to plot a 2D variance covariance matrix.
