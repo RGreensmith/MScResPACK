@@ -198,9 +198,9 @@ effectExtensFun = function (formulas,m) {
   rm(Y)
 }
 
-######################################
-#
-######################################
+################################################
+# Set up for spatial autocorrelation structure #
+################################################
 
 #' Set up for spatial autocorrelation structure
 #'
@@ -225,7 +225,8 @@ spACsetup = function(dataset) {
   x=dataset$LonSpCov
   y=dataset$LatSpCov
   pos=numFactor(x,y)
-  return(parseNumLevels(levels(pos)))
+  parseNumLevels(levels(pos))
+  return(pos)
 
 }
 
