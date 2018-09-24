@@ -337,6 +337,61 @@ modelFun = function(fams,fam,linkTypes,link,dataset,fcond,fzeroi) {
 
 }
 
+##########################################################
+# 2D matrix plot of variance covariance matrix for conditional and zero inflated (vcov, using color2D.matplot) #
+##########################################################
+
+
+#' 2D matrix plot of variance covariance matrices
+#'
+#' This function allows you to plot a 2D variance covariance matrix.
+#' @param filePath file pathway to plot location, e.g. filePath = paste(Path,"Plots/vcov varcorr matrix plots/",sep = "")
+#'
+#' @param ModelRefNo model reference number
+#'
+#' @param ModelRefFull full model reference
+#'
+#' @param summ model summary object
+#'
+#' @keywords cats
+#' @export
+#' @examples
+#' plot2DMatrix()
+#'
+
+# filePath = paste(Path,"Plots/vcov varcorr matrix plots/",sep = "")
+
+plot2DMatrix = function(Path,ModelRefNo,ModelRefFull,summ) {
+
+  abbrv=c("cond","zi")
+  full=c("conditional","zero-inflated")
+  CorZ=data.frame(abbrv,full)
+
+  rm(abbrv,full)
+
+  for (cz in 1:2) {
+
+    vcovmComm=paste("vcovm=summ$vcov$",CorZ$abbrv[cz],sep = "")
+    eval(parse(text=vcovmComm))
+    rm(vcovmComm)
+    tik=length(colnames(vcovm))-0.5
+
+    png(filename=paste(filePath,ModelRefNo, " vcov ",CorZ$abbrv[cz],".png", sep = ""),width=1000,height=1000)
+
+
+    color2D.matplot(vcovm,cs1=c(0.5,0.9),cs2=c(1,0.6),cs3=c(1,1),
+                    axes = FALSE,show.legend = TRUE,show.values = TRUE)
+    axis(1,at=0.5:tik, labels=colnames(vcovm),las = 2) # at=0.5:3.5,
+    axis(2,at=0.5:tik,labels=rownames(vcovm),las = 2) # ,at=0.5:3.5
+    title(main = paste(ModelRefFull," variance-covariance matrix, ",CorZ$full[cz],sep = ""))
+    dev.off()
+
+    rm(vcovm,tik)
+  }
+  rm(cz)
+
+}
+
 ############################################################
 # Fitted vs explanatory variables: conditional/zero inflated
 ############################################################
