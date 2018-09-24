@@ -7,19 +7,19 @@
 modelFun(fams, fam, linkTypes, link, dataset, fcond, fzeroi)
 }
 \arguments{
-\item{fams}{}
+\item{fams}{family type string}
 
-\item{fam}{}
+\item{fam}{family iteration}
 
-\item{linkTypes}{}
+\item{linkTypes}{link type string}
 
-\item{link}{}
+\item{link}{link iteration}
 
-\item{dataset}{}
+\item{dataset}{dataset to be used in model}
 
-\item{fcond}{}
+\item{fcond}{formula for conditional model}
 
-\item{fzeroi}{}
+\item{fzeroi}{formula for logistic model}
 }
 \description{
 This function allows you to write a glmmTMB model.

@@ -297,19 +297,19 @@ formFun = function(formulaType=c("cond"),response=NULL,predictors,effExt) {
 #' Create model
 #'
 #' This function allows you to write a glmmTMB model.
-#' @param fams
+#' @param fams family type string
 #'
-#' @param fam
+#' @param fam family iteration
 #'
-#' @param linkTypes
+#' @param linkTypes link type string
 #'
-#' @param link
+#' @param link link iteration
 #'
-#' @param dataset
+#' @param dataset dataset to be used in model
 #'
-#' @param fcond
+#' @param fcond formula for conditional model
 #'
-#' @param fzeroi
+#' @param fzeroi formula for logistic model
 #'
 #' @keywords cats
 #' @export
