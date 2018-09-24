@@ -108,7 +108,7 @@ capXtreme = function (formulas,m,dataset,orderCol) {
 
   print(head(dataset[formulas$dataset_name[m]]))
 
-  ds=dataset[order(dataset[orderCol]),]
+  ds=dataset[order(dataset[,orderCol]),]
 
   return(ds)
 
@@ -196,6 +196,37 @@ effectExtensFun = function (formulas,m) {
   return(ev)
 
   rm(Y)
+}
+
+######################################
+#
+######################################
+
+#' Set up for spatial autocorrelation structure
+#'
+#' This function allows you to Set up for spatial autocorrelation structure.
+#' @param dataset dataset used for spatial covariance xy.
+#'
+#' @keywords cats
+#' @export
+#' @examples
+#' spACsetup()
+#'
+
+spACsetup = function(dataset) {
+
+  dataset$monthfrom0 <- as.factor(dataset$monthfrom0)
+  dataset$dummy <- as.factor(dataset$dummy)
+
+  dataset$LonSpCov=dataset$Lon
+  dataset$LatSpCov=dataset$Lat
+  # dataset$MonthSpCov=dataset$Month
+
+  x=dataset$LonSpCov
+  y=dataset$LatSpCov
+  pos=numFactor(x,y)
+  return(parseNumLevels(levels(pos)))
+
 }
 
 ######################################
