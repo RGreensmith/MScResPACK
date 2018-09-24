@@ -86,7 +86,7 @@ summaryTblFun = function(tableLength) {
 #' @param formulas formulas dataframe.
 #' @param m model iteration.
 #' @param dataset dataset for model input.
-#' @param orderCol orderCol.
+#' @param orderCol name of column used to re-order the dataset (as.character) eg. orderCol = "X".
 #' @keywords cats
 #' @export
 #' @examples
@@ -108,7 +108,7 @@ capXtreme = function (formulas,m,dataset,orderCol) {
 
   print(head(dataset[formulas$dataset_name[m]]))
 
-  ds=dataset[order(dataset$orderCol),]
+  ds=dataset[order(dataset[orderCol]),]
 
   return(ds)
 

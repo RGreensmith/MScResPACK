@@ -13,7 +13,7 @@ capXtreme(formulas, m, dataset, orderCol)
 
 \item{dataset}{dataset for model input.}
 
-\item{orderCol}{orderCol.}
+\item{orderCol}{name of column used to re-order the dataset (as.character) eg. orderCol = "X".}
 }
 \description{
 This function allows you to cap extreme values in dataset.
