@@ -21,7 +21,7 @@
 # install.packages("emmeans")
 # install.packages("car")
 # install.packages("devtools")
-# devtools::install_github("RGreensmith/MScResPACK",subdir = "MScResPACK")
+devtools::install_github("RGreensmith/MScResPACK",subdir = "MScResPACK")
 
 
 library(MCMCpack)
