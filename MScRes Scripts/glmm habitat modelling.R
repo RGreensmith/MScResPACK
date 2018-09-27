@@ -168,7 +168,8 @@ for (m in c(2)) { # length(formulas$model_index)
   for (effort in 1:length(effortVec)) { # :length(effortVec)
 
     if (effort > 1) {
-
+      
+      dataset=covStrucData(dataset,"temporal")
       pos=spACsetup(dataset)
 
     }
