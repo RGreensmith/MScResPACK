@@ -2,6 +2,7 @@
 
 export(barsFun)
 export(capXtreme)
+export(devROxWrap)
 export(effectExtensFun)
 export(formFun)
 export(mapFun)
