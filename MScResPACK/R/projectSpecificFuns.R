@@ -5,7 +5,7 @@
 #' end Sys.time and return difference
 #'
 #' This function allows you to end Sys.time and return the time difference.
-#' @param start 
+#' @param start object of Sys.time set before running command to be timed.
 #' @details 
 #' @keywords cats
 #' @export
