@@ -1,3 +1,26 @@
+############################################################
+# creating .Rd files and creating help files for functions #
+############################################################
+
+#' creating or updating .Rd files for functions
+#'
+#' This function allows you to create or update .Rd files for functions.
+#' @param wd working directory path from which the file to document exists and .Rd file will be created. Default is "M:/My Documents/MScResPACK/MScResPACK"
+#' @details 
+#' @keywords cats
+#' @export
+#' @examples
+#' 
+#' devROxWrap()
+#'
+
+devROxWrap = function(wd = "M:/My Documents/MScResPACK/MScResPACK") {
+
+  setwd(wd)
+  document()
+  
+}
+
 ###############################################
  # end and difference sys time function #
 ###############################################
