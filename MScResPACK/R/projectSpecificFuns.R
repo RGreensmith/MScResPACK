@@ -252,6 +252,29 @@ effectExtensFun = function (formulas,m) {
   rm(Y)
 }
 
+############################################
+# set up dataset for covariance structures #
+############################################
+
+covStrucdata = function(dataset,strucType) {
+  
+  if (strucType == "temporal") {
+    
+    dataset$monthfrom0 <- as.factor(dataset$monthfrom0)
+    
+  } else {
+    
+    dataset$LonSpCov=dataset$Lon
+    dataset$LatSpCov=dataset$Lat
+    
+  }
+ 
+  dataset$dummy <- as.factor(dataset$dummy)
+  
+  return(dataset)
+  
+}
+
 ################################################
 # Set up for spatial autocorrelation structure #
 ################################################
