@@ -291,7 +291,7 @@ spACsetup = function(dataset) {
 #' write formula for model
 #'
 #' This function allows you to write formula for model.
-#' @param formulaType ,defaults to "cond".
+#' @param formulaType defaults to "cond".
 #' @param response name of response variable (as character), defaults to NULL.
 #' @param predictors name of predictor variables (as character)
 #' @param effExt effort.
