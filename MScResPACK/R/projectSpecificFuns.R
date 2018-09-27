@@ -11,8 +11,14 @@
 #' @export
 #' @examples
 #' 
+#' # create start time object
+#' start = Sys.time()
 #' 
-#' sysTimeDiff()
+#' # run command to be timed
+#' print("hello")
+#' 
+#' 
+#' sysTimeDiff(start)
 #'
 
 sysTimeDiff = function (start) {
