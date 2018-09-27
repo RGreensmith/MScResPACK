@@ -210,14 +210,14 @@ for (m in c(2)) { # length(formulas$model_index)
         
         sysTimeDiff(start)
         
-        rm(fcond,fzeroi,familyFull,modelText)
+        # rm(fcond,fzeroi,familyFull,modelText)
         
         
         
         
         
         
-        modelFun(fams,fam,linkTypes,link,dataset,fcond,fzeroi)
+        model2=modelFun(fams,fam,linkTypes,link,dataset,fcond,fzeroi)
         
         
         
