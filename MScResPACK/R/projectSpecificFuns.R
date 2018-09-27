@@ -16,10 +16,12 @@
 #'
 
 sysTimeDiff = function (start) {
+  
   end=Sys.time()
   diffFun=end-start
   print(diffFun)
   return(diffFun)
+  
 }
 
 ###############################################
