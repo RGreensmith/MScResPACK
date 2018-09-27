@@ -208,13 +208,20 @@ for (m in c(2)) { # length(formulas$model_index)
         
         model=eval(parse(text=modelText))
         
-        end=Sys.time()
-        diffFun=end-start
-        print(diffFun)
-        rm(start,end,diffFun)
+        sysTimeDiff(start)
+        
+        rm(fcond,fzeroi,familyFull,modelText)
         
         
-        rm(fcond,modelText)
+        
+        
+        
+        
+        modelFun(fams,fam,linkTypes,link,dataset,fcond,fzeroi)
+        
+        
+        
+        
 
         if (exists("model")==TRUE && typeof(model)=="list") {
 
