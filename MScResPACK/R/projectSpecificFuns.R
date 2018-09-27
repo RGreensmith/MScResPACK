@@ -328,8 +328,8 @@ formFun = function(formulaType=c("cond"),response=NULL,predictors,effExt) {
 
     } else {
 
-      if (strsplit(a,"+")[[1]][1]=="+") {
-        k = paste(strsplit(a,"+")[[1]][-1],collapse = "")
+      if (strsplit(effExt,"+")[[1]][1]=="+") {
+        k = paste(strsplit(effExt,"+")[[1]][-1],collapse = "")
         form=paste("~",k,sep = "")
       }
 
