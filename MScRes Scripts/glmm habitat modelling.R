@@ -98,14 +98,6 @@ linkTypes=c("log")
 # Notes #
 #########
 
-# timing things #
-
-start=Sys.time()
-# your code #
-end=Sys.time()
-diffFun=end-start
-print(diffFun)
-rm(start,end,diffFun)
 ##########################################################################################################################
 
 #### LOOPS THROUGH EFFORT FIRST BUT MODEL REF IS STILL: formulas$model_index[m],formulas$Model_number[m],".",fam,".",effort ####
