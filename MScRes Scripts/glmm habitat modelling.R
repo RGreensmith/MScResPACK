@@ -212,10 +212,16 @@ for (m in c(2)) { # length(formulas$model_index)
 
         modelText = paste("try(glmmTMB(formula = fcond, data = dataset, family=",familyFull,", ziformula = fzeroi,verbose=TRUE, se = TRUE))",sep="")
 
-        ptm <- proc.time()
+        start=Sys.time()
+        
         model=eval(parse(text=modelText))
-        proc.time() - ptm
-
+        
+        end=Sys.time()
+        diffFun=end-start
+        print(diffFun)
+        rm(start,end,diffFun)
+        
+        
         rm(fcond,modelText)
 
         if (exists("model")==TRUE && typeof(model)=="list") {
