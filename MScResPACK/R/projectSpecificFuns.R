@@ -256,6 +256,17 @@ effectExtensFun = function (formulas,m) {
 # set up dataset for covariance structures #
 ############################################
 
+#' Set up for dataset for covariance structures
+#'
+#' This function allows you to set up dataset for covariance structures.
+#' @param dataset dataset used for spatial covariance xy.
+#' @param strucType either "temporal" or "spatial".
+#' @keywords cats
+#' @export
+#' @examples
+#' covStrucdata()
+#'
+
 covStrucdata = function(dataset,strucType) {
   
   if (strucType == "temporal") {
