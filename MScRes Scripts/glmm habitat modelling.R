@@ -187,7 +187,16 @@ for (m in c(2)) { # length(formulas$model_index)
 
 
         fcond=formFun("cond",response = NameAbbrv,predictors = formulas$fCond[m],effExt = effortVec[effort])
-        fzeroi=formFun("zi",response = NULL,predictors = formulas$fZi[m],effExt = effortVec[effort])
+        
+        if (effortVec[effort]) {
+          
+          fzeroi=formFun("zi",response = NULL,predictors = formulas$fZi[m],effExt = FALSE)
+          
+        } else {
+          
+          fzeroi=formFun("zi",response = NULL,predictors = formulas$fZi[m],effExt = effortVec[effort])
+          
+        }
 
         print(paste("m = ",m,"   family = ",fam,"   link = ",link,"  effort = ",effort))
         print(fcond)
