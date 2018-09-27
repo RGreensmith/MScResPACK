@@ -324,19 +324,23 @@ formFun = function(formulaType=c("cond"),response=NULL,predictors,effExt) {
     
     if (effExt==FALSE) {
       
-    }
-
-    if (predictors != "1") {
-
-      form=paste("~",predictors, effExt,sep = "")
-
+      form=paste("~",predictors,sep = "")
+      
     } else {
-
-      if (strsplit(effExt,"+")[[1]][1]=="+") {
-        k = paste(strsplit(effExt,"+")[[1]][-1],collapse = "")
-        form=paste("~",k,sep = "")
+      
+      if (predictors != "1") {
+        
+        form=paste("~",predictors, effExt,sep = "")
+        
+      } else {
+        
+        if (strsplit(effExt,"+")[[1]][1]=="+") {
+          k = paste(strsplit(effExt,"+")[[1]][-1],collapse = "")
+          form=paste("~",k,sep = "")
+        }
+        
       }
-
+      
     }
 
     form=formula(eval(parse(text = form)))
