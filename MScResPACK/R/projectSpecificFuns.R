@@ -264,10 +264,10 @@ effectExtensFun = function (formulas,m) {
 #' @keywords cats
 #' @export
 #' @examples
-#' covStrucdata()
+#' covStrucData(dataset, strucType="temporal")
 #'
 
-covStrucdata = function(dataset,strucType) {
+covStrucData = function(dataset,strucType) {
   
   if (strucType == "temporal") {
     
