@@ -294,7 +294,7 @@ spACsetup = function(dataset) {
 #' @param formulaType defaults to "cond".
 #' @param response name of response variable (as character), defaults to NULL.
 #' @param predictors name of predictor variables (as character)
-#' @param effExt effort.
+#' @param effExt offset or autocorrelation structure.
 #' @keywords cats
 #' @export
 #' @examples
