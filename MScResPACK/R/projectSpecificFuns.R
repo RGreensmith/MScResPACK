@@ -321,6 +321,10 @@ formFun = function(formulaType=c("cond"),response=NULL,predictors,effExt) {
     return(form)
 
   } else {
+    
+    if (effExt==FALSE) {
+      
+    }
 
     if (predictors != "1") {
 
