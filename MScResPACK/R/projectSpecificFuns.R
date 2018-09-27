@@ -1,3 +1,34 @@
+###############################################
+ # end and difference sys time function #
+###############################################
+
+#' end Sys.time and return difference
+#'
+#' This function allows you to end Sys.time and return the time difference.
+#' @param start object of Sys.time set before running command to be timed.
+#' @details 
+#' @keywords cats
+#' @export
+#' @examples
+#' 
+#' # create start time object
+#' start = Sys.time()
+#' 
+#' # run command to be timed
+#' print("hello")
+#' 
+#' 
+#' sysTimeDiff(start)
+#'
+
+sysTimeDiff = function (start) {
+  
+  end=Sys.time()
+  diffFun=end-start
+  print(diffFun)
+  return(diffFun)
+  
+}
 
 ###############################################
       # find summary table length #
