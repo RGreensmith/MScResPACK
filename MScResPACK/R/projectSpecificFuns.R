@@ -417,10 +417,7 @@ modelFun = function(fams,fam,linkTypes,link,dataset,fcond,fzeroi) {
 
   model=eval(parse(text=modelText))
 
-  end=Sys.time()
-  diffFun=end-start
-  print(diffFun)
-  rm(start,end,diffFun)
+  sysTimeDiff(start)
 
   return(model)
 
