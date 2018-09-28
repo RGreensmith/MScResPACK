@@ -10,7 +10,7 @@ spACsetup(dataset)
 \item{dataset}{dataset used for spatial covariance xy.}
 }
 \description{
-This function allows you to Set up for spatial autocorrelation structure.
+This function allows you to Set up for spatial autocorrelation structure, by creating pos.
 }
 \examples{
 spACsetup()
