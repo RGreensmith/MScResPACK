@@ -197,7 +197,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
         fcond=formFun("cond",response = NameAbbrv,predictors = formulas$fCond[m],effExt = effortVec[effort])
         
-        if (grep("dummy",effortVec[effort],ignore.case = FALSE)==1) {
+        if (length(grep("dummy",effortVec[effort],ignore.case = FALSE))>0) {
           
           fzeroi=formFun("zi",response = NULL,predictors = formulas$fZi[m],effExt = FALSE)
           
