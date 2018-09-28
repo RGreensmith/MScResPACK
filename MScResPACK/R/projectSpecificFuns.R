@@ -252,13 +252,47 @@ effectExtensFun = function (formulas,m) {
   rm(Y)
 }
 
+############################################
+# set up dataset for covariance structures #
+############################################
+
+#' Set up for dataset for covariance structures
+#'
+#' This function allows you to set up dataset for covariance structures.
+#' @param dataset dataset used for spatial covariance xy.
+#' @param strucType either "temporal" or "spatial".
+#' @keywords cats
+#' @export
+#' @examples
+#' covStrucData(dataset, strucType="temporal")
+#'
+
+covStrucData = function(dataset,strucType) {
+  
+  if (strucType == "temporal") {
+    
+    dataset$monthfrom0 <- as.factor(dataset$monthfrom0)
+    
+  } else {
+    
+    dataset$LonSpCov=dataset$Lon
+    dataset$LatSpCov=dataset$Lat
+    
+  }
+ 
+  dataset$dummy <- as.factor(dataset$dummy)
+  
+  return(dataset)
+  
+}
+
 ################################################
 # Set up for spatial autocorrelation structure #
 ################################################
 
 #' Set up for spatial autocorrelation structure
 #'
-#' This function allows you to Set up for spatial autocorrelation structure.
+#' This function allows you to Set up for spatial autocorrelation structure, by creating pos.
 #' @param dataset dataset used for spatial covariance xy.
 #'
 #' @keywords cats
@@ -268,13 +302,6 @@ effectExtensFun = function (formulas,m) {
 #'
 
 spACsetup = function(dataset) {
-
-  dataset$monthfrom0 <- as.factor(dataset$monthfrom0)
-  dataset$dummy <- as.factor(dataset$dummy)
-
-  dataset$LonSpCov=dataset$Lon
-  dataset$LatSpCov=dataset$Lat
-  # dataset$MonthSpCov=dataset$Month
 
   x=dataset$LonSpCov
   y=dataset$LatSpCov
@@ -291,10 +318,10 @@ spACsetup = function(dataset) {
 #' write formula for model
 #'
 #' This function allows you to write formula for model.
-#' @param formulaType ,defaults to "cond".
+#' @param formulaType defaults to "cond".
 #' @param response name of response variable (as character), defaults to NULL.
 #' @param predictors name of predictor variables (as character)
-#' @param effExt effort.
+#' @param effExt offset or autocorrelation structure.
 #' @keywords cats
 #' @export
 #' @examples
@@ -321,18 +348,26 @@ formFun = function(formulaType=c("cond"),response=NULL,predictors,effExt) {
     return(form)
 
   } else {
-
-    if (predictors != "1") {
-
-      form=paste("~",predictors, effExt,sep = "")
-
+    
+    if (effExt==FALSE) {
+      
+      form=paste("~",predictors,sep = "")
+      
     } else {
-
-      if (strsplit(a,"+")[[1]][1]=="+") {
-        k = paste(strsplit(a,"+")[[1]][-1],collapse = "")
-        form=paste("~",k,sep = "")
+      
+      if (predictors != "1") {
+        
+        form=paste("~",predictors, effExt,sep = "")
+        
+      } else {
+        
+        if (strsplit(effExt,"+")[[1]][1]=="+") {
+          k = paste(strsplit(effExt,"+")[[1]][-1],collapse = "")
+          form=paste("~",k,sep = "")
+        }
+        
       }
-
+      
     }
 
     form=formula(eval(parse(text = form)))

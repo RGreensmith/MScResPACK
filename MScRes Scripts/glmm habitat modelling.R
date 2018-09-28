@@ -98,14 +98,6 @@ linkTypes=c("log")
 # Notes #
 #########
 
-# timing things #
-
-start=Sys.time()
-# your code #
-end=Sys.time()
-diffFun=end-start
-print(diffFun)
-rm(start,end,diffFun)
 ##########################################################################################################################
 
 #### LOOPS THROUGH EFFORT FIRST BUT MODEL REF IS STILL: formulas$model_index[m],formulas$Model_number[m],".",fam,".",effort ####
@@ -175,8 +167,9 @@ for (m in c(2)) { # length(formulas$model_index)
 
   for (effort in 1:length(effortVec)) { # :length(effortVec)
 
-    if (effort > 1) {
-
+    if (grep("dummy",effortVec[effort],ignore.case = FALSE)==1) {
+      
+      dataset=covStrucData(dataset,"temporal")
       pos=spACsetup(dataset)
 
     }
@@ -195,7 +188,16 @@ for (m in c(2)) { # length(formulas$model_index)
 
 
         fcond=formFun("cond",response = NameAbbrv,predictors = formulas$fCond[m],effExt = effortVec[effort])
-        fzeroi=formFun("zi",response = NULL,predictors = formulas$fZi[m],effExt = effortVec[effort])
+        
+        if (grep("dummy",effortVec[effort],ignore.case = FALSE)==1) {
+          
+          fzeroi=formFun("zi",response = NULL,predictors = formulas$fZi[m],effExt = FALSE)
+          
+        } else {
+          
+          fzeroi=formFun("zi",response = NULL,predictors = formulas$fZi[m],effExt = effortVec[effort])
+          
+        }
 
         print(paste("m = ",m,"   family = ",fam,"   link = ",link,"  effort = ",effort))
         print(fcond)
@@ -216,13 +218,20 @@ for (m in c(2)) { # length(formulas$model_index)
         
         model=eval(parse(text=modelText))
         
-        end=Sys.time()
-        diffFun=end-start
-        print(diffFun)
-        rm(start,end,diffFun)
+        sysTimeDiff(start)
+        
+        # rm(fcond,fzeroi,familyFull,modelText)
         
         
-        rm(fcond,modelText)
+        
+        
+        
+        
+        model2=modelFun(fams,fam,linkTypes,link,dataset,fcond,fzeroi)
+        
+        
+        
+        
 
         if (exists("model")==TRUE && typeof(model)=="list") {
 
