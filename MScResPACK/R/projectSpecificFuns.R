@@ -292,7 +292,7 @@ covStrucData = function(dataset,strucType) {
 
 #' Set up for spatial autocorrelation structure
 #'
-#' This function allows you to Set up for spatial autocorrelation structure.
+#' This function allows you to Set up for spatial autocorrelation structure, by creating pos.
 #' @param dataset dataset used for spatial covariance xy.
 #'
 #' @keywords cats
@@ -302,13 +302,6 @@ covStrucData = function(dataset,strucType) {
 #'
 
 spACsetup = function(dataset) {
-
-  dataset$monthfrom0 <- as.factor(dataset$monthfrom0)
-  dataset$dummy <- as.factor(dataset$dummy)
-
-  dataset$LonSpCov=dataset$Lon
-  dataset$LatSpCov=dataset$Lat
-  # dataset$MonthSpCov=dataset$Month
 
   x=dataset$LonSpCov
   y=dataset$LatSpCov
