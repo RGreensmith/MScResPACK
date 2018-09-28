@@ -7,13 +7,13 @@
 formFun(formulaType = c("cond"), response = NULL, predictors, effExt)
 }
 \arguments{
-\item{formulaType}{,defaults to "cond".}
+\item{formulaType}{defaults to "cond".}
 
 \item{response}{name of response variable (as character), defaults to NULL.}
 
 \item{predictors}{name of predictor variables (as character)}
 
-\item{effExt}{effort.}
+\item{effExt}{offset or autocorrelation structure.}
 }
 \description{
 This function allows you to write formula for model.
