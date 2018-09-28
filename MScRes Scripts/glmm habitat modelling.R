@@ -217,7 +217,7 @@ for (m in c(2)) { # length(formulas$model_index)
         # Create model #
         #####################################################################################################
         
-        model2=modelFun(fams,fam,linkTypes,link,dataset,fcond,fzeroi)
+        model=modelFun(fams,fam,linkTypes,link,dataset,fcond,fzeroi)
 
 
         if (exists("model")==TRUE && typeof(model)=="list") {
