@@ -167,9 +167,9 @@ for (m in c(2)) { # length(formulas$model_index)
 
   for (effort in 1:length(effortVec)) { # :length(effortVec)
 
-    if (grep("dummy",effortVec[effort],ignore.case = FALSE)==1) {
+    if (length(grep("dummy",effortVec[effort],ignore.case = FALSE))>0) {
       
-      if (grep("ar1",effortVec[effort],ignore.case = FALSE)==1) {
+      if (length(grep("ar1",effortVec[effort],ignore.case = FALSE))>0) {
         
         dataset=covStrucData(dataset,"temporal")
         
