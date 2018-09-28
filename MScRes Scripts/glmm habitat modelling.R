@@ -169,9 +169,17 @@ for (m in c(2)) { # length(formulas$model_index)
 
     if (grep("dummy",effortVec[effort],ignore.case = FALSE)==1) {
       
-      dataset=covStrucData(dataset,"temporal")
-      pos=spACsetup(dataset)
-
+      if (grep("ar1",effortVec[effort],ignore.case = FALSE)==1) {
+        
+        dataset=covStrucData(dataset,"temporal")
+        
+      } else {
+        
+        dataset=covStrucData(dataset,"spatial")
+        pos=spACsetup(dataset)
+        
+      }
+        
     }
 
 
