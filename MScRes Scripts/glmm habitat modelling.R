@@ -216,30 +216,9 @@ for (m in c(2)) { # length(formulas$model_index)
         #####################################################################################################
         # Create model #
         #####################################################################################################
+        
+        model=modelFun(fams,fam,linkTypes,link,dataset,fcond,fzeroi)
 
-
-        familyFull=paste(fams[fam],'(link = ','"',linkTypes[link],'"',')',sep="")
-
-        modelText = paste("try(glmmTMB(formula = fcond, data = dataset, family=",familyFull,", ziformula = fzeroi,verbose=TRUE, se = TRUE))",sep="")
-
-        start=Sys.time()
-        
-        model=eval(parse(text=modelText))
-        
-        sysTimeDiff(start)
-        
-        # rm(fcond,fzeroi,familyFull,modelText)
-        
-        
-        
-        
-        
-        
-        model2=modelFun(fams,fam,linkTypes,link,dataset,fcond,fzeroi)
-        
-        
-        
-        
 
         if (exists("model")==TRUE && typeof(model)=="list") {
 
