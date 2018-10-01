@@ -65,10 +65,6 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
   ###########################################
 
-  # if (mapsVis != "top") {
-  # 
-  # }
-
   for (y in 1:length(baseRefsDf$fileNm)) {
 
     #################################
