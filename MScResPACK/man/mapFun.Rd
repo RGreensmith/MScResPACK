@@ -14,7 +14,7 @@ mapFun(baseRefsDf = NULL, legTOP = NULL, mapsVis = "both",
 
 \item{legTOP}{(character) label of legend for top map}
 
-\item{mapsVis}{("base","top","topWbaseCont","both") which map should be plotted; default = "both", topWbaseCont means plot top map with contours from base raster}
+\item{mapsVis}{("base","top","both") which map should be plotted; default = "both"}
 
 \item{basemapOutline}{(character or NULL) name of basemap outline to call in (optional)}
 
