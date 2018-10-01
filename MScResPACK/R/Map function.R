@@ -111,7 +111,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
     if (is.null(basemapDF)==FALSE) {
 
-      baseRasName=load(file = paste(wd,baseRefsDf[y,1],baseRefsDf[y,2],".Rdata",sep = ""))
+      baseRasName=load(file = paste(wd,baseRefsDf[y,1],".Rdata",sep = ""))
       b = paste("baseRaster = ", baseRasName,sep = "")
       eval(parse(text = b))
 
