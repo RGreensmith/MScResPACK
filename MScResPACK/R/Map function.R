@@ -60,8 +60,6 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
     }
 
-
-
   }
 
 
@@ -71,7 +69,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   # 
   # }
 
-  for (y in 1:length(baseRefsDf$baseNm)) {
+  for (y in 1:length(baseRefsDf$fileNm)) {
 
     #################################
     # Load basemap #
