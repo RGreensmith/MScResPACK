@@ -30,67 +30,67 @@ formulas = MScResPACK::formulas
 
 m=1
 
-for (m in c(2)) { # length(formulas$model_index)
+# for (m in c(2)) { # length(formulas$model_index)
   
-  Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
-             formulas$Model_Type[m],"/",sep = "")
-  
-  ########################################################
-  # Load df #
-  ########################################################
-  
-  dataset = read.csv(paste(wd,formulas$csv[m],".csv",sep=""), stringsAsFactors=FALSE)
-  
-  ############################################################
-  # Preparing abundance dataset #
-  ############################################################
-  
-  # seasonsInd=seasonsIndFun(dataset)
-  # dataset=prepDF(dataset)
-  
-  #####################################################################
-  # cap extreme values #
-  #####################################################################
-  
-  dataset = capXtreme(formulas,m,dataset,"X")
-  
-  sppColRef=formulas$dataset_name[m]
-    
-  ######################################################################
-  # arguments #
-  ######################################################################
-  
-  fileNm = "BAT_raster"
-  leglab = "Depth (m)"
-  baseRefsDf = data.frame(fileNm,leglab)
+Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
+           formulas$Model_Type[m],"/",sep = "")
 
-  legTOP = bquote("Abundance of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
-  mapsVis = "both"
-  basemapOutline = "Env_outline"
-  basemapDF = NULL
+########################################################
+# Load df #
+########################################################
+
+dataset = read.csv(paste(wd,formulas$csv[m],".csv",sep=""), stringsAsFactors=FALSE)
+
+############################################################
+# Preparing abundance dataset #
+############################################################
+
+# seasonsInd=seasonsIndFun(dataset)
+# dataset=prepDF(dataset)
+
+#####################################################################
+# cap extreme values #
+#####################################################################
+
+dataset = capXtreme(formulas,m,dataset,"X")
+
+sppColRef=formulas$dataset_name[m]
   
-  Lon = dataset$Lon
-  Lat = dataset$Lat
-  Val = dataset[,sppColRef]
-  topmapDF = data.frame(Val,Lon,Lat)
-  rm(Val,Lon,Lat)
+######################################################################
+# arguments #
+######################################################################
+
+fileNm = "BAT_raster"
+leglab = "Depth (m)"
+baseRefsDf = data.frame(fileNm,leglab)
+
+legTOP = bquote("Abundance of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+mapsVis = "both"
+basemapOutline = "Env_outline"
+basemapDF = NULL
+
+Lon = dataset$Lon
+Lat = dataset$Lat
+Val = dataset[,sppColRef]
+topmapDF = data.frame(Val,Lon,Lat)
+rm(Val,Lon,Lat)
+
+wdExtension = paste(Path,"Plots/",sep = "")
+mapName = paste(formulas$Species[m]," Map of abundance",sep = "")
+countOnly = TRUE
+bubble = FALSE
+
+#######################################################################
+# create map #
+#######################################################################
+
+bathymetryR=mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
+                   basemapDF, topmapDF, wdExtension,
+                   mapName,countOnly,bubble)
+
+rm(predictedR)
   
-  wdExtension = paste(Path,"Plots/",sep = "")
-  mapName = paste(formulas$Species[m]," Map of abundance",sep = "")
-  countOnly = TRUE
-  bubble = FALSE
-  
-  #######################################################################
-  # create map #
-  #######################################################################
-  
-  bathymetryR=mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
-                     basemapDF, topmapDF, wdExtension,
-                     mapName,countOnly,bubble)
-  
-  rm(predictedR)
-  
-}
+# }
 
 
 #######################################################
