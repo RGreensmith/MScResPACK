@@ -64,6 +64,8 @@
 #' @examples
 #' mapFun()
 
+################################
+
 mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutline = NULL,basemapDF=NULL,topmapDF = NULL,
                   wdExtension = NULL,mapName = NULL,countOnly = FALSE,bubble = TRUE) {
 
@@ -72,17 +74,17 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   # Create top map raster  or set cex #
   #####################################
 
-  if (mapsVis == "top" || mapsVis == "both") {
+  if (mapsVis == "top" || mapsVis == "both" || mapsVis == "topWbaseCont") {
 
     if (isTRUE(bubble)) {
 
-      cex=MScResPACK::scale(topmapDF$Val)
+      cex=scale(topmapDF$Val)
 
     } else {
 
       if (class(topmapDF)=="data.frame") {
 
-        topRaster=MScResPACK::rastFun(topmapDF$Lon,topmapDF$Lat,topmapDF$Val, overZero = countOnly)
+        topRaster=rastFun(topmapDF$Lon,topmapDF$Lat,topmapDF$Val, overZero = countOnly)
 
       } else {
 
@@ -99,9 +101,9 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
   ###########################################
 
-  if (mapsVis != "top") {
-
-  }
+  # if (mapsVis != "top") {
+  # 
+  # }
 
   for (y in 1:length(baseRefsDf$baseNm)) {
 
@@ -109,9 +111,9 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     # Load basemap #
     #################################
 
-    if (is.null(basemapDF)==FALSE) {
+    if (is.null(basemapDF)) {
 
-      baseRasName=load(file = paste(wd,baseRefsDf[y,1],baseRefsDf[y,2],".Rdata",sep = ""))
+      baseRasName=load(file = paste(wd,baseRefsDf[y,1],".Rdata",sep = ""))
       b = paste("baseRaster = ", baseRasName,sep = "")
       eval(parse(text = b))
 
@@ -136,7 +138,11 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     #################################
 
     if (is.null(basemapOutline)==FALSE) {
-      outline = load(paste(wd,basemapOutline,".Rdata",sep = ""))
+      
+      load(paste(wd,basemapOutline,".Rdata",sep = ""))
+      outline = pp
+      rm(pp)
+      
     }
 
     ##########
@@ -145,11 +151,11 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
     if (mapsVis == "top") {
 
-      colTOP = rainbow(length(unique(df$Val)),start = 0.16, end = 0.8,alpha = 0.8)
+      colTOP = rainbow(length(unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
 
-    } else if (mapsVis == "both") {
+    } else if (mapsVis == "both" || mapsVis == "topWbaseCont") {
 
-      colTOP = rainbow(length(unique(df$Val)),start = 0.75, end = 0.15)
+      colTOP = rainbow(length(unique(topRaster)),start = 0.75, end = 0.15)
 
       colScheme="GnBu"
       n1=RColorBrewer::brewer.pal.info[colScheme,1]
@@ -186,7 +192,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     # Basemap #
     ###########
 
-    if (mapsVis=="both") {
+    if (mapsVis=="both" || mapsVis == "topWbaseCont") {
 
       plot(baseRaster,col = colBASE,
            legend = FALSE)
@@ -209,7 +215,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     # Contours and map outline #
     ############################
 
-    if (mapsVis == "base" || mapsVis == "both") {
+    if (mapsVis == "base" || mapsVis == "both" || mapsVis == "topWbaseCont") {
 
       contour(baseRaster,add = TRUE, drawlabels=TRUE,col="darkgrey",lwd=0.5)
 
