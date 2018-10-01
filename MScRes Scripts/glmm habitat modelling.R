@@ -619,8 +619,10 @@ for (m in c(2)) { # length(formulas$model_index)
 
             # create map #
 
-            bathymetryR=mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "top",basemapOutline = "Env_outline",
-                               basemapDF = NULL, topmapDF = predictedR, wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
+            bathymetryR=mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
+                               basemapOutline = "Env_outline",
+                               basemapDF = NULL, topmapDF = predictedR, wdExtension = wdExtension,
+                               mapName = mapName,countOnly = FALSE,bubble = FALSE)
 
             rm(predictedR)
 
