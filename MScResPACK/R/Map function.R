@@ -2,40 +2,6 @@
                   # mapFun #
 #################################################
 
-# mapFun creates plot with max=2 rasters: basemap and top map, with options for contours
-
-#########
-# Usage #
-#########
-
-# mapFun(baseRefsDf, mapsVis = "both", basemapOutline = NULL, topmapDF, wd, valColRef, wdExtension = NULL, countOnly = FALSE)
-
-#############
-# Arguments #
-#############
-
-# baseRefsDf      = (dataframe) dataframe of basemap refs; names to call in (df[,1] = "fileNm") and legend label (df[,2] = "leglab")
-
-# legTOP          = (character) label of legend for top map
-
-# mapsVis         = ("base","top","both") which map should be plotted; default = "both"
-
-# basemapOutline  = (character or NULL) name of basemap outline to call in (optional)
-
-# basemapDF       = raster object or null for basemap
-
-# topmapDF        = (character) name of dataframe for top map, col names must be ("Val", "Lon", "Lat")
-
-# wdExtension     = (character) location within the working directory to save the map (must end in "/")
-
-# mapName         = (character) file name
-
-# countOnly       = (logical, TRUE/FALSE) for maps where no zeros are desired, if TRUE, mapFun subsets values > 0 (for raster)
-
-# bubble          = (logical, TRUE/FALSE) default = TRUE, should top map be bubble or normal raster
-
-########### Map function ###################
-
 #' Plot up to 2 rasters
 #'
 #' This function allows you to plot with max=2 rasters: basemap and top map, with options for contours.
