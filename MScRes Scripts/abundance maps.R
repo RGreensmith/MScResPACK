@@ -68,9 +68,15 @@ for (m in c(2)) { # length(formulas$model_index)
   mapsVis = "topWbaseCont"
   basemapOutline = "Env_outline"
   basemapDF = NULL
-  topmapDF = dataset[,sppColRef]
+  
+  Lon = dataset$Lon
+  Lat = dataset$Lat
+  Val = dataset[,sppColRef]
+  topmapDF = data.frame(Val,Lon,Lat)
+  rm(Val,Lon,Lat)
+  
   wdExtension = paste(Path,"Plots/",sep = "")
-  mapName = paste(ModelRefNo," Map of abundance",sep = "")
+  mapName = paste(formulas$Species[m]," Map of abundance",sep = "")
   countOnly = TRUE
   bubble = FALSE
   
