@@ -2,12 +2,7 @@
 # Map of predicted #
 ##################################
 
-
-st=1
 m=1
-effort=1
-fam=1
-link=1
 
 for (m in c(2)) { # length(formulas$model_index)
   
@@ -44,10 +39,11 @@ for (m in c(2)) { # length(formulas$model_index)
   
   wdExtension = paste(Path,"Plots/",sep = "")
   
-  mapName = paste(ModelRefNo," Map of predicted",sep = "")
+  mapName = paste(ModelRefNo," Map of abundance",sep = "")
   
-  legTOP = bquote("Model prediction of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+  legTOP = bquote("Abundance of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
   
+  topmapDF = 
   
   # create map #
   
