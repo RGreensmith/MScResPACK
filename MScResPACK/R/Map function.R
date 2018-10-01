@@ -2,40 +2,6 @@
                   # mapFun #
 #################################################
 
-# mapFun creates plot with max=2 rasters: basemap and top map, with options for contours
-
-#########
-# Usage #
-#########
-
-# mapFun(baseRefsDf, mapsVis = "both", basemapOutline = NULL, topmapDF, wd, valColRef, wdExtension = NULL, countOnly = FALSE)
-
-#############
-# Arguments #
-#############
-
-# baseRefsDf      = (dataframe) dataframe of basemap refs; names to call in (df[,1] = "fileNm") and legend label (df[,2] = "leglab")
-
-# legTOP          = (character) label of legend for top map
-
-# mapsVis         = ("base","top","topWbaseCont","both") which map should be plotted; default = "both", topWbaseCont means plot top map with contours from base raster
-
-# basemapOutline  = (character or NULL) name of basemap outline to call in (optional)
-
-# basemapDF       = raster object or null for basemap
-
-# topmapDF        = (character) name of dataframe for top map, col names must be ("Val", "Lon", "Lat")
-
-# wdExtension     = (character) location within the working directory to save the map (must end in "/")
-
-# mapName         = (character) file name
-
-# countOnly       = (logical, TRUE/FALSE) for maps where no zeros are desired, if TRUE, mapFun subsets values > 0 (for raster)
-
-# bubble          = (logical, TRUE/FALSE) default = TRUE, should top map be bubble or normal raster
-
-########### Map function ###################
-
 #' Plot up to 2 rasters
 #'
 #' This function allows you to plot with max=2 rasters: basemap and top map, with options for contours.
@@ -43,7 +9,7 @@
 #'
 #' @param legTOP (character) label of legend for top map
 #'
-#' @param mapsVis ("base","top","topWbaseCont","both") which map should be plotted; default = "both", topWbaseCont means plot top map with contours from base raster
+#' @param mapsVis ("base","top","both") which map should be plotted; default = "both"
 #'
 #' @param basemapOutline (character or NULL) name of basemap outline to call in (optional)
 #'
@@ -74,7 +40,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   # Create top map raster  or set cex #
   #####################################
 
-  if (mapsVis == "top" || mapsVis == "both" || mapsVis == "topWbaseCont") {
+  if (mapsVis == "top" || mapsVis == "both") {
 
     if (isTRUE(bubble)) {
 
@@ -153,7 +119,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       colTOP = rainbow(length(unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
 
-    } else if (mapsVis == "both" || mapsVis == "topWbaseCont") {
+    } else if (mapsVis == "both") {
 
       colTOP = rainbow(length(unique(topRaster)),start = 0.75, end = 0.15)
 
@@ -192,7 +158,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     # Basemap #
     ###########
 
-    if (mapsVis=="both" || mapsVis == "topWbaseCont") {
+    if (mapsVis=="both") {
 
       plot(baseRaster,col = colBASE,
            legend = FALSE)
@@ -215,7 +181,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     # Contours and map outline #
     ############################
 
-    if (mapsVis == "base" || mapsVis == "both" || mapsVis == "topWbaseCont") {
+    if (mapsVis == "base" || mapsVis == "both") {
 
       contour(baseRaster,add = TRUE, drawlabels=TRUE,col="darkgrey",lwd=0.5)
 
