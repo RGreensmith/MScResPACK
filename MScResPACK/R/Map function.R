@@ -18,7 +18,7 @@
 
 # legTOP          = (character) label of legend for top map
 
-# mapsVis         = ("base","top","topWbaseCont","both") which map should be plotted; default = "both", topWbaseCont means plot top map with contours from base raster
+# mapsVis         = ("base","top","both") which map should be plotted; default = "both"
 
 # basemapOutline  = (character or NULL) name of basemap outline to call in (optional)
 
@@ -43,7 +43,7 @@
 #'
 #' @param legTOP (character) label of legend for top map
 #'
-#' @param mapsVis ("base","top","topWbaseCont","both") which map should be plotted; default = "both", topWbaseCont means plot top map with contours from base raster
+#' @param mapsVis ("base","top","both") which map should be plotted; default = "both"
 #'
 #' @param basemapOutline (character or NULL) name of basemap outline to call in (optional)
 #'
@@ -74,7 +74,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   # Create top map raster  or set cex #
   #####################################
 
-  if (mapsVis == "top" || mapsVis == "both" || mapsVis == "topWbaseCont") {
+  if (mapsVis == "top" || mapsVis == "both") {
 
     if (isTRUE(bubble)) {
 
@@ -153,7 +153,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       colTOP = rainbow(length(unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
 
-    } else if (mapsVis == "both" || mapsVis == "topWbaseCont") {
+    } else if (mapsVis == "both") {
 
       colTOP = rainbow(length(unique(topRaster)),start = 0.75, end = 0.15)
 
@@ -192,7 +192,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     # Basemap #
     ###########
 
-    if (mapsVis=="both" || mapsVis == "topWbaseCont") {
+    if (mapsVis=="both") {
 
       plot(baseRaster,col = colBASE,
            legend = FALSE)
@@ -215,7 +215,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     # Contours and map outline #
     ############################
 
-    if (mapsVis == "base" || mapsVis == "both" || mapsVis == "topWbaseCont") {
+    if (mapsVis == "base" || mapsVis == "both") {
 
       contour(baseRaster,add = TRUE, drawlabels=TRUE,col="darkgrey",lwd=0.5)
 
