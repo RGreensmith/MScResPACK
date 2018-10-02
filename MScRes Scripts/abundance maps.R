@@ -67,7 +67,7 @@ for (m in 1:12) { # length(formulas$model_index)
   leglab = "Depth (m)"
   baseRefsDf = data.frame(fileNm,leglab)
   
-  legTOP = bquote("Abundance of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+  legTOP = bquote("Abundance of " ~ .(formulas$Species[m])~ ~ (per ~ km^2))
   mapsVis = "both"
   basemapOutline = "Env_outline"
   basemapDF = NULL
