@@ -78,7 +78,7 @@ for (m in 1:12) { # length(formulas$model_index)
   topmapDF = data.frame(Val,Lon,Lat)
   rm(Val,Lon,Lat)
   
-  wdExtension = paste(Path,"Plots/",sep = "")
+  wdExtension = paste(Path,sep = "")
   mapName = paste(formulas$Species[m]," Map of abundance",sep = "")
   countOnly = TRUE
   bubble = FALSE
