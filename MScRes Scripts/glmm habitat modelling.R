@@ -484,7 +484,20 @@ for (m in c(2)) { # length(formulas$model_index)
             dtst=ddply(dtst,"lonlat",numcolwise(mean))
 
             residualsR = rastFun(dtst$Lon,dtst$Lat,dtst$r,overZero = FALSE)
+            
+            dtst=dtst[,-1]
+            coordinates(dtst)=c("Lon","Lat")
 
+            ############################
+            # Bubble plot of residuals #
+            ############################
+            
+            
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
+            print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
+            dev.off()
+            
             rm(dtst)
 
             ###########
@@ -510,7 +523,18 @@ for (m in c(2)) { # length(formulas$model_index)
             dtst=ddply(dtst,"lonlat",numcolwise(mean))
 
             predictedR = rastFun(dtst$Lon,dtst$Lat,dtst$p,overZero = FALSE)
-
+            
+            dtst=dtst[,-1]
+            coordinates(dtst)=c("Lon","Lat")
+            
+            ############################
+            # Bubble plot of predicted #
+            ############################
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
+            print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
+            dev.off()
+            
             rm(dtst)
 
             #############################################################
@@ -576,15 +600,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
 
 
-            ############################
-            # Bubble plot of residuals #
-            ############################
-
-            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
-            print(bubble(residuals, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
-            dev.off()
-
-            rm(residuals)
+           
 
             ##################################
             # Map of predicted and residuals #

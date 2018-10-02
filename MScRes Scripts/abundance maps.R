@@ -30,7 +30,7 @@ formulas = MScResPACK::formulas
 
 # m=1
 
-for (m in 1:12) { # length(formulas$model_index)
+for (m in c(1:length(formulas$model_index))) { # length(formulas$model_index)
     
   # Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
              # formulas$Model_Type[m],"/",sep = "")
@@ -67,7 +67,7 @@ for (m in 1:12) { # length(formulas$model_index)
   leglab = "Depth (m)"
   baseRefsDf = data.frame(fileNm,leglab)
   
-  legTOP = bquote("Abundance of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+  legTOP = bquote("Abundance of " ~ .(formulas$Species[m])~ ~ (per ~ km^2))
   mapsVis = "both"
   basemapOutline = "Env_outline"
   basemapDF = NULL
