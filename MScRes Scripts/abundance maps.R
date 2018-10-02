@@ -91,8 +91,6 @@ for (m in 1:12) { # length(formulas$model_index)
          basemapDF, topmapDF, wdExtension,mapName,
          countOnly,bubble)
   
-  rm(predictedR)
-  
 }
 
 
