@@ -111,11 +111,11 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
     if (mapsVis == "top") {
 
-      colTOP = rainbow(length(unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
+      colTOP = rainbow(length(raster::unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
 
     } else if (mapsVis == "both") {
 
-      colTOP = rainbow(length(unique(topRaster)),start = 0.75, end = 0.15)
+      colTOP = rainbow(length(raster::unique(topRaster)),start = 0.75, end = 0.15)
 
       colScheme="GnBu"
       n1=RColorBrewer::brewer.pal.info[colScheme,1]

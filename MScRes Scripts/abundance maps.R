@@ -84,9 +84,9 @@ bubble = FALSE
 # create map #
 #######################################################################
 
-bathymetryR=mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
-                   basemapDF, topmapDF, wdExtension,
-                   mapName,countOnly,bubble)
+mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
+       basemapDF, topmapDF, wdExtension,mapName,
+       countOnly,bubble)
 
 rm(predictedR)
   
