@@ -32,8 +32,11 @@ formulas = MScResPACK::formulas
 
 for (m in 1:12) { # length(formulas$model_index)
     
-  Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
-             formulas$Model_Type[m],"/",sep = "")
+  # Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
+             # formulas$Model_Type[m],"/",sep = "")
+  
+  Path=paste(wd,"Abundance models- whole study area/abundance maps/",sep = "")
+  
   
   ########################################################
   # Load df #
