@@ -1006,6 +1006,11 @@ for (m in c(2)) { # length(formulas$model_index)
             dev.off()
 
             rm(m1)
+            
+            
+            filePath = paste(Path,"Plots/",ModelRefNo, sep = "")
+            summaryTable$metropEqual[st]=metropRW(model,filePath)
+            
             #################################################################
             # Save Model #
             #################################################################
