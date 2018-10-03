@@ -522,14 +522,51 @@ for (m in c(2)) { # length(formulas$model_index)
 
             dtst=ddply(dtst,"lonlat",numcolwise(mean))
 
-            predictedR = rastFun(dtst$Lon,dtst$Lat,dtst$p,overZero = FALSE)
-            
             dtst=dtst[,-1]
-            coordinates(dtst)=c("Lon","Lat")
+            
+            
+            ######################################################################
+            # map arguments #
+            ######################################################################
+            
+            fileNm = "BAT_raster"
+            leglab = "Depth (m)"
+            baseRefsDf = data.frame(fileNm,leglab)
+            
+            legTOP = bquote((formulas$Species[m])~ ~ (per ~ km^2)~"model prediction")
+            mapsVis = "both"
+            basemapOutline = "Env_outline"
+            basemapDF = NULL
+            
+            Lon = dtst$Lon
+            Lat = dtst$Lat
+            Val = dtst[,p]
+            topmapDF = data.frame(Val,Lon,Lat)
+            rm(Val,Lon,Lat)
+            
+            wdExtension = paste(Path,sep = "")
+            mapName = paste(formulas$Species[m]," model prediction",sep = "")
+            countOnly = TRUE
+            bubble = FALSE
+            
+            #######################################################################
+            # create predicted map #
+            #######################################################################
+            
+            mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
+                   basemapDF, topmapDF, wdExtension,mapName,
+                   countOnly,bubble)
+            
+            
+            
+            
+            
             
             ############################
             # Bubble plot of predicted #
             ############################
+            
+            coordinates(dtst)=c("Lon","Lat")
             
             png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
             print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
@@ -557,9 +594,6 @@ for (m in c(2)) { # length(formulas$model_index)
 
             print(xyplot(r~f|dataset$Month,  main = paste(ModelRefFull,", Residuals ~ Fitted | Month",sep = ""),ylab = "Residuals",xlab = "Fitted"))
             dev.off()
-
-            #######################
-
 
             ######################################
             # Fitted and resid vs explanatory variables conditional #
@@ -599,13 +633,12 @@ for (m in c(2)) { # length(formulas$model_index)
             dev.off()
 
 
-
-           
-
             ##################################
             # Map of predicted and residuals #
             ##################################
-
+            
+            predictedR = rastFun(dtst$Lon,dtst$Lat,dtst$p,overZero = FALSE)
+            
             png(filename=paste(Path,"Plots/",ModelRefNo, " Maps of p and r.png", sep = ""),width=1000,height=1000)
             layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
             plot(r~p, main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),xlab = "Predicted", ylab="Residuals")
@@ -614,7 +647,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
             dev.off()
 
-
+            
 
             ##################################
             # Map of predicted #
@@ -642,6 +675,40 @@ for (m in c(2)) { # length(formulas$model_index)
 
             rm(predictedR)
 
+            
+            ######################################################################
+            # arguments #
+            ######################################################################
+            
+            fileNm = "BAT_raster"
+            leglab = "Depth (m)"
+            baseRefsDf = data.frame(fileNm,leglab)
+            
+            legTOP = bquote((formulas$Species[m])~ ~ (per ~ km^2)~"model prediction")
+            mapsVis = "both"
+            basemapOutline = "Env_outline"
+            basemapDF = NULL
+            
+            Lon = dtst$Lon
+            Lat = dtst$Lat
+            Val = dtst[,sppColRef]
+            topmapDF = data.frame(Val,Lon,Lat)
+            rm(Val,Lon,Lat)
+            
+            wdExtension = paste(Path,sep = "")
+            mapName = paste(formulas$Species[m]," Map of abundance",sep = "")
+            countOnly = TRUE
+            bubble = FALSE
+            
+            #######################################################################
+            # create predicted map #
+            #######################################################################
+            
+            mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
+                   basemapDF, topmapDF, wdExtension,mapName,
+                   countOnly,bubble)
+            
+            
             ##################################
             # Map of residuals #
             ##################################
@@ -939,6 +1006,11 @@ for (m in c(2)) { # length(formulas$model_index)
             dev.off()
 
             rm(m1)
+            
+            
+            filePath = paste(Path,"Plots/",ModelRefNo, sep = "")
+            summaryTable$metropEqual[st]=metropRW(model,filePath)
+            
             #################################################################
             # Save Model #
             #################################################################
