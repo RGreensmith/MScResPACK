@@ -2,13 +2,18 @@
 # Random walk metropolis sampling #
 #########################################################
 
-
 #' Random walk metropolis sampling wrapper function
 #'
 #' This function allows you to carry out Random Walk Metroplis Sampling on a model, and creates two plots.
 #' @param model model object of glmmTMB class
 #' 
 #' @param filePath file pathway, must end with "/" or beginning of the file name
+#' 
+#' @details
+#' 
+#' Returns list object containing run time, isEqual ()
+#' m1,isEqual,timer
+#' 
 #' @keywords cats
 #' @export
 #' @examples
@@ -24,19 +29,16 @@ metropRW = function(model,filePath) {
     rawcoef <- with(model$obj$env,last.par[-random])
   }
   
-  
-  equalTest=all.equal(c(model$obj$fn(rawcoef)),
+  isEqual=all.equal(c(model$obj$fn(rawcoef)),
                       -c(logLik(model)),
                       tolerance=1e-7)
-  
-  summaryTable$metropEqual[st]=equalTest
-  
   
   fn <- function(x) -model$obj$fn(x)
   V <- vcov(model,full=TRUE)
   
-  s1 <- system.time(m1 <- try(MCMCmetrop1R(fn,rawcoef,V=V)))
-  
+  start = Sys.time()
+  m1 <- try(MCMCmetrop1R(fn,rawcoef,V=V,verbose = 1))
+  timer = sysTimeDiff(start)
   
   colnames(m1) = dimnames(V)[[1]]
   
@@ -53,7 +55,8 @@ metropRW = function(model,filePath) {
   par(op)
   dev.off()
   
-  rm(m1)
+  metrop=list(m1,isEqual,timer)
+  return(metrop)
   
 }
 ##############################################################
