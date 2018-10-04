@@ -14,6 +14,10 @@ metropRW(model, filePath)
 \description{
 This function allows you to carry out Random Walk Metroplis Sampling on a model, and creates two plots.
 }
+\details{
+Returns list object containing run time, isEqual ()
+m1,isEqual,timer
+}
 \examples{
 filePath = paste(Path,"Plots/",ModelRefNo, sep = "")
 metropRW(model,filePath)
