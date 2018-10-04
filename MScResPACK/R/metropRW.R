@@ -2,7 +2,6 @@
 # Random walk metropolis sampling #
 #########################################################
 
-
 #' Random walk metropolis sampling wrapper function
 #'
 #' This function allows you to carry out Random Walk Metroplis Sampling on a model, and creates two plots.
