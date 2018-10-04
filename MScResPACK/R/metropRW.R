@@ -8,6 +8,12 @@
 #' @param model model object of glmmTMB class
 #' 
 #' @param filePath file pathway, must end with "/" or beginning of the file name
+#' 
+#' @details
+#' 
+#' Returns list object containing run time, isEqual ()
+#' m1,isEqual,timer
+#' 
 #' @keywords cats
 #' @export
 #' @examples
@@ -30,8 +36,9 @@ metropRW = function(model,filePath) {
   fn <- function(x) -model$obj$fn(x)
   V <- vcov(model,full=TRUE)
   
-  timer <- system.time(m1 <- try(MCMCmetrop1R(fn,rawcoef,V=V,verbose = 1)))
-  
+  start = Sys.time()
+  m1 <- try(MCMCmetrop1R(fn,rawcoef,V=V,verbose = 1))
+  timer = sysTimeDiff(start)
   
   colnames(m1) = dimnames(V)[[1]]
   
