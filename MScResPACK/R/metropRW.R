@@ -24,18 +24,14 @@ metropRW = function(model,filePath) {
     rawcoef <- with(model$obj$env,last.par[-random])
   }
   
-  
-  equalTest=all.equal(c(model$obj$fn(rawcoef)),
+  isEqual=all.equal(c(model$obj$fn(rawcoef)),
                       -c(logLik(model)),
                       tolerance=1e-7)
-  
-  summaryTable$metropEqual[st]=equalTest
-  
   
   fn <- function(x) -model$obj$fn(x)
   V <- vcov(model,full=TRUE)
   
-  s1 <- system.time(m1 <- try(MCMCmetrop1R(fn,rawcoef,V=V)))
+  timer <- system.time(m1 <- try(MCMCmetrop1R(fn,rawcoef,V=V,verbose = 1)))
   
   
   colnames(m1) = dimnames(V)[[1]]
@@ -53,7 +49,8 @@ metropRW = function(model,filePath) {
   par(op)
   dev.off()
   
-  rm(m1)
+  metrop=list(m1,isEqual,timer)
+  return(metrop)
   
 }
 ##############################################################
