@@ -969,44 +969,6 @@ for (m in c(2)) { # length(formulas$model_index)
             #########################################################
 
 
-            if (is.null(model$sdr$par.random)) {
-              rawcoef = with(model$obj$env,last.par)
-            } else {
-              rawcoef <- with(model$obj$env,last.par[-random])
-            }
-
-
-            equalTest=all.equal(c(model$obj$fn(rawcoef)),
-                                -c(logLik(model)),
-                                tolerance=1e-7)
-
-            summaryTable$metropEqual[st]=equalTest
-
-
-            fn <- function(x) -model$obj$fn(x)
-            V <- vcov(model,full=TRUE)
-
-            s1 <- system.time(m1 <- try(MCMCmetrop1R(fn,rawcoef,V=V)))
-
-
-            colnames(m1) = dimnames(V)[[1]]
-
-            png(filename=paste(Path,"Plots/",ModelRefNo, " metrop T and D %03d.png", sep = ""),width=1000,height=1000)
-            op=par(mfrow=c(4,2))
-            plot(m1,smooth = TRUE)
-            par(op)
-            dev.off()
-
-
-
-            png(filename=paste(Path,"Plots/",ModelRefNo, " metrop aCorr %03d.png", sep = ""),width=1000,height=1000)
-            op=par(mfrow=c(4,2))
-            autocorr.plot(m1)
-            par(op)
-            dev.off()
-
-            rm(m1)
-            
             
             filePath = paste(Path,"Plots/",ModelRefNo, sep = "")
             summaryTable$metropEqual[st]=metropRW(model,filePath)
