@@ -7,6 +7,7 @@ NameAbbrv=formulas$dataset_name[m]
 
 kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   
+  ###
   set.seed(103)
   
   sample = sample.split(dataset[,sppColRef], SplitRatio = 1/5)
@@ -14,6 +15,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   test1 = subset(dataset, sample == TRUE)
   a = subset(dataset, sample == FALSE)
   
+  ###
   set.seed(103)
   
   sample = sample.split(a[,sppColRef], SplitRatio = 1/4)
@@ -21,6 +23,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   test2 = subset(a, sample == TRUE)
   b  = subset(a, sample == FALSE)
   
+  ###
   set.seed(103)
   
   sample = sample.split(b[,sppColRef], SplitRatio = 1/3)
@@ -28,6 +31,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   test3 = subset(b, sample == TRUE)
   c  = subset(b, sample == FALSE)
   
+  ###
   set.seed(103)
   
   sample = sample.split(c[,sppColRef], SplitRatio = 1/2)
@@ -35,6 +39,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   test4 = subset(c, sample == TRUE)
   test5  = subset(c, sample == FALSE)
   
+  #########
   rm(a,b,c)
   
   train1 = rbind(test2,test3,test4,test5)
