@@ -51,32 +51,21 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   for (a in 1:5) {
     
     tLoop2=subset(tLoop,tLoop != a)
-    print(paste("test",tLoop2,sep = ""))
+    testString = paste("test",tLoop2,sep = "",collapse = ",")
+
+    trainDfs=paste("train",a,"=rbind(",testString,")",sep = "")
     
-    
-    
+    eval(parse(text=trainDfs))
+    print(trainDfs)
+
   }
-  
-  trainDfs=paste("train",a," = rbind(test",2,",","test",3,",","test",4,",","test",5,")",sep = "")
-  eval(parse(text=trainDfs))
- 
-  train1 = rbind(test2,test3,test4,test5)
-
-  train2 = rbind(test1,test3,test4,test5)
-
-  train3 = rbind(test1,test2,test4,test5)
- 
-  train4 = rbind(test1,test2,test3,test5)
-  
-  train5 = rbind(test1,test2,test3,test4)
   
   # checks
   # for (a in 1:5) {
   #   add=paste("sum(length(test",a,"$X)+length(train",a,"$X))",sep = "")
   #   print(eval(parse(text=add)))
   # }
-  
-  
+
   ####################################
   # Write formulas #
   ####################################
