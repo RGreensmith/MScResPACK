@@ -21,6 +21,8 @@
 #' metropRW(model,filePath)
 #'
 
+##############################################
+
 metropRW = function(model,filePath) {
   
   if (is.null(model$sdr$par.random)) {
