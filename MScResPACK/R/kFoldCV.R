@@ -9,9 +9,19 @@ NameAbbrv=formulas$dataset_name[m]
 
 kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,testDfNum) {
   
-  for (a in 1:testDfNum) {
+  tempDfNm=letters[1:testDfNum]
+  
+  tempDfNm = c("hello","hi")
+  tempDfNm=paste(tempDfNm[1],"dataset",",",sep = "")
+  
+  tempDfNm=paste("dataset",",",letters[1:testDfNum],sep = "")
+
+  for (a in testDfNum) {
     
-    set.seed(103) 
+    set.seed(103)
+    sample = sample.split(dataset[,sppColRef], SplitRatio = 1/5)
+    test1 = subset(dataset, sample == TRUE)
+    a = subset(dataset, sample == FALSE)
     
   }
   
@@ -39,7 +49,8 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,testDfNum) {
   
   
   ################################
-  ###
+  ### Original
+  
   set.seed(103)
   
   sample = sample.split(a[,sppColRef], SplitRatio = 1/4)
