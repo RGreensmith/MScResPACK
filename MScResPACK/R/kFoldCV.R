@@ -5,7 +5,48 @@
 NameFull=formulas$Species[m]
 NameAbbrv=formulas$dataset_name[m]
 
-kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
+#' @param testDfNum Number of test dataframes desired
+
+kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,testDfNum) {
+  
+  for (a in 1:testDfNum) {
+    
+    set.seed(103) 
+    
+  }
+  
+  #
+  
+  sample = sample.split(dataset[,sppColRef], SplitRatio = 1/5)
+  
+  test1 = subset(dataset, sample == TRUE)
+  a = subset(dataset, sample == FALSE)
+  
+
+  sample = sample.split(a[,sppColRef], SplitRatio = 1/4)
+  
+  test2 = subset(a, sample == TRUE)
+  b  = subset(a, sample == FALSE)
+  
+  #
+  
+  sample = sample.split(b[,sppColRef], SplitRatio = 1/3)
+  
+  test3 = subset(b, sample == TRUE)
+  c  = subset(b, sample == FALSE)
+  
+  
+  
+  
+  ################################
+  ###
+  set.seed(103)
+  
+  sample = sample.split(a[,sppColRef], SplitRatio = 1/4)
+  
+  test2 = subset(a, sample == TRUE)
+  b  = subset(a, sample == FALSE)
+  
   
   ###
   set.seed(103)
