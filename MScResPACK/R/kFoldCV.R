@@ -7,19 +7,15 @@ NameAbbrv=formulas$dataset_name[m]
 
 #' @param testDfNum Number of test dataframes desired
 
-kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,testDfNum) {
+kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   
-  tempDfNm=letters[1:testDfNum]
-  
-  tempDfNm = c("hello","hi")
-  tempDfNm=paste(tempDfNm[1],"dataset",",",sep = "")
-  
-  tempDfNm=paste("dataset",",",letters[1:testDfNum],sep = "")
+  df=c("dataset",letters[1:3])
+  splitRatio=c(5:2)
 
-  for (a in testDfNum) {
+  for (a in 1:4) {
     
     set.seed(103)
-    sample = sample.split(dataset[,sppColRef], SplitRatio = 1/5)
+    sample = sample.split(df[a][,sppColRef], SplitRatio = 1/splitRatio[a])
     test1 = subset(dataset, sample == TRUE)
     a = subset(dataset, sample == FALSE)
     
@@ -51,15 +47,6 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,testDfNum) {
   ################################
   ### Original
   
-  set.seed(103)
-  
-  sample = sample.split(a[,sppColRef], SplitRatio = 1/4)
-  
-  test2 = subset(a, sample == TRUE)
-  b  = subset(a, sample == FALSE)
-  
-  
-  ###
   set.seed(103)
   
   sample = sample.split(dataset[,sppColRef], SplitRatio = 1/5)
