@@ -42,10 +42,32 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   #########
   rm(a,b,c)
   
+  #########################################
+  # rbinding test dfs to create train dfs #
+  #########################################
+  
+  tLoop = 1:5
+  
+  for (a in 1:5) {
+    
+    tLoop2=subset(tLoop,tLoop != a)
+    print(paste("test",tLoop2,sep = ""))
+    
+    
+    
+  }
+  
+  trainDfs=paste("train",a," = rbind(test",2,",","test",3,",","test",4,",","test",5,")",sep = "")
+  eval(parse(text=trainDfs))
+ 
   train1 = rbind(test2,test3,test4,test5)
+
   train2 = rbind(test1,test3,test4,test5)
+
   train3 = rbind(test1,test2,test4,test5)
+ 
   train4 = rbind(test1,test2,test3,test5)
+  
   train5 = rbind(test1,test2,test3,test4)
   
   # checks
