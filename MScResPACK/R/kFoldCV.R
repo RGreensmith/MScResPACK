@@ -1,7 +1,6 @@
 ##################################################
 # K-fold cross-validation #
 ##################################################
-
 NameFull=formulas$Species[m]
 NameAbbrv=formulas$dataset_name[m]
 
@@ -49,7 +48,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   
   set.seed(103)
   
-  sample = sample.split(dataset[,sppColRef], SplitRatio = 1/5)
+  sample = sample.split(eval(parse(text = dataset[,sppColRef])), SplitRatio = 1/5)
   
   test1 = subset(dataset, sample == TRUE)
   a = subset(dataset, sample == FALSE)
