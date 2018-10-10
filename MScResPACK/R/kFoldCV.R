@@ -11,12 +11,19 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   df=c("dataset",letters[1:3])
   splitRatio=c(5:2)
 
-  for (a in 1:4) {
+  for (y in 1:4) {
     
-    set.seed(103)
-    sample = sample.split(df[a][,sppColRef], SplitRatio = 1/splitRatio[a])
-    test1 = subset(dataset, sample == TRUE)
-    a = subset(dataset, sample == FALSE)
+    if (y != 4) {
+      set.seed(103)
+      sample = sample.split(eval(parse(text = paste(df[y],"$",sppColRef,sep = ""))), SplitRatio = 1/splitRatio[y])
+      eval(parse(text = paste("test",y," = subset(dataset, sample == TRUE)",sep = "")))
+      eval(parse(text = paste(df[y+1]," = subset(dataset, sample == FALSE)",sep = "")))
+      
+    } else {
+      set.seed(103)
+      sample = sample.split(eval(parse(text = paste(df[y],"$",sppColRef,sep = ""))), SplitRatio = 1/splitRatio[y])
+      
+    }
     
   }
   
