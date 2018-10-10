@@ -21,8 +21,11 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
       
     } else {
       set.seed(103)
-      sample = sample.split(eval(parse(text = paste(df[y],"$",sppColRef,sep = ""))), SplitRatio = 1/splitRatio[y])
       
+      sample = sample.split(c[,sppColRef], SplitRatio = 1/2)
+      
+      test4 = subset(c, sample == TRUE)
+      test5  = subset(c, sample == FALSE)
     }
     
   }
