@@ -130,7 +130,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   boxplot(mse,main = paste("mean MSE =   ",round(mean(mse),digits = 2)))
   dev.off()
   
-  summaryTable$MeansqrErr[st]=round(mean(mse),digits = 2)
+  return(round(mean(mse),digits = 2) # returns the average of all mean square errors
 }
 
 
