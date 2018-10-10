@@ -12,7 +12,6 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
   splitRatio=c(5:2)
 
   for (y in 1:4) {
-    
     if (y != 4) {
       set.seed(103)
       sample = sample.split(eval(parse(text = paste(df[y],"$",sppColRef,sep = ""))), SplitRatio = 1/splitRatio[y])
@@ -21,74 +20,13 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
       
     } else {
       set.seed(103)
-      
       sample = sample.split(c[,sppColRef], SplitRatio = 1/2)
       
       test4 = subset(c, sample == TRUE)
       test5  = subset(c, sample == FALSE)
     }
-    
   }
   
-  #
-  
-  sample = sample.split(dataset[,sppColRef], SplitRatio = 1/5)
-  
-  test1 = subset(dataset, sample == TRUE)
-  a = subset(dataset, sample == FALSE)
-  
-
-  sample = sample.split(a[,sppColRef], SplitRatio = 1/4)
-  
-  test2 = subset(a, sample == TRUE)
-  b  = subset(a, sample == FALSE)
-  
-  #
-  
-  sample = sample.split(b[,sppColRef], SplitRatio = 1/3)
-  
-  test3 = subset(b, sample == TRUE)
-  c  = subset(b, sample == FALSE)
-  
-  
-  
-  
-  ################################
-  ### Original
-  
-  set.seed(103)
-  
-  sample = sample.split(eval(parse(text = dataset[,sppColRef])), SplitRatio = 1/5)
-  
-  test1 = subset(dataset, sample == TRUE)
-  a = subset(dataset, sample == FALSE)
-  
-  ###
-  set.seed(103)
-  
-  sample = sample.split(a[,sppColRef], SplitRatio = 1/4)
-  
-  test2 = subset(a, sample == TRUE)
-  b  = subset(a, sample == FALSE)
-  
-  ###
-  set.seed(103)
-  
-  sample = sample.split(b[,sppColRef], SplitRatio = 1/3)
-  
-  test3 = subset(b, sample == TRUE)
-  c  = subset(b, sample == FALSE)
-  
-  ###
-  set.seed(103)
-  
-  sample = sample.split(c[,sppColRef], SplitRatio = 1/2)
-  
-  test4 = subset(c, sample == TRUE)
-  test5  = subset(c, sample == FALSE)
-  
-  #########
-  rm(a,b,c)
   
   #########################################
   # rbinding test dfs to create train dfs #
