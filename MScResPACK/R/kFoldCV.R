@@ -116,6 +116,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
         sqrErrStText=paste("summaryTable$sqrErr",a,"[st]=round(mse[a],digits = 2)",sep = "")
         eval(parse(text = sqrErrStText))
         rm(sqrErrStText)
+        
       }
     }
     
@@ -125,12 +126,19 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
     
   }
   
+  mMSqrErr=round(mean(mse),digits = 2)
+  
   png(filename=paste(Path,"Plots/",ModelRefNo," mse boxplot",a,".png", sep = ""),width=1000,height=1000)
   
-  boxplot(mse,main = paste("mean MSE =   ",round(mean(mse),digits = 2)))
+  boxplot(mse,main = paste("mean MSE =   ",mMSqrErr))
   dev.off()
+
+  lst=list(mse,mMSqrErr)
+  names(lst)[[1]]="meanSqrErr"
+  names(lst)[[2]]="meanMeanSqrErr"
   
-  return(round(mean(mse),digits = 2)) # returns the average of all mean square errors
+  return(lst) # returns the average of all mean square errors
+  
 }
 
 
