@@ -4,8 +4,9 @@
 NameFull=formulas$Species[m]
 
 #' @param sppColRef Name of species column. Also used as abbreviation of names for references.
-#' @param testDfNum Number of test dataframes desired
 #' @param k Number the dataset should be split into and model iterations
+
+
 kFoldCV = function(sppColRef,dataset,NameFull,k) {
   
   df=c("dataset",letters[1:k-2])
