@@ -5,8 +5,8 @@ NameFull=formulas$Species[m]
 NameAbbrv=formulas$dataset_name[m]
 
 #' @param testDfNum Number of test dataframes desired
-
-kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv) {
+#' @param k Number the dataset should be split into and model iterations
+kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,k) {
   
   df=c("dataset",letters[1:3])
   splitRatio=c(5:2)
