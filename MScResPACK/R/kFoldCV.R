@@ -8,11 +8,11 @@ NameAbbrv=formulas$dataset_name[m]
 #' @param k Number the dataset should be split into and model iterations
 kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,k) {
   
-  df=c("dataset",letters[1:3])
+  df=c("dataset",letters[1:k-2])
   splitRatio=c(5:2)
 
-  for (y in 1:4) {
-    if (y != 4) {
+  for (y in 1:k-1) {
+    if (y != k-1) {
       set.seed(103)
       sample = sample.split(eval(parse(text = paste(df[y],"$",sppColRef,sep = ""))), SplitRatio = 1/splitRatio[y])
       eval(parse(text = paste("test",y," = subset(dataset, sample == TRUE)",sep = "")))
@@ -22,8 +22,8 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,k) {
       set.seed(103)
       sample = sample.split(c[,sppColRef], SplitRatio = 1/2)
       
-      test4 = subset(c, sample == TRUE)
-      test5  = subset(c, sample == FALSE)
+      test,k-1, = subset(c, sample == TRUE)
+      test,k,  = subset(c, sample == FALSE)
     }
   }
   
@@ -97,7 +97,8 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,k) {
         
         png(filename=paste(Path,"Plots/",ModelRefNo," pcv~test",a,".png", sep = ""),width=1000,height=1000)
         
-        plot(pcv~test[,sppColRef])
+        plot(pcv~test[,sppColRef],
+             main = paste(NameFull," k = ",a," prediction",sep = ""))
         lines(lowess(pcv~test[,sppColRef]))
         dev.off()
         
@@ -106,7 +107,8 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,k) {
         
         png(filename=paste(Path,"Plots/",ModelRefNo," squared error ~ fit",a,".png", sep = ""),width=1000,height=1000)
         
-        plot(squaredErr~pcv)
+        plot(squaredErr~pcv,
+              main = paste(NameFull," k = ",a," squared error",sep = ""))
         lines(lowess(squaredErr~pcv))
         dev.off()
         
