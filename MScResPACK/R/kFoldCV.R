@@ -32,8 +32,8 @@ kFoldCV = function(sppColRef,dataset,NameFull,k) {
       set.seed(103)
       sample = sample.split(c[,sppColRef], SplitRatio = 1/2)
       
-      test,k-1, = subset(c, sample == TRUE)
-      test,k,  = subset(c, sample == FALSE)
+      eval(parse(text = paste("test",k-1," = subset(c, sample == TRUE)",sep = "")))
+      eval(parse(text = paste("test",k,"  = subset(c, sample == FALSE)", sep = "")))
     }
   }
   
