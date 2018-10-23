@@ -2,11 +2,21 @@
 # K-fold cross-validation #
 ##################################################
 NameFull=formulas$Species[m]
-NameAbbrv=formulas$dataset_name[m]
 
-#' @param testDfNum Number of test dataframes desired
+#' K-fold cross-validation
+#'
+#' This function allows you to carry out K-fold cross-validation, specifying k.
+#' @param sppColRef Name of species column. Also used as abbreviation of names for references.
+#' @param dataset Dataframe object to be used in k-fold cross validation models.
+#' @param NameFull Full name of the species
 #' @param k Number the dataset should be split into and model iterations
-kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,k) {
+#'
+#' @keywords cats
+#' @export
+#' @examples
+#' kFoldCV()
+
+kFoldCV = function(sppColRef,dataset,NameFull,k) {
   
   df=c("dataset",letters[1:k-2])
   splitRatio=c(5:2)
@@ -57,7 +67,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,NameAbbrv,k) {
   ####################################
   
   
-  fcond=formFun("cond",response = NameAbbrv,predictors = formulas$fCond[m],effExt = effortVec[effort])
+  fcond=formFun("cond",response = sppColRef,predictors = formulas$fCond[m],effExt = effortVec[effort])
   
   if (length(grep("dummy",effortVec[effort],ignore.case = FALSE))>0) {
     
