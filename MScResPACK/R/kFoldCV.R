@@ -3,9 +3,18 @@
 ##################################################
 NameFull=formulas$Species[m]
 
+#' K-fold cross-validation
+#'
+#' This function allows you to carry out K-fold cross-validation, specifying k.
 #' @param sppColRef Name of species column. Also used as abbreviation of names for references.
+#' @param dataset Dataframe object to be used in k-fold cross validation models.
+#' @param NameFull Full name of the species
 #' @param k Number the dataset should be split into and model iterations
-
+#'
+#' @keywords cats
+#' @export
+#' @examples
+#' kFoldCV()
 
 kFoldCV = function(sppColRef,dataset,NameFull,k) {
   
