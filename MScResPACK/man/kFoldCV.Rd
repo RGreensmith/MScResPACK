@@ -4,7 +4,7 @@
 \alias{kFoldCV}
 \title{K-fold cross-validation}
 \usage{
-kFoldCV(sppColRef, dataset, NameFull, k)
+kFoldCV(sppColRef, dataset, NameFull, k, formulas)
 }
 \arguments{
 \item{sppColRef}{Name of species column. Also used as abbreviation of names for references.}
@@ -14,6 +14,8 @@ kFoldCV(sppColRef, dataset, NameFull, k)
 \item{NameFull}{Full name of the species}
 
 \item{k}{Number the dataset should be split into and model iterations}
+
+\item{formulas}{df containing formulas for models}
 }
 \description{
 This function allows you to carry out K-fold cross-validation, specifying k.
