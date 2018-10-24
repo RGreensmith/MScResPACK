@@ -10,13 +10,14 @@ NameFull=formulas$Species[m]
 #' @param dataset Dataframe object to be used in k-fold cross validation models.
 #' @param NameFull Full name of the species
 #' @param k Number the dataset should be split into and model iterations
-#'
+#' @param formulas df containing formulas for models
+#' 
 #' @keywords cats
 #' @export
 #' @examples
 #' kFoldCV()
 
-kFoldCV = function(sppColRef,dataset,NameFull,k) {
+kFoldCV = function(sppColRef,dataset,NameFull,k,formulas) {
   
   k2=k-2
   df=c("dataset",letters[1:k2])
