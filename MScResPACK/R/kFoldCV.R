@@ -18,7 +18,9 @@ NameFull=formulas$Species[m]
 
 kFoldCV = function(sppColRef,dataset,NameFull,k) {
   
-  df=c("dataset",letters[1:k-2])
+  k2=k-2
+  df=c("dataset",letters[1:k2])
+  rm(k2)
   splitRatio=c(5:2)
 
   for (y in 1:k-1) {
