@@ -982,6 +982,11 @@ for (m in c(2)) { # length(formulas$model_index)
             save(model,file=paste(Path,"Model objects/",nm, sep = ""))
 
             rm(ModelRefNo,nm,condVars,ziVars)
+            
+            if (exists("model")==TRUE) {
+              rm(model)
+              rm(summ,f,fz,p,r,fzeroi)
+            }
 
             #######################################
             # k-Fold Cross-Validation (k = 5) #
@@ -989,7 +994,11 @@ for (m in c(2)) { # length(formulas$model_index)
             
             meanSqErrs=kFoldCV(sppColRef,dataset,NameFull,k=5,formulas)
             
+            
+            rm(NameFull,NameAbbrv)
+            
             #########################################
+            
           }
 
 
@@ -1000,11 +1009,7 @@ for (m in c(2)) { # length(formulas$model_index)
         # Remove Model #
         #################################################################
 
-        if (exists("model")==TRUE) {
-          rm(model)
-          rm(NameFull,NameAbbrv)
-          rm(summ,f,fz,p,r,fzeroi)
-        }
+        
 
 
       }
