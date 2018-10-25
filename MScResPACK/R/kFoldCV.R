@@ -24,7 +24,7 @@ kFoldCV = function(sppColRef,dataset,NameFull,k,formulas) {
   rm(k2)
   splitRatio=c(5:2)
 
-  for (y in 1:k-1) {
+  for (y in 1:c(k-1)) {
     if (y != k-1) {
       set.seed(103)
       sample = sample.split(eval(parse(text = paste(df[y],"$",sppColRef,sep = ""))), SplitRatio = 1/splitRatio[y])
