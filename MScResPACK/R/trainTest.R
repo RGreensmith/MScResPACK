@@ -1,6 +1,6 @@
-
-column = sppColRef
-splitBy = 5
+# 
+# column = sppColRef
+# splitBy = 5
 trainTest = function(dataset,column,splitBy) {
   
   splitVec = c(1:splitBy)
