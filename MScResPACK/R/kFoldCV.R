@@ -1,7 +1,7 @@
 ##################################################
 # K-fold cross-validation #
 ##################################################
-NameFull=formulas$Species[m]
+# NameFull=formulas$Species[m]
 
 #' K-fold cross-validation
 #'
