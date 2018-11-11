@@ -6,7 +6,6 @@
 #'
 #' This function allows you to create or update .Rd files for functions.
 #' @param wd working directory path from which the file to document exists and .Rd file will be created. Default is "M:/My Documents/MScResPACK/MScResPACK"
-#' @details 
 #' @keywords cats
 #' @export
 #' @examples
@@ -29,7 +28,6 @@ devROxWrap = function(wd = "M:/My Documents/MScResPACK/MScResPACK") {
 #'
 #' This function allows you to end Sys.time and return the time difference.
 #' @param start object of Sys.time set before running command to be timed.
-#' @details 
 #' @keywords cats
 #' @export
 #' @examples
