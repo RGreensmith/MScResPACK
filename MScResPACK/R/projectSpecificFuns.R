@@ -1,3 +1,22 @@
+####################################################################################################
+# wrapper function for devtools::check() to check code has no errors or warnings before committing #
+####################################################################################################
+
+#' Wrapper function to check for warnings and errors before committing
+#'
+#' This function allows you to check for warnings and errors before committing changes. Depends on devtools.
+#' @param wd path to find files that need checking.
+#' @keywords cats
+#' @export
+#' @examples
+#' 
+#' checks()
+#'
+
+checks = function(wd="C:\\Users\\Rose\\MScResPACK\\MScResPACK") {
+  devtools::check(pkg=wd)
+}
+
 ############################################################
 # creating .Rd files and creating help files for functions #
 ############################################################
