@@ -1,26 +1,26 @@
 ##################################################################
                       # Packages #
 #################################################################
-# find_rtools()
-# install.packages("plotrix")
-# install.packages("corrplot")
-# install.packages("gstat")
-# install.packages("sp")
-# install.packages("stringr")
-# install.packages("plyr")
-# install.packages("glmmTMB")
-# install.packages("raster")
-# install.packages("nlme")
-# install.packages("RColorBrewer")
-# install.packages("lattice")
-# install.packages("caTools")
-# install.packages("MCMCpack")
-# install.packages("coda")
-# install.packages("ggplot2")
-# install.packages("reshape2")
-# install.packages("emmeans")
-# install.packages("car")
-# install.packages("devtools")
+
+install.packages("plotrix")
+install.packages("corrplot")
+install.packages("gstat")
+install.packages("sp")
+install.packages("stringr")
+install.packages("plyr")
+install.packages("glmmTMB")
+install.packages("raster")
+install.packages("nlme")
+install.packages("RColorBrewer")
+install.packages("lattice")
+install.packages("caTools")
+install.packages("MCMCpack")
+install.packages("coda")
+install.packages("ggplot2")
+install.packages("reshape2")
+install.packages("emmeans")
+install.packages("car")
+install.packages("devtools")
 
 devtools::install_github("RGreensmith/MScResPACK",subdir = "MScResPACK")
 
@@ -59,10 +59,10 @@ library(MScResPACK)
 ##################################################################
 
 rm(list=ls())
-# wd="C:/Users/Rose/Documents/Rose/"
+wd="C:/Users/Rose/Documents/Rose/"
 # wd="C:/Users/Tom/Documents/Rose_MScRes/Recent work backup/"
 # wd="C:/Users/Laptop User/Documents/"
-wd="M:/My Documents/Work/"
+# wd="M:/My Documents/Work/"
 setwd(wd)
 
 ##################################################################
@@ -591,9 +591,11 @@ for (m in c(2)) { # length(formulas$model_index)
             # Residuals vs fitted by MONTH #
             #######################
 
-            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted by month.png", sep = ""),width=1000,height=1000)
+            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted by month.png", sep = ""),
+                width=1000,height=1000)
 
-            print(xyplot(r~f|dataset$Month,  main = paste(ModelRefFull,", Residuals ~ Fitted | Month",sep = ""),ylab = "Residuals",xlab = "Fitted"))
+            print(xyplot(r~f|dataset$Month,  main = paste(ModelRefFull,", Residuals ~ Fitted | Month",sep = ""),
+                         ylab = "Residuals",xlab = "Fitted"))
             dev.off()
 
             ######################################
