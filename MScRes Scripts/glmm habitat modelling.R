@@ -782,7 +782,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
                 ExplVariableSR=rastFun(x,y,z,overZero=FALSE)
 
-                rm(Expl1S,ExplS,)
+                rm(Expl1S,ExplS)
 
                 ############################################################
                 # Create season plots #
