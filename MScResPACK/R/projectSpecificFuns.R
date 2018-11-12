@@ -523,7 +523,7 @@ parametersPlotFun = function(y,data,parameters,paramAbbrv,paramFullNam,fullPath,
 
   png(filename=paste(fullPath,modelRefNo,  yName ,"~", paramTypeNam, "explanatory variables.png", sep = ""),width=1000,height=1000)
 
-  l=length(parameters[[1]])
+  l=length(parameters)
   l=ceiling(l/2)
   op=par(mfrow=c(2,l))
 
