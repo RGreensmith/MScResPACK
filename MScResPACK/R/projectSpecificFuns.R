@@ -529,7 +529,7 @@ parametersPlotFun = function(y,data,parameters,paramAbbrv,paramFullNam,fullPath,
 
   for (cv in 1:length(parameters)) {
     for (g in 1:length(paramAbbrv)) {
-      if (parameters[[1]][cv]==paramAbbrv[g]) {
+      if (parameters[cv]==paramAbbrv[g]) {
         var=paramFullNam[g]
       }
     }
