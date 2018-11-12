@@ -537,9 +537,9 @@ parametersPlotFun = function(y,data,parameters,paramAbbrv,paramFullNam,fullPath,
     plot(y~data[,parameters[[1]][cv]],
          main = paste(modelRefFull,", ",yName," ~ ",parameters[[1]][cv],sep = ""),
          ylab=paste(modelRefNo," Fitted",sep = ""),
-         xlab=paste(parameters[[1]][cv]," (",var,")",sep=""))
+         xlab=paste(parameters[cv]," (",var,")",sep=""))
 
-    lines(lowess(y~data[,parameters[[1]][cv]]),col = "green")
+    lines(lowess(y~data[,parameters[cv]]),col = "green")
 
   }
 
