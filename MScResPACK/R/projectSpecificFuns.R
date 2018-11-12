@@ -534,8 +534,8 @@ parametersPlotFun = function(y,data,parameters,paramAbbrv,paramFullNam,fullPath,
       }
     }
 
-    plot(y~data[,parameters[[1]][cv]],
-         main = paste(modelRefFull,", ",yName," ~ ",parameters[[1]][cv],sep = ""),
+    plot(y~data[,parameters[cv]],
+         main = paste(modelRefFull,", ",yName," ~ ",parameters[cv],sep = ""),
          ylab=paste(modelRefNo," Fitted",sep = ""),
          xlab=paste(parameters[cv]," (",var,")",sep=""))
 
