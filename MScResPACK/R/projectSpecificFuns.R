@@ -527,19 +527,19 @@ parametersPlotFun = function(y,data,parameters,paramAbbrv,paramFullNam,fullPath,
   l=ceiling(l/2)
   op=par(mfrow=c(2,l))
 
-  for (cv in 1:length(parameters[[1]])) {
+  for (cv in 1:length(parameters)) {
     for (g in 1:length(paramAbbrv)) {
-      if (parameters[[1]][cv]==paramAbbrv[g]) {
+      if (parameters[cv]==paramAbbrv[g]) {
         var=paramFullNam[g]
       }
     }
 
-    plot(y~data[,parameters[[1]][cv]],
-         main = paste(modelRefFull,", ",yName," ~ ",parameters[[1]][cv],sep = ""),
+    plot(y~data[,parameters[cv]],
+         main = paste(modelRefFull,", ",yName," ~ ",parameters[cv],sep = ""),
          ylab=paste(modelRefNo," Fitted",sep = ""),
-         xlab=paste(parameters[[1]][cv]," (",var,")",sep=""))
+         xlab=paste(parameters[cv]," (",var,")",sep=""))
 
-    lines(lowess(y~data[,parameters[[1]][cv]]),col = "green")
+    lines(lowess(y~data[,parameters[cv]]),col = "green")
 
   }
 
