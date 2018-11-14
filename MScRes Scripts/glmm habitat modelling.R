@@ -471,6 +471,9 @@ for (m in c(2)) { # length(formulas$model_index)
             ziVars=strsplit(formulas$fZi[m],split = '+',fixed = TRUE)
             # refer by ziVars[[1]][zv] to each variable, where zv=1:length(ziVars[[1]])
 
+            #############################################################
+            # Plots #
+            #############################################################
             #############
             # Residuals #
             #############
@@ -493,13 +496,33 @@ for (m in c(2)) { # length(formulas$model_index)
             # Bubble plot of residuals #
             ############################
             
-            
-            
             png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
             print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
             dev.off()
             
             rm(dtst)
+            
+            ##############################################
+            # Residuals density #
+            ##############################################
+            
+            # summaryTable$shapiroStat_W[st] = shapiro.test(r)[1]
+            # summaryTable$shapiroStat_P[st] = shapiro.test(r)[2]
+            
+            kDensity = density(r)
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " r density.png", sep = ""),width=1000,height=1000)
+            op=par(mfrow=c(2,1))
+            plot(density(r))
+            hist(r)
+            par(op)
+            dev.off()
+
+            summaryTable$dwStat[st]=durbinWatsonTest(r,simulate=TRUE)
+            
+            # plot(sleepstudy$Reaction~sleepstudy$Days)
+            # s=summary(fm1)
+            # abline(a = coef(s)$cond[1],b=coef(s)$cond[2])
 
             ###########
             # Fitted #
@@ -571,9 +594,6 @@ for (m in c(2)) { # length(formulas$model_index)
             
             rm(dtst)
 
-            #############################################################
-            # Plots #
-            #############################################################
             #######################
             # Residuals vs fitted #
             #######################
@@ -929,39 +949,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
             rm(c2,op)
 
-            ##############################################
-            # Residuals density #
-            ##############################################
-
-
-            # r = residuals(fm1)
-            # f = fitted(fm1)
-            # p = predict(fm1)
-
-
-
-            # summaryTable$shapiroStat_W[st] = shapiro.test(r)[1]
-            # summaryTable$shapiroStat_P[st] = shapiro.test(r)[2]
-
-            kDensity = density(r)
-
-
-            png(filename=paste(Path,"Plots/",ModelRefNo, " r density.png", sep = ""),width=1000,height=1000)
-            op=par(mfrow=c(2,1))
-            plot(density(r))
-            hist(r)
-            par(op)
-            dev.off()
-
-
-
-            summaryTable$dwStat[st]=durbinWatsonTest(r,simulate=TRUE)
-
-
-            # plot(sleepstudy$Reaction~sleepstudy$Days)
-            # s=summary(fm1)
-            # abline(a = coef(s)$cond[1],b=coef(s)$cond[2])
-
+            
 
             #########################################################
             # Random walk metropolis sampling #
