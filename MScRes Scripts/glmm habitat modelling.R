@@ -636,7 +636,7 @@ for (m in c(2)) { # length(formulas$model_index)
             # Map of predicted and residuals #
             ##################################
             
-            predictedR = rastFun(dtst$Lon,dtst$Lat,dtst$p,overZero = FALSE)
+            predictedR = rastFun(dataset$Lon,dataset$Lat,p,overZero = FALSE)
             
             png(filename=paste(Path,"Plots/",ModelRefNo, " Maps of p and r.png", sep = ""),width=1000,height=1000)
             layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
