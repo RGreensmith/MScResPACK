@@ -492,6 +492,33 @@ for (m in c(2)) { # length(formulas$model_index)
             dtst=dtst[,-1]
             coordinates(dtst)=c("Lon","Lat")
 
+            ##################################
+            # Map of residuals #
+            ##################################
+            
+            
+            # arguments #
+            
+            fileNm = "BAT_s"
+            leglab = "Depth (m)"
+            baseRefsDf = data.frame(fileNm,leglab)
+            
+            wdExtension = paste(Path,"Plots/",sep = "")
+            
+            mapName = paste(ModelRefNo," Map of residuals",sep = "")
+            
+            legTOP = bquote("Model residuals for " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+            
+            
+            # create map #
+            
+            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,
+                   mapsVis = "top",basemapOutline = "Env_outline",basemapDF = bathymetryR,topmapDF = residualsR,
+                   wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
+            
+            rm(residualsR)
+            
+            
             ############################
             # Bubble plot of residuals #
             ############################
@@ -524,31 +551,6 @@ for (m in c(2)) { # length(formulas$model_index)
             # s=summary(fm1)
             # abline(a = coef(s)$cond[1],b=coef(s)$cond[2])
 
-            ##################################
-            # Map of residuals #
-            ##################################
-            
-            
-            # arguments #
-            
-            fileNm = "BAT_s"
-            leglab = "Depth (m)"
-            baseRefsDf = data.frame(fileNm,leglab)
-            
-            wdExtension = paste(Path,"Plots/",sep = "")
-            
-            mapName = paste(ModelRefNo," Map of residuals",sep = "")
-            
-            legTOP = bquote("Model residuals for " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
-            
-            
-            # create map #
-            
-            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,
-                   mapsVis = "top",basemapOutline = "Env_outline",basemapDF = bathymetryR,topmapDF = residualsR,
-                   wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
-            
-            rm(residualsR)
             
             
             ###########
