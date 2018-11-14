@@ -541,7 +541,7 @@ for (m in c(2)) { # length(formulas$model_index)
             
             Lon = dtst$Lon
             Lat = dtst$Lat
-            Val = dtst[,p]
+            Val = dtst$p
             topmapDF = data.frame(Val,Lon,Lat)
             rm(Val,Lon,Lat)
             
@@ -557,10 +557,6 @@ for (m in c(2)) { # length(formulas$model_index)
             mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
                    basemapDF, topmapDF, wdExtension,mapName,
                    countOnly,bubble)
-            
-            
-            
-            
             
             
             ############################
@@ -671,7 +667,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
             # create map #
 
-            bathymetryR=mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
+            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                                basemapOutline = "Env_outline",
                                basemapDF = NULL, topmapDF = predictedR, wdExtension = wdExtension,
                                mapName = mapName,countOnly = FALSE,bubble = FALSE)
