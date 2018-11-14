@@ -524,6 +524,33 @@ for (m in c(2)) { # length(formulas$model_index)
             # s=summary(fm1)
             # abline(a = coef(s)$cond[1],b=coef(s)$cond[2])
 
+            ##################################
+            # Map of residuals #
+            ##################################
+            
+            
+            # arguments #
+            
+            fileNm = "BAT_s"
+            leglab = "Depth (m)"
+            baseRefsDf = data.frame(fileNm,leglab)
+            
+            wdExtension = paste(Path,"Plots/",sep = "")
+            
+            mapName = paste(ModelRefNo," Map of residuals",sep = "")
+            
+            legTOP = bquote("Model residuals for " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+            
+            
+            # create map #
+            
+            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,
+                   mapsVis = "top",basemapOutline = "Env_outline",basemapDF = bathymetryR,topmapDF = residualsR,
+                   wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
+            
+            rm(residualsR)
+            
+            
             ###########
             # Fitted #
             ###########
@@ -531,6 +558,52 @@ for (m in c(2)) { # length(formulas$model_index)
             f=fitted(model, model = "count")
             # fz=fitted(model,model = "zero")
 
+            #######################
+            # Residuals vs fitted #
+            #######################
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted.png", sep = ""),width=1000,height=1000)
+            
+            plot(r~f,  main = paste(ModelRefFull,", Residuals ~ Fitted",sep = ""),ylab = "Residuals",xlab = "Fitted") #
+            dev.off()
+            
+            #######################
+            # Residuals vs fitted by MONTH #
+            #######################
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted by month.png", sep = ""),
+                width=1000,height=1000)
+            
+            print(xyplot(r~f|dataset$Month,  main = paste(ModelRefFull,", Residuals ~ Fitted | Month",sep = ""),
+                         ylab = "Residuals",xlab = "Fitted"))
+            dev.off()
+            
+            ######################################
+            # Fitted and resid vs explanatory variables conditional #
+            ######################################
+            
+            parametersPlotFun(f,dataset,condVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+                              ModelRefNo,ModelRefFull,"Fitted","cond")
+            
+            parametersPlotFun(r,dataset,condVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+                              ModelRefNo,ModelRefFull,"Residuals","cond")
+            
+            ######################################
+            # Fitted and resid vs explanatory variables zero inflated #
+            ######################################
+            
+            
+            if (fzeroi != "~1") {
+              
+              parametersPlotFun(f,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+                                ModelRefNo,ModelRefFull,"Fitted","zi")
+              
+              parametersPlotFun(r,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+                                ModelRefNo,ModelRefFull,"Residuals","zi")
+              
+            }
+            
+            
             #############
             # Predicted #
             #############
@@ -547,6 +620,35 @@ for (m in c(2)) { # length(formulas$model_index)
             dtst=ddply(dtst,"lonlat",numcolwise(mean))
 
             dtst=dtst[,-1]
+            
+            
+            ##########################
+            # Predicted vs residuals #
+            ##########################
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " residuals ~ predicted.png", sep = ""),width=1000,height=1000)
+            plot(r~p,
+                 main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),
+                 ylab = "Residuals",
+                 xlab = "Predicted")
+            dev.off()
+            
+            
+            ##################################
+            # Map of predicted and residuals #
+            ##################################
+            
+            predictedR = rastFun(dataset$Lon,dataset$Lat,p,overZero = FALSE)
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " Maps of p and r.png", sep = ""),width=1000,height=1000)
+            layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
+            plot(r~p, main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),xlab = "Predicted", ylab="Residuals")
+            plot(residualsR, main = paste(ModelRefFull,", Residuals",sep = ""))
+            plot(predictedR, main = paste(ModelRefFull,", Predicted",sep = ""))
+            
+            dev.off()
+            
+            
             
             
             ######################################################################
@@ -593,80 +695,6 @@ for (m in c(2)) { # length(formulas$model_index)
             dev.off()
             
             rm(dtst)
-
-            #######################
-            # Residuals vs fitted #
-            #######################
-
-            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted.png", sep = ""),width=1000,height=1000)
-
-            plot(r~f,  main = paste(ModelRefFull,", Residuals ~ Fitted",sep = ""),ylab = "Residuals",xlab = "Fitted") #
-            dev.off()
-
-            #######################
-            # Residuals vs fitted by MONTH #
-            #######################
-
-            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted by month.png", sep = ""),
-                width=1000,height=1000)
-
-            print(xyplot(r~f|dataset$Month,  main = paste(ModelRefFull,", Residuals ~ Fitted | Month",sep = ""),
-                         ylab = "Residuals",xlab = "Fitted"))
-            dev.off()
-
-            ######################################
-            # Fitted and resid vs explanatory variables conditional #
-            ######################################
-
-            parametersPlotFun(f,dataset,condVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
-                              ModelRefNo,ModelRefFull,"Fitted","cond")
-
-            parametersPlotFun(r,dataset,condVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
-                              ModelRefNo,ModelRefFull,"Residuals","cond")
-
-            ######################################
-            # Fitted and resid vs explanatory variables zero inflated #
-            ######################################
-
-
-            if (fzeroi != "~1") {
-
-              parametersPlotFun(f,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
-                                ModelRefNo,ModelRefFull,"Fitted","zi")
-
-              parametersPlotFun(r,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
-                                ModelRefNo,ModelRefFull,"Residuals","zi")
-
-            }
-
-
-            ##########################
-            # Predicted vs residuals #
-            ##########################
-
-            png(filename=paste(Path,"Plots/",ModelRefNo, " residuals ~ predicted.png", sep = ""),width=1000,height=1000)
-            plot(r~p,
-                 main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),
-                 ylab = "Residuals",
-                 xlab = "Predicted")
-            dev.off()
-
-
-            ##################################
-            # Map of predicted and residuals #
-            ##################################
-            
-            predictedR = rastFun(dataset$Lon,dataset$Lat,p,overZero = FALSE)
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " Maps of p and r.png", sep = ""),width=1000,height=1000)
-            layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
-            plot(r~p, main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),xlab = "Predicted", ylab="Residuals")
-            plot(residualsR, main = paste(ModelRefFull,", Residuals",sep = ""))
-            plot(predictedR, main = paste(ModelRefFull,", Predicted",sep = ""))
-
-            dev.off()
-
-            
 
             ##################################
             # Map of predicted #
@@ -728,32 +756,7 @@ for (m in c(2)) { # length(formulas$model_index)
                    countOnly,bubble)
             
             
-            ##################################
-            # Map of residuals #
-            ##################################
-
-
-            # arguments #
-
-            fileNm = "BAT_s"
-            leglab = "Depth (m)"
-            baseRefsDf = data.frame(fileNm,leglab)
-
-            wdExtension = paste(Path,"Plots/",sep = "")
-
-            mapName = paste(ModelRefNo," Map of residuals",sep = "")
-
-            legTOP = bquote("Model residuals for " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
-
-
-            # create map #
-
-            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,
-                   mapsVis = "top",basemapOutline = "Env_outline",basemapDF = bathymetryR,topmapDF = residualsR,
-                   wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
-
-            rm(residualsR)
-
+           
 
             ##################################
             # Map of ### JUST PREDICTED ### by SEASON over contour of each expl variable except substrate #
