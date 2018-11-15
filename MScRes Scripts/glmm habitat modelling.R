@@ -516,8 +516,6 @@ for (m in c(2)) { # length(formulas$model_index)
                    basemapDF = NULL,topmapDF = residualsR,
                    wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
 
-            rm(residualsR)
-            
             ############################
             # Bubble plot of residuals #
             ############################
@@ -616,15 +614,6 @@ for (m in c(2)) { # length(formulas$model_index)
             # returns expected value; this is mu*(1-p) for zero-inflated models and mu otherwise
             # Denoting mu as the mean of the conditional distribution and p as the zero-inflation probability
 
-            dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat)
-
-            colnames(dtst)=c("p","Lon","Lat","lonlat")
-
-            dtst=ddply(dtst,"lonlat",numcolwise(mean))
-
-            dtst=dtst[,-1]
-            
-            
             ##########################
             # Predicted vs residuals #
             ##########################
@@ -651,13 +640,12 @@ for (m in c(2)) { # length(formulas$model_index)
             
             dev.off()
             
-            
-            
-            
+            rm(residualsR)
+
             ######################################################################
             # map arguments #
             ######################################################################
-            
+          
             fileNm = "BAT_raster"
             leglab = "Depth (m)"
             baseRefsDf = data.frame(fileNm,leglab)
@@ -667,9 +655,9 @@ for (m in c(2)) { # length(formulas$model_index)
             basemapOutline = "Env_outline"
             basemapDF = NULL
             
-            Lon = dtst$Lon
-            Lat = dtst$Lat
-            Val = dtst$p
+            Lon = dataset$Lon
+            Lat = dataset$Lat
+            Val = p
             topmapDF = data.frame(Val,Lon,Lat)
             rm(Val,Lon,Lat)
             
@@ -691,13 +679,21 @@ for (m in c(2)) { # length(formulas$model_index)
             # Bubble plot of predicted #
             ############################
             
-            coordinates(dtst)=c("Lon","Lat")
+            dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat)
+            
+            colnames(dtst)=c("p","Lon","Lat","lonlat")
+            
+            dtst=ddply(dtst,"lonlat",numcolwise(mean))
+            
+            dtst=dtst[,-1]
+            
+            
+            coordinates(topmapDF)=c("Lon","Lat")
             
             png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
-            print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
+            print(bubble(topmapDF, "Val", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
             dev.off()
             
-            rm(dtst)
 
             ##################################
             # Map of predicted #
