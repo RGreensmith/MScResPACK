@@ -489,8 +489,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
             residualsR = rastFun(dtst$Lon,dtst$Lat,dtst$r,overZero = FALSE)
             
-            dtst=dtst[,-1]
-            coordinates(dtst)=c("Lon","Lat")
+            
 
             ##################################
             # Map of residuals #
@@ -499,7 +498,7 @@ for (m in c(2)) { # length(formulas$model_index)
             
             # arguments #
             
-            fileNm = "BAT_s"
+            fileNm = "BAT_raster"
             leglab = "Depth (m)"
             baseRefsDf = data.frame(fileNm,leglab)
             
@@ -512,16 +511,19 @@ for (m in c(2)) { # length(formulas$model_index)
             
             # create map #
             
-            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,
-                   mapsVis = "top",basemapOutline = "Env_outline",basemapDF = bathymetryR,topmapDF = residualsR,
+            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP, mapsVis = "both",
+                   basemapOutline = "Env_outline",
+                   basemapDF = NULL,topmapDF = residualsR,
                    wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
-            
+
             rm(residualsR)
-            
             
             ############################
             # Bubble plot of residuals #
             ############################
+            
+            dtst=dtst[,-1]
+            coordinates(dtst)=c("Lon","Lat")
             
             png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
             print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
@@ -551,7 +553,6 @@ for (m in c(2)) { # length(formulas$model_index)
             # s=summary(fm1)
             # abline(a = coef(s)$cond[1],b=coef(s)$cond[2])
 
-            
             
             ###########
             # Fitted #
