@@ -727,7 +727,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
                 x=ExplS$dataset.Lon
                 y=ExplS$dataset.Lat
-                zname=paste("dataset.",condVars[[1]][cv],sep = "")
+                zname=paste(condVars[[1]][cv],sep = "")
                 z=ExplS[zname]
 
                 ExplVariableSR=rastFun(x,y,z,overZero=FALSE)
