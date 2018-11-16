@@ -746,7 +746,7 @@ for (m in c(2)) { # length(formulas$model_index)
                 }
 
 
-
+                ################## old version ############
                 png(filename= paste(Path,"Plots/predicted maps by season/",ModelRefNo, " P ",
                                     condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],".png", sep = "")
                     ,width=1000,height=1000)
@@ -764,8 +764,30 @@ for (m in c(2)) { # length(formulas$model_index)
 
                 dev.off()
 
-
-
+                ############### new version ###############
+                
+                # arguments #
+                
+                fileNm = condVars[[1]][cv]
+                leglab = var
+                baseRefsDf = data.frame(fileNm,leglab)
+                
+                wdExtension = paste(Path,"Plots/predicted maps by season/",sep = "")
+                
+                mapName = paste(ModelRefNo, " P ",
+                                condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],sep = "")
+                
+                legTOP = bquote("Model prediction of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+                
+                
+                # create map #
+                
+                mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
+                       basemapOutline = "Env_outline",
+                       basemapDF = ExplVariableSR, topmapDF = predictedSR, wdExtension = wdExtension,
+                       mapName = mapName,countOnly = FALSE,bubble = FALSE)
+                
+                ###################################################
 
               }
 
