@@ -706,7 +706,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
               x=predS$dataset.Lon
               y=predS$dataset.Lat
-              z=predS$dataset.p
+              z=predS$p
 
               predictedSR=rastFun(x,y,z,overZero=FALSE)
 
