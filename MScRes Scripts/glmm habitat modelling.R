@@ -769,6 +769,7 @@ for (m in c(2)) { # length(formulas$model_index)
                 # arguments #
                 
                 fileNm = condVars[[1]][cv]
+                fileNm = "CHT_Winter_ras"
                 leglab = var
                 baseRefsDf = data.frame(fileNm,leglab)
                 
@@ -784,7 +785,7 @@ for (m in c(2)) { # length(formulas$model_index)
                 
                 mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                        basemapOutline = "Env_outline",
-                       basemapDF = ExplVariableSR, topmapDF = predictedSR, wdExtension = wdExtension,
+                       basemapDF = NULL, topmapDF = predictedSR, wdExtension = wdExtension,
                        mapName = mapName,countOnly = FALSE,bubble = FALSE)
                 
                 ###################################################
