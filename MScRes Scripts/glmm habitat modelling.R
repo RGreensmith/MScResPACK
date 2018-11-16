@@ -653,15 +653,15 @@ for (m in c(2)) { # length(formulas$model_index)
             dtst=ddply(dtst,"lonlat",numcolwise(mean))
             
             dtst=dtst[,-1]
-            
-            
-            coordinates(topmapDF)=c("Lon","Lat")
+
+            coordinates(dtst)=c("Lon","Lat")
             
             png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
-            print(bubble(topmapDF, "Val", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
+            print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
             dev.off()
             
-
+            rm(dtst)
+            
             ##################################
             # Map of predicted #
             ##################################
