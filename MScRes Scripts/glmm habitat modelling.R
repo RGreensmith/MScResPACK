@@ -642,39 +642,6 @@ for (m in c(2)) { # length(formulas$model_index)
             
             rm(residualsR)
 
-            ######################################################################
-            # map arguments #
-            ######################################################################
-          
-            fileNm = "BAT_raster"
-            leglab = "Depth (m)"
-            baseRefsDf = data.frame(fileNm,leglab)
-            
-            legTOP = bquote((formulas$Species[m])~ ~ (per ~ km^2)~"model prediction")
-            mapsVis = "both"
-            basemapOutline = "Env_outline"
-            basemapDF = NULL
-            
-            Lon = dataset$Lon
-            Lat = dataset$Lat
-            Val = p
-            topmapDF = data.frame(Val,Lon,Lat)
-            rm(Val,Lon,Lat)
-            
-            wdExtension = paste(Path,sep = "")
-            mapName = paste(formulas$Species[m]," model prediction",sep = "")
-            countOnly = TRUE
-            bubble = FALSE
-            
-            #######################################################################
-            # create predicted map #
-            #######################################################################
-            
-            mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
-                   basemapDF, topmapDF, wdExtension,mapName,
-                   countOnly,bubble)
-            
-            
             ############################
             # Bubble plot of predicted #
             ############################
@@ -721,41 +688,6 @@ for (m in c(2)) { # length(formulas$model_index)
 
             rm(predictedR)
 
-            
-            ######################################################################
-            # arguments #
-            ######################################################################
-            
-            fileNm = "BAT_raster"
-            leglab = "Depth (m)"
-            baseRefsDf = data.frame(fileNm,leglab)
-            
-            legTOP = bquote((formulas$Species[m])~ ~ (per ~ km^2)~"model prediction")
-            mapsVis = "both"
-            basemapOutline = "Env_outline"
-            basemapDF = NULL
-            
-            Lon = dtst$Lon
-            Lat = dtst$Lat
-            Val = dtst[,sppColRef]
-            topmapDF = data.frame(Val,Lon,Lat)
-            rm(Val,Lon,Lat)
-            
-            wdExtension = paste(Path,sep = "")
-            mapName = paste(formulas$Species[m]," Map of abundance",sep = "")
-            countOnly = TRUE
-            bubble = FALSE
-            
-            #######################################################################
-            # create predicted map #
-            #######################################################################
-            
-            mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
-                   basemapDF, topmapDF, wdExtension,mapName,
-                   countOnly,bubble)
-            
-            
-           
 
             ##################################
             # Map of ### JUST PREDICTED ### by SEASON over contour of each expl variable except substrate #
