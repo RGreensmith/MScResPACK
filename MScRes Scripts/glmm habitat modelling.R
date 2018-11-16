@@ -720,19 +720,19 @@ for (m in c(2)) { # length(formulas$model_index)
                 # rasterising explanatory variables for selected season #
                 ########################################################
 
-                Expl1S= data.frame(dataset[condVars[[1]][cv]], dataset$Lon, dataset$Lat,dataset$lonlat,dataset$Season)
-                Expl1S=subset(Expl1S,Expl1S$dataset.Season == seasonsInd$seasonName[seas])
-
-                ExplS=ddply(Expl1S,"dataset.lonlat",numcolwise(mean))
-
-                x=ExplS$dataset.Lon
-                y=ExplS$dataset.Lat
-                zname=paste(condVars[[1]][cv],sep = "")
-                z=ExplS[zname]
-
-                ExplVariableSR=rastFun(x,y,z,overZero=FALSE)
-
-                rm(Expl1S,ExplS)
+                # Expl1S= data.frame(dataset[condVars[[1]][cv]], dataset$Lon, dataset$Lat,dataset$lonlat,dataset$Season)
+                # Expl1S=subset(Expl1S,Expl1S$dataset.Season == seasonsInd$seasonName[seas])
+                # 
+                # ExplS=ddply(Expl1S,"dataset.lonlat",numcolwise(mean))
+                # 
+                # x=ExplS$dataset.Lon
+                # y=ExplS$dataset.Lat
+                # zname=paste(condVars[[1]][cv],sep = "")
+                # z=ExplS[zname]
+                # 
+                # ExplVariableSR=rastFun(x,y,z,overZero=FALSE)
+                # 
+                # rm(Expl1S,ExplS)
 
                 ############################################################
                 # Create season plots #
@@ -745,31 +745,9 @@ for (m in c(2)) { # length(formulas$model_index)
                   }
                 }
 
-
-                ################## old version ############
-                png(filename= paste(Path,"Plots/predicted maps by season/",ModelRefNo, " P ",
-                                    condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],".png", sep = "")
-                    ,width=1000,height=1000)
-
-                op=par(mar=c(5,3,3,2)) #  c(bottom, left, top, right)
-
-                plot(predictedSR,
-                     main =  paste("Predicted ",seasonsInd$seasonName[seas]," Abundance of ",formulas$Species[m],sep = ""),cex.main = 1.5)
-
-                contour(ExplVariableSR,add = TRUE, drawlabels=TRUE)
-
-                par(op)
-
-                title(sub = paste("Contours: ",var,sep=""),line = 3.4,cex.sub=1.5)
-
-                dev.off()
-
-                ############### new version ###############
+                ################## arguments #####################
                 
-                # arguments #
-                
-                fileNm = condVars[[1]][cv]
-                fileNm = "CHT_Winter_ras"
+                fileNm = paste(strsplit(condVars[[1]][cv],"_")[[1]][1],"_",seasonsInd$seasonName[seas],"_ras",sep = "")
                 leglab = var
                 baseRefsDf = data.frame(fileNm,leglab)
                 
@@ -781,7 +759,7 @@ for (m in c(2)) { # length(formulas$model_index)
                 legTOP = bquote("Model prediction of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
                 
                 
-                # create map #
+                ################# create map ####################
                 
                 mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                        basemapOutline = "Env_outline",
