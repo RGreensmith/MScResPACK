@@ -4,10 +4,12 @@
 \alias{scaleFun}
 \title{scale a vector 0 to 1}
 \usage{
-scaleFun(x)
+scaleFun(x, a = 1)
 }
 \arguments{
 \item{x}{vector of values to scale}
+
+\item{a}{maximum value to be scaled to (i.e. 0 to a). Default value is a = 1.}
 }
 \description{
 This function allows you to scale a vector 0 to 1.
