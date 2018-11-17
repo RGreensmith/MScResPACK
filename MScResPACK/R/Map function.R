@@ -195,7 +195,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       if (isTRUE(bubble)) {
 
-        points(x,y,cex = cex)
+        points(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP)
 
       } else {
 
