@@ -213,7 +213,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       if (isTRUE(bubble)) {
 
-        plot(x,y,cex = cex)
+        plot(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP)
 
       } else {
 
