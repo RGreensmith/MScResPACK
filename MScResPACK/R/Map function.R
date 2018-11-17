@@ -44,7 +44,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
     if (isTRUE(bubble)) {
 
-      cex=scale(topmapDF$Val)
+      cex=scaleFun(topmapDF$Val,5)
 
     } else {
 
@@ -110,12 +110,29 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     ##########
 
     if (mapsVis == "top") {
-
-      colTOP = rainbow(length(raster::unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
+      
+      if (isTRUE(bubble)) {
+        
+        colTOP = rainbow(length(unique(topmapDF)),start = 0.16, end = 0.8,alpha = 0.8)
+        
+      } else {
+        
+        colTOP = rainbow(length(raster::unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
+        
+      }
 
     } else if (mapsVis == "both") {
+      
+      if (isTRUE(bubble)) {
+        
+        colTOP = rainbow(length(unique(topmapDF)),start = 0.75, end = 0.15)
+        
+      } else {
+        
+        colTOP = rainbow(length(raster::unique(topRaster)),start = 0.75, end = 0.15)
+        
+      }
 
-      colTOP = rainbow(length(raster::unique(topRaster)),start = 0.75, end = 0.15)
 
       colScheme="GnBu"
       n1=RColorBrewer::brewer.pal.info[colScheme,1]
@@ -195,7 +212,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       if (isTRUE(bubble)) {
 
-        points(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP)
+        points(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP, pch = 19)
 
       } else {
 
@@ -213,7 +230,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       if (isTRUE(bubble)) {
 
-        plot(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP)
+        plot(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP, pch = 19)
 
       } else {
 
