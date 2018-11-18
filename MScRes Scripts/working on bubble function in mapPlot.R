@@ -65,14 +65,14 @@ plot(baseRaster, legend.only=TRUE, col = colBASE,
      smallplot=c(0.94, 0.95,     0.09, 0.49),
      legend.args=list(text=legBASE,
                       side=2, font=2, line=1.2, cex=1.1))
-plot(outline,lwd = 5,add = TRUE,border = "green")
+plot(outline,lwd = 3,add = TRUE,border = "forestgreen")
 
 contour(baseRaster,add = TRUE, drawlabels=TRUE,col="black",lwd=0.01)
 
 
 #############
 
-op=par(mar=c(40,60,2.2,1.5),new = TRUE) #  c(bottom, left, top, right)
+op=par(mar=c(35,60,2.2,0),new = TRUE) #  c(bottom, left, top, right) 
 
 ################
 t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
@@ -81,18 +81,23 @@ g=rep(1,times = length(t))
 colLeg = rainbow(length(t),start = 0.675, end = 0.175)
 
 
-plot(t~g,cex = cex,col = colLeg,pch = 19,xlim = c(0.9,1.1), frame.plot=FALSE)
+plot(t~g,cex = cex,col = colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(-0.2,max(t)), frame.plot=FALSE, axes = FALSE, xaxt='n',yaxt='n', ann=FALSE)
 
+# plot(t~g,cex = cex,col = colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(-0.25,max(t)))
 
 for (legPos in 1:length(t)) {
   
-  text(1.075,t[legPos],paste(round(t[legPos],digits = 2)))
+  text(1.05,t[legPos],paste(round(t[legPos],digits = 2)))
   
 }
 
 mid=round(length(t)/2)
-text(c(1-0.075),c(round(t[mid],digits = 2)),paste("abundance"),srt = 90,font = 2)
+text(c(1-0.05),c(round(t[mid],digits = 2)),paste("Bottlenose Dolphin Abundance"),srt = 90,font = 2)
 
+r=c(0.975,1.025)
+q=c(-0.2,-0.2)
+lines(r,y=q,col = "forestgreen",lwd = 3)
+text(1,-0.15,paste("Spatial Extent"),font = 2)
 ########################
 
 par(op)
