@@ -54,7 +54,7 @@ png(filename=paste(wdExtension,mapName," ",baseRefsDf$baseNm[y],"3.png", sep = "
 ##########
 par(mar=c(3,4,2.2,5) + 0.1) #  c(bottom, left, top, right)
 
-plot(baseRaster,col = colBASE,legend = FALSE,par(bg = 'white')) # 
+plot(baseRaster,col = colBASE,legend = FALSE) # ,par(bg = "green") ,new = TRUE
 
 cex=scaleFun(topmapDF$Val,a=0.5,b=6.5)
 points(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP,pch = 19)
@@ -65,13 +65,12 @@ plot(baseRaster, legend.only=TRUE, col = colBASE,
      smallplot=c(0.94, 0.95,     0.09, 0.49),
      legend.args=list(text=legBASE,
                       side=2, font=2, line=1.2, cex=1.1))
-plot(outline,lwd = 0.5,add = TRUE)
+plot(outline,lwd = 5,add = TRUE,border = "green")
+
 contour(baseRaster,add = TRUE, drawlabels=TRUE,col="black",lwd=0.01)
 
 
 #############
-
-png(filename=paste(wdExtension,mapName," ",baseRefsDf$baseNm[y],"3.png", sep = ""),width=1000,height=1000)
 
 op=par(mar=c(40,60,2.2,1.5),new = TRUE) #  c(bottom, left, top, right)
 
@@ -100,10 +99,27 @@ par(op)
 dev.off()
 
 
-
+################################
 
 plot(topmapDF$Val,cex = cex,col = colTOP,pch = 19)
 
+
+
+
+y=c(2,8,8,2)
+x=c(2,2,8,8)
+
+x1=min(topmapDF$Lon)
+x2=max(topmapDF$Lon)
+y1=min(topmapDF$Lat)
+y2=max(topmapDF$Lat)
+
+y=c(y1,y2,y2,y1)
+x=c(x1,x1,x2,x2)
+
+plot(topmapDF$Lon,topmapDF$Lat)
+polygon(x,y,col = "lightgreen")
+points(topmapDF$Lon,topmapDF$Lat)
 
 
 par(fig=c(0,0.8,0,0.8))
@@ -115,11 +131,15 @@ par(fig=c(0.65,1,0,0.8),new=TRUE)
 boxplot(mtcars$mpg, axes=FALSE)
 mtext("Enhanced Scatterplot", side=3, outer=TRUE, line=-3)
 
+par(bg = "yellow")
+plot(1:10, type = "n")
 
+# Now set the plot region to grey
+rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = 
+       "grey")
 
-
-
-
+# Now plot the points on the existing window
+points(1:10)
 
 
 
