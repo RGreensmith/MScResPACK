@@ -49,14 +49,35 @@ plot(c(1:length(cex)),col = colTOP,pch = 19)
 # Creating topmap legend #
 ##########################
 
+png(filename=paste(wdExtension,mapName," ",baseRefsDf$baseNm[y],"3.png", sep = ""),width=1000,height=1000)
+
+op=par(mar=c(3,4,2.2,5) + 0.1) #  c(bottom, left, top, right)
+# op=par(mar=c(3,4,2.2,5) + 0.1,mfrow = c(1,2)) #  c(bottom, left, top, right)
+
+plot(baseRaster,col = colBASE,legend = FALSE,par(bg = 'white')) # 
+
+cex=scaleFun(topmapDF$Val,a=0.5,b=6.5)
+points(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP,pch = 19)
+
+
+plot(baseRaster, legend.only=TRUE, col = colBASE,
+     legend.width=1, legend.shrink=0.75,
+     smallplot=c(0.94, 0.95,     0.09, 0.49),
+     legend.args=list(text=legBASE,
+                      side=2, font=2, line=1.2, cex=1.1))
+plot(outline,lwd = 0.5,add = TRUE)
+contour(baseRaster,add = TRUE, drawlabels=TRUE,col="black",lwd=0.01)
+
+
+par(op)
+#############
 
 t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 10)
-
 cex=scaleFun(t,a=0.5,b=6.5)
 g=rep(1,times = length(t))
 colLeg = rainbow(length(t),start = 0.675, end = 0.175)
 
-
+op=par(mar=c(6,9,2.2,2) + 0.1) #  c(bottom, left, top, right)
 plot(t~g,cex = cex,col = colLeg,pch = 19,xlim = c(0.9,1.1), frame.plot=FALSE)
 
 
@@ -68,28 +89,7 @@ for (legPos in 1:length(t)) {
 
 text(c(1-0.075),c(round(t[5],digits = 1)),paste("abundance"),srt = 90,font = 2)
 
-
-
-
-cex=scaleFun(topmapDF$Val,a=0.5,b=6.5)
-
-png(filename=paste(wdExtension,mapName," ",baseRefsDf$baseNm[y],"3.png", sep = ""),width=1000,height=1000)
-op=par(mar=c(3,4,2.2,5) + 0.1) #  c(bottom, left, top, right)
-
-plot(baseRaster,col = colBASE,legend = FALSE,par(bg = 'white')) # 
-
-
-
-points(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP,pch = 19)
-
-
-plot(baseRaster, legend.only=TRUE, col = colBASE,
-     legend.width=1, legend.shrink=0.75,
-     smallplot=c(0.94, 0.95,     0.09, 0.49),
-     legend.args=list(text=legBASE,
-                      side=2, font=2, line=1.2, cex=1.1))
-plot(outline,lwd = 0.5,add = TRUE)
-contour(baseRaster,add = TRUE, drawlabels=TRUE,col="black",lwd=0.01)
+########################
 
 par(op)
 dev.off()
