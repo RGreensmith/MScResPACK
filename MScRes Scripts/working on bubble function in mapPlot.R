@@ -45,23 +45,33 @@ colTOP = rainbow(length(unique(topmapDF$Val)),start = 0.5, end = 0.175)
 
 plot(c(1:length(cex)),col = colTOP,pch = 19)
 
-t=c(1:5)
+##########################
+# Creating topmap legend #
+##########################
+
+
+t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 10)
+
+cex=scaleFun(t,a=0.5,b=6.5)
 g=rep(1,times = length(t))
-colLeg = rainbow(length(t),start = 0, end = 0.5)
+colLeg = rainbow(length(t),start = 0.675, end = 0.175)
 
 
-plot(t~g,cex = t,col = colLeg,pch = 19,xlim = c(0.9,1.1), frame.plot=FALSE)
+plot(t~g,cex = cex,col = colLeg,pch = 19,xlim = c(0.9,1.1), frame.plot=FALSE)
+
 
 for (legPos in 1:length(t)) {
   
-  text(1.075,t[legPos],paste(t[legPos]))
+  text(1.075,t[legPos],paste(round(t[legPos],digits = 1)))
   
 }
 
-text(c(1-0.075),3,paste(legTOP),srt = 90)
+text(c(1-0.075),c(round(t[5],digits = 1)),paste("abundance"),srt = 90,font = 2)
+
+
+
+
 cex=scaleFun(topmapDF$Val,a=0.5,b=6.5)
-
-
 
 png(filename=paste(wdExtension,mapName," ",baseRefsDf$baseNm[y],"3.png", sep = ""),width=1000,height=1000)
 op=par(mar=c(3,4,2.2,5) + 0.1) #  c(bottom, left, top, right)
