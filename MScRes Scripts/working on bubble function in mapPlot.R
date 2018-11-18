@@ -1,6 +1,6 @@
 
 
-# arguments #
+# arguments ##########
 
 fileNm = "BAT_raster"
 leglab = "Depth (m)"
@@ -83,8 +83,6 @@ colLeg = rainbow(length(t),start = 0.675, end = 0.175)
 
 plot(t~g,cex = cex,col = colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(-0.2,max(t)), frame.plot=FALSE, axes = FALSE, xaxt='n',yaxt='n', ann=FALSE)
 
-# plot(t~g,cex = cex,col = colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(-0.25,max(t)))
-
 for (legPos in 1:length(t)) {
   
   text(1.05,t[legPos],paste(round(t[legPos],digits = 2)))
@@ -102,7 +100,6 @@ text(1,-0.15,paste("Spatial Extent"),font = 2)
 
 par(op)
 dev.off()
-
 
 ################################
 
