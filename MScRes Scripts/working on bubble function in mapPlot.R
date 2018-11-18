@@ -51,7 +51,8 @@ plot(c(1:length(cex)),col = colTOP,pch = 19)
 
 png(filename=paste(wdExtension,mapName," ",baseRefsDf$baseNm[y],"3.png", sep = ""),width=1000,height=1000)
 
-op=par(mar=c(3,4,2.2,5) + 0.1) #  c(bottom, left, top, right)
+layout(matrix(c(1,1,2,3,4,4), nrow = 1, ncol = 2, byrow = TRUE))
+# op=par(mar=c(3,4,2.2,5) + 0.1) #  c(bottom, left, top, right)
 # op=par(mar=c(3,4,2.2,5) + 0.1,mfrow = c(1,2)) #  c(bottom, left, top, right)
 
 plot(baseRaster,col = colBASE,legend = FALSE,par(bg = 'white')) # 
@@ -69,7 +70,6 @@ plot(outline,lwd = 0.5,add = TRUE)
 contour(baseRaster,add = TRUE, drawlabels=TRUE,col="black",lwd=0.01)
 
 
-par(op)
 #############
 
 t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 10)
@@ -91,7 +91,7 @@ text(c(1-0.075),c(round(t[5],digits = 1)),paste("abundance"),srt = 90,font = 2)
 
 ########################
 
-par(op)
+# par(op)
 dev.off()
 
 
