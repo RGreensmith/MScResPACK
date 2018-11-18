@@ -18,12 +18,14 @@ names(topmapDF)=c("Val","Lon","Lat")
 
 topmapDF=topmapDF[order(topmapDF$Val),] 
 
+
+
 # create map #
 
 mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP, mapsVis = "both",
        basemapOutline = "Env_outline",
-       basemapDF = NULL,topmapDF = residualsR,
-       wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
+       basemapDF = NULL,topmapDF = topmapDF,
+       wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = TRUE)
 
 colBASE = rainbow(length(raster::unique(baseRaster)),start = 0.51,end = 0.70)
 
