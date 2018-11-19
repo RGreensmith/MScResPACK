@@ -277,7 +277,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
       }
       
       mid=round(length(t)/2)
-      text(c(1-0.05),c(round(t[mid],digits = 2)),paste("Bottlenose Dolphin Abundance"),srt = 90,font = 2)
+      text(c(1-0.05),c(round(t[mid],digits = 2)),paste(legTOP),srt = 90,font = 2)
       
       xline=c(0.975,1.025)
       yline=c(min(t)-(lag*2),min(t)-(lag*2))
