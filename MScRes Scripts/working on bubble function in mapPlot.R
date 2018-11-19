@@ -1,4 +1,7 @@
 
+dtst= data.frame(r, dataset$Lon, dataset$Lat)
+
+colnames(dtst)=c("r","Lon","Lat")
 
 # arguments ##########
 
@@ -7,8 +10,6 @@ leglab = "Depth (m)"
 baseRefsDf = data.frame(fileNm,leglab)
 
 wdExtension = paste(Path,"Plots/",sep = "")
-
-mapName = paste(ModelRefNo," Map of predicted",sep = "")
 
 legTOP = bquote("Model predicted for " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
 
@@ -19,6 +20,7 @@ names(topmapDF)=c("Val","Lon","Lat")
 topmapDF=topmapDF[order(topmapDF$Val),] 
 
 
+mapName = paste(ModelRefNo," Map of predicted 2",sep = "")
 
 # create map #
 
@@ -26,6 +28,10 @@ mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP, mapsVis = "both",
        basemapOutline = "Env_outline",
        basemapDF = NULL,topmapDF = topmapDF,
        wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = TRUE)
+
+
+
+#################################
 
 colBASE = rainbow(length(raster::unique(baseRaster)),start = 0.51,end = 0.70)
 
