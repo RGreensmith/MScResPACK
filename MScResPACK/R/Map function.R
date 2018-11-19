@@ -45,7 +45,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     if (isTRUE(bubble)) {
       topmapDF=topmapDF[order(topmapDF$Val),] 
 
-      cex=scaleFun(topmapDF$Val,a=0.5,b=6)
+      cex=scaleFun(topmapDF$Val,a=0.5,b=4)
 
     } else {
 
@@ -69,7 +69,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   
   t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
   lag=(max(topmapDF$Val)-min(topmapDF$Val))/15
-  cexLeg=scaleFun(t,a=0.5,b=6)
+  cexLeg=scaleFun(t,a=0.5,b=4)
   g=rep(1,times = length(t))
   colLeg = rainbow(length(t),start = 0.675, end = 0.175)
   

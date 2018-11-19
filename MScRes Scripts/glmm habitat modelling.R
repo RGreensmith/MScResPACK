@@ -686,8 +686,6 @@ for (m in c(2)) { # length(formulas$model_index)
                                basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
                                mapName = mapName,countOnly = FALSE,bubble = TRUE)
 
-            rm(predictedR)
-
 
             ##################################
             # Map of ### JUST PREDICTED ### by SEASON over contour of each expl variable except substrate #
