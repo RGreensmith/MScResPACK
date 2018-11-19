@@ -140,7 +140,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
       if (isTRUE(bubble)) {
         
         # colTOP = rainbow(length(unique(topmapDF$Val)),start = 0.675, end = 0.175)
-        colTOP=colourmapper(topmapDF, colours)
+        colTOP=colourMapper(topmapDF, colours)
         
       } else {
         
