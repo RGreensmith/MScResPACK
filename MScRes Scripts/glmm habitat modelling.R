@@ -639,7 +639,7 @@ for (m in c(2)) { # length(formulas$model_index)
             
             dev.off()
             
-            rm(residualsR)
+            rm(residualsR,predictedR)
 
             ############################
             # Bubble plot of predicted #
