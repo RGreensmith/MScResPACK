@@ -712,6 +712,17 @@ for (m in c(2)) { # length(formulas$model_index)
 
 
               rm(pred1S,predS)
+              
+              
+              #############################
+              
+              dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$Season)
+              dtst=subset(dtst,dtst$dataset.Season == seasonsInd$seasonName[seas])
+              
+              topmapDF= dtst[,1:3]
+              names(topmapDF)=c("Val","Lon","Lat")
+              
+              ##############################
 
 
               for (cv in 1:length(condVars[[1]])) {
@@ -763,8 +774,8 @@ for (m in c(2)) { # length(formulas$model_index)
                 
                 mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                        basemapOutline = "Env_outline",
-                       basemapDF = NULL, topmapDF = predictedSR, wdExtension = wdExtension,
-                       mapName = mapName,countOnly = FALSE,bubble = FALSE)
+                       basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
+                       mapName = mapName,countOnly = FALSE,bubble = TRUE)
                 
                 ###################################################
 
