@@ -43,6 +43,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   if (mapsVis == "top" || mapsVis == "both") {
 
     if (isTRUE(bubble)) {
+      topmapDF=topmapDF[order(topmapDF$Val),] 
 
       cex=scaleFun(topmapDF$Val,a=0.5,b=6.5)
 
@@ -61,8 +62,20 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     }
 
   }
-
-
+  
+  #################################
+  # create legend colour sequence #
+  #################################
+  
+  t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
+  lag=(max(topmapDF$Val)-min(topmapDF$Val))/15
+  cexLeg=scaleFun(t,a=0.5,b=6.5)
+  g=rep(1,times = length(t))
+  colLeg = rainbow(length(t),start = 0.675, end = 0.175)
+  
+  colours=data.frame(colLeg,t)
+  
+  
   ###########################################
 
   for (y in 1:length(baseRefsDf$fileNm)) {
@@ -125,7 +138,8 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
       
       if (isTRUE(bubble)) {
         
-        colTOP = rainbow(length(unique(topmapDF$Val)),start = 0.675, end = 0.175)
+        # colTOP = rainbow(length(unique(topmapDF$Val)),start = 0.675, end = 0.175)
+        colTOP=colourmapper(topmapDF, colours)
         
       } else {
         
@@ -250,14 +264,10 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
       
       op=par(mar=c(35,60,2.2,0),new = TRUE) #  c(bottom, left, top, right) 
       
-      ################
-      t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
-      cex=scaleFun(t,a=0.5,b=6.5)
-      g=rep(1,times = length(t))
-      colLeg = rainbow(length(t),start = 0.675, end = 0.175)
+    
       
-      
-      plot(t~g,cex = cex,col = colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(-0.2,max(t)), frame.plot=FALSE, axes = FALSE, xaxt='n',yaxt='n', ann=FALSE)
+      plot(t~g,cex = cexLeg,col = colours$colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(min(t)-(lag*2),max(t)), 
+           frame.plot=FALSE, axes = FALSE, xaxt='n',yaxt='n', ann=FALSE)
       
       for (legPos in 1:length(t)) {
         
@@ -268,10 +278,10 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
       mid=round(length(t)/2)
       text(c(1-0.05),c(round(t[mid],digits = 2)),paste("Bottlenose Dolphin Abundance"),srt = 90,font = 2)
       
-      r=c(0.975,1.025)
-      q=c(-0.2,-0.2)
-      lines(r,y=q,col = "forestgreen",lwd = 3)
-      text(1,-0.15,paste("Spatial Extent"),font = 2)
+      xline=c(0.975,1.025)
+      yline=c(min(t)-(lag*2),min(t)-(lag*2))
+      lines(xline,y=yline,col = "forestgreen",lwd = 3)
+      text(1,min(t)-(lag),paste("Spatial Extent"),font = 2)
     }
     
     ##################################
