@@ -884,8 +884,21 @@ for (m in c(2)) { # length(formulas$model_index)
             # k-Fold Cross-Validation (k = 5) #
             #######################################
             
-            meanSqErrs=kFoldCV(sppColRef,dataset,NameFull,k=5,formulas)
+            k=5
             
+            meanSqErrs=kFoldCV(sppColRef,dataset,NameFull,k,formulas)
+            
+            summaryTable$MeansqrErr[st]=meanSqErrs$meanMeanSqrErr
+            
+            
+            rm(sqrErrStText)
+            
+            for (fill in 1:k) {
+              sqrErrStText=paste("summaryTable$sqrErr",fill,"[st]=round(meanSqErrs$meanSqrErr[",fill,"],digits = 2)",sep = "")
+              eval(parse(text = sqrErrStText))
+            }
+            
+            rm(fill,k,meanSqErrs)
             
             rm(NameFull,NameAbbrv)
             
