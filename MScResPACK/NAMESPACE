@@ -3,6 +3,7 @@
 export(barsFun)
 export(capXtreme)
 export(checks)
+export(colourMapper)
 export(covStrucData)
 export(devROxWrap)
 export(effectExtensFun)

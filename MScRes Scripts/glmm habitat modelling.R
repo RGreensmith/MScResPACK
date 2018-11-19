@@ -489,12 +489,38 @@ for (m in c(2)) { # length(formulas$model_index)
 
             residualsR = rastFun(dtst$Lon,dtst$Lat,dtst$r,overZero = FALSE)
             
-            dtst=dtst[,-1]
-            coordinates(dtst)=c("Lon","Lat")
+            
+
+            ####################################
+            # Bubble map of residuals (mapFun) #
+            ####################################
+            
+            topmapDF= data.frame(r, dataset$Lon, dataset$Lat)
+            names(topmapDF)=c("Val","Lon","Lat")
+            
+            
+            fileNm = "BAT_raster"
+            leglab = "Depth (m)"
+            baseRefsDf = data.frame(fileNm,leglab)
+            
+            wdExtension = paste(Path,"Plots/",sep = "")
+            
+            mapName = paste(ModelRefNo," Map of residuals",sep = "")
+            
+            legTOP = paste("Model residuals of ",formulas$Species[m]," abundance (per km^2)",sep = "")            
+            
+            
+            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP, mapsVis = "both",
+                   basemapOutline = "Env_outline",
+                   basemapDF = NULL,topmapDF = topmapDF,
+                   wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = TRUE)
 
             ############################
             # Bubble plot of residuals #
             ############################
+            
+            dtst=dtst[,-1]
+            coordinates(dtst)=c("Lon","Lat")
             
             png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
             print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
@@ -524,6 +550,7 @@ for (m in c(2)) { # length(formulas$model_index)
             # s=summary(fm1)
             # abline(a = coef(s)$cond[1],b=coef(s)$cond[2])
 
+            
             ###########
             # Fitted #
             ###########
@@ -531,6 +558,52 @@ for (m in c(2)) { # length(formulas$model_index)
             f=fitted(model, model = "count")
             # fz=fitted(model,model = "zero")
 
+            #######################
+            # Residuals vs fitted #
+            #######################
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted.png", sep = ""),width=1000,height=1000)
+            
+            plot(r~f,  main = paste(ModelRefFull,", Residuals ~ Fitted",sep = ""),ylab = "Residuals",xlab = "Fitted") #
+            dev.off()
+            
+            #######################
+            # Residuals vs fitted by MONTH #
+            #######################
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted by month.png", sep = ""),
+                width=1000,height=1000)
+            
+            print(xyplot(r~f|dataset$Month,  main = paste(ModelRefFull,", Residuals ~ Fitted | Month",sep = ""),
+                         ylab = "Residuals",xlab = "Fitted"))
+            dev.off()
+            
+            ######################################
+            # Fitted and resid vs explanatory variables conditional #
+            ######################################
+            
+            parametersPlotFun(f,dataset,condVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+                              ModelRefNo,ModelRefFull,"Fitted","cond")
+            
+            parametersPlotFun(r,dataset,condVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+                              ModelRefNo,ModelRefFull,"Residuals","cond")
+            
+            ######################################
+            # Fitted and resid vs explanatory variables zero inflated #
+            ######################################
+            
+            
+            if (fzeroi != "~1") {
+              
+              parametersPlotFun(f,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+                                ModelRefNo,ModelRefFull,"Fitted","zi")
+              
+              parametersPlotFun(r,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+                                ModelRefNo,ModelRefFull,"Residuals","zi")
+              
+            }
+            
+            
             #############
             # Predicted #
             #############
@@ -540,118 +613,18 @@ for (m in c(2)) { # length(formulas$model_index)
             # returns expected value; this is mu*(1-p) for zero-inflated models and mu otherwise
             # Denoting mu as the mean of the conditional distribution and p as the zero-inflation probability
 
-            dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat)
-
-            colnames(dtst)=c("p","Lon","Lat","lonlat")
-
-            dtst=ddply(dtst,"lonlat",numcolwise(mean))
-
-            dtst=dtst[,-1]
-            
-            
-            ######################################################################
-            # map arguments #
-            ######################################################################
-            
-            fileNm = "BAT_raster"
-            leglab = "Depth (m)"
-            baseRefsDf = data.frame(fileNm,leglab)
-            
-            legTOP = bquote((formulas$Species[m])~ ~ (per ~ km^2)~"model prediction")
-            mapsVis = "both"
-            basemapOutline = "Env_outline"
-            basemapDF = NULL
-            
-            Lon = dtst$Lon
-            Lat = dtst$Lat
-            Val = dtst$p
-            topmapDF = data.frame(Val,Lon,Lat)
-            rm(Val,Lon,Lat)
-            
-            wdExtension = paste(Path,sep = "")
-            mapName = paste(formulas$Species[m]," model prediction",sep = "")
-            countOnly = TRUE
-            bubble = FALSE
-            
-            #######################################################################
-            # create predicted map #
-            #######################################################################
-            
-            mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
-                   basemapDF, topmapDF, wdExtension,mapName,
-                   countOnly,bubble)
-            
-            
-            ############################
-            # Bubble plot of predicted #
-            ############################
-            
-            coordinates(dtst)=c("Lon","Lat")
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
-            print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
-            dev.off()
-            
-            rm(dtst)
-
-            #######################
-            # Residuals vs fitted #
-            #######################
-
-            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted.png", sep = ""),width=1000,height=1000)
-
-            plot(r~f,  main = paste(ModelRefFull,", Residuals ~ Fitted",sep = ""),ylab = "Residuals",xlab = "Fitted") #
-            dev.off()
-
-            #######################
-            # Residuals vs fitted by MONTH #
-            #######################
-
-            png(filename=paste(Path,"Plots/",ModelRefNo," residuals ~ fitted by month.png", sep = ""),
-                width=1000,height=1000)
-
-            print(xyplot(r~f|dataset$Month,  main = paste(ModelRefFull,", Residuals ~ Fitted | Month",sep = ""),
-                         ylab = "Residuals",xlab = "Fitted"))
-            dev.off()
-
-            ######################################
-            # Fitted and resid vs explanatory variables conditional #
-            ######################################
-
-            parametersPlotFun(f,dataset,condVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
-                              ModelRefNo,ModelRefFull,"Fitted","cond")
-
-            parametersPlotFun(r,dataset,condVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
-                              ModelRefNo,ModelRefFull,"Residuals","cond")
-
-            ######################################
-            # Fitted and resid vs explanatory variables zero inflated #
-            ######################################
-
-
-            if (fzeroi != "~1") {
-
-              parametersPlotFun(f,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
-                                ModelRefNo,ModelRefFull,"Fitted","zi")
-
-              parametersPlotFun(r,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
-                                ModelRefNo,ModelRefFull,"Residuals","zi")
-
-            }
-
-
             ##########################
             # Predicted vs residuals #
             ##########################
-
+            
             png(filename=paste(Path,"Plots/",ModelRefNo, " residuals ~ predicted.png", sep = ""),width=1000,height=1000)
             plot(r~p,
                  main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),
                  ylab = "Residuals",
                  xlab = "Predicted")
             dev.off()
-
-
+            
+            
             ##################################
             # Map of predicted and residuals #
             ##################################
@@ -663,16 +636,37 @@ for (m in c(2)) { # length(formulas$model_index)
             plot(r~p, main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),xlab = "Predicted", ylab="Residuals")
             plot(residualsR, main = paste(ModelRefFull,", Residuals",sep = ""))
             plot(predictedR, main = paste(ModelRefFull,", Predicted",sep = ""))
-
-            dev.off()
-
             
+            dev.off()
+            
+            rm(residualsR)
 
+            ############################
+            # Bubble plot of predicted #
+            ############################
+            
+            dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat)
+            
+            colnames(dtst)=c("p","Lon","Lat","lonlat")
+            
+            dtst=ddply(dtst,"lonlat",numcolwise(mean))
+            
+            dtst=dtst[,-1]
+
+            coordinates(dtst)=c("Lon","Lat")
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
+            print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
+            dev.off()
+            
+            rm(dtst)
+            
             ##################################
-            # Map of predicted #
+            # Bubble map of predicted #
             ##################################
 
-            # arguments #
+            topmapDF= data.frame(p, dataset$Lon, dataset$Lat)
+            names(topmapDF)=c("Val","Lon","Lat")
 
             fileNm = "BAT_raster"
             leglab = "Depth (m)"
@@ -682,77 +676,15 @@ for (m in c(2)) { # length(formulas$model_index)
 
             mapName = paste(ModelRefNo," Map of predicted",sep = "")
 
-            legTOP = bquote("Model prediction of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+            legTOP = paste("Model prediction of ",formulas$Species[m]," abundance (per km^2)",sep = "")
 
 
             # create map #
 
             mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                                basemapOutline = "Env_outline",
-                               basemapDF = NULL, topmapDF = predictedR, wdExtension = wdExtension,
-                               mapName = mapName,countOnly = FALSE,bubble = FALSE)
-
-            rm(predictedR)
-
-            
-            ######################################################################
-            # arguments #
-            ######################################################################
-            
-            fileNm = "BAT_raster"
-            leglab = "Depth (m)"
-            baseRefsDf = data.frame(fileNm,leglab)
-            
-            legTOP = bquote((formulas$Species[m])~ ~ (per ~ km^2)~"model prediction")
-            mapsVis = "both"
-            basemapOutline = "Env_outline"
-            basemapDF = NULL
-            
-            Lon = dtst$Lon
-            Lat = dtst$Lat
-            Val = dtst[,sppColRef]
-            topmapDF = data.frame(Val,Lon,Lat)
-            rm(Val,Lon,Lat)
-            
-            wdExtension = paste(Path,sep = "")
-            mapName = paste(formulas$Species[m]," Map of abundance",sep = "")
-            countOnly = TRUE
-            bubble = FALSE
-            
-            #######################################################################
-            # create predicted map #
-            #######################################################################
-            
-            mapFun(baseRefsDf, legTOP, mapsVis,basemapOutline,
-                   basemapDF, topmapDF, wdExtension,mapName,
-                   countOnly,bubble)
-            
-            
-            ##################################
-            # Map of residuals #
-            ##################################
-
-
-            # arguments #
-
-            fileNm = "BAT_s"
-            leglab = "Depth (m)"
-            baseRefsDf = data.frame(fileNm,leglab)
-
-            wdExtension = paste(Path,"Plots/",sep = "")
-
-            mapName = paste(ModelRefNo," Map of residuals",sep = "")
-
-            legTOP = bquote("Model residuals for " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
-
-
-            # create map #
-
-            mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,
-                   mapsVis = "top",basemapOutline = "Env_outline",basemapDF = bathymetryR,topmapDF = residualsR,
-                   wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
-
-            rm(residualsR)
+                               basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
+                               mapName = mapName,countOnly = FALSE,bubble = TRUE)
 
 
             ##################################
@@ -772,12 +704,23 @@ for (m in c(2)) { # length(formulas$model_index)
 
               x=predS$dataset.Lon
               y=predS$dataset.Lat
-              z=predS$dataset.p
+              z=predS$p
 
               predictedSR=rastFun(x,y,z,overZero=FALSE)
 
 
               rm(pred1S,predS)
+              
+              
+              #############################
+              
+              dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$Season)
+              dtst=subset(dtst,dtst$dataset.Season == seasonsInd$seasonName[seas])
+              
+              topmapDF= dtst[,1:3]
+              names(topmapDF)=c("Val","Lon","Lat")
+              
+              ##############################
 
 
               for (cv in 1:length(condVars[[1]])) {
@@ -786,19 +729,19 @@ for (m in c(2)) { # length(formulas$model_index)
                 # rasterising explanatory variables for selected season #
                 ########################################################
 
-                Expl1S= data.frame(dataset[condVars[[1]][cv]], dataset$Lon, dataset$Lat,dataset$lonlat,dataset$Season)
-                Expl1S=subset(Expl1S,Expl1S$dataset.Season == seasonsInd$seasonName[seas])
-
-                ExplS=ddply(Expl1S,"dataset.lonlat",numcolwise(mean))
-
-                x=ExplS$dataset.Lon
-                y=ExplS$dataset.Lat
-                zname=paste("dataset.",condVars[[1]][cv],sep = "")
-                z=ExplS[zname]
-
-                ExplVariableSR=rastFun(x,y,z,overZero=FALSE)
-
-                rm(Expl1S,ExplS)
+                # Expl1S= data.frame(dataset[condVars[[1]][cv]], dataset$Lon, dataset$Lat,dataset$lonlat,dataset$Season)
+                # Expl1S=subset(Expl1S,Expl1S$dataset.Season == seasonsInd$seasonName[seas])
+                # 
+                # ExplS=ddply(Expl1S,"dataset.lonlat",numcolwise(mean))
+                # 
+                # x=ExplS$dataset.Lon
+                # y=ExplS$dataset.Lat
+                # zname=paste(condVars[[1]][cv],sep = "")
+                # z=ExplS[zname]
+                # 
+                # ExplVariableSR=rastFun(x,y,z,overZero=FALSE)
+                # 
+                # rm(Expl1S,ExplS)
 
                 ############################################################
                 # Create season plots #
@@ -811,27 +754,28 @@ for (m in c(2)) { # length(formulas$model_index)
                   }
                 }
 
-
-
-                png(filename= paste(Path,"Plots/predicted maps by season/",ModelRefNo, " P ",
-                                    condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],".png", sep = "")
-                    ,width=1000,height=1000)
-
-                op=par(mar=c(5,3,3,2)) #  c(bottom, left, top, right)
-
-                plot(predictedSR,
-                     main =  paste("Predicted ",seasonsInd$seasonName[seas]," Abundance of ",formulas$Species[m],sep = ""),cex.main = 1.5)
-
-                contour(ExplVariableSR,add = TRUE, drawlabels=TRUE)
-
-                par(op)
-
-                title(sub = paste("Contours: ",var,sep=""),line = 3.4,cex.sub=1.5)
-
-                dev.off()
-
-
-
+                ################## arguments #####################
+                
+                fileNm = paste(strsplit(condVars[[1]][cv],"_")[[1]][1],"_",seasonsInd$seasonName[seas],"_ras",sep = "")
+                leglab = var
+                baseRefsDf = data.frame(fileNm,leglab)
+                
+                wdExtension = paste(Path,"Plots/predicted maps by season/",sep = "")
+                
+                mapName = paste(ModelRefNo, " P ",
+                                condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],sep = "")
+                
+                legTOP = bquote("Model prediction of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+                
+                
+                ################# create map ####################
+                
+                mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
+                       basemapOutline = "Env_outline",
+                       basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
+                       mapName = mapName,countOnly = FALSE,bubble = TRUE)
+                
+                ###################################################
 
               }
 

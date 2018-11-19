@@ -43,8 +43,9 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   if (mapsVis == "top" || mapsVis == "both") {
 
     if (isTRUE(bubble)) {
+      topmapDF=topmapDF[order(topmapDF$Val),] 
 
-      cex=scale(topmapDF$Val)
+      cex=scaleFun(topmapDF$Val,a=0.5,b=4)
 
     } else {
 
@@ -61,8 +62,21 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     }
 
   }
-
-
+  
+  #################################
+  # create legend colour sequence #
+  #################################
+  
+  t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
+  lag=(max(topmapDF$Val)-min(topmapDF$Val))/15
+  cexLeg=scaleFun(t,a=0.5,b=4)
+  g=rep(1,times = length(t))
+  colLeg = rainbow(length(t),start = 0.675, end = 0.175)
+  
+  colours=data.frame(colLeg,t)
+  colours$colLeg=as.character(colours$colLeg)
+  
+  
   ###########################################
 
   for (y in 1:length(baseRefsDf$fileNm)) {
@@ -110,14 +124,32 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     ##########
 
     if (mapsVis == "top") {
-
-      colTOP = rainbow(length(raster::unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
+      
+      if (isTRUE(bubble)) {
+        
+        colTOP = rainbow(length(unique(topmapDF$Val)),start = 0.675, end = 0.175)
+        
+      } else {
+        
+        colTOP = rainbow(length(raster::unique(topRaster)),start = 0.16, end = 0.8,alpha = 0.8)
+        
+      }
 
     } else if (mapsVis == "both") {
+      
+      if (isTRUE(bubble)) {
+        
+        # colTOP = rainbow(length(unique(topmapDF$Val)),start = 0.675, end = 0.175)
+        colTOP=colourMapper(topmapDF, colours)
+        
+      } else {
+        
+        colTOP = rainbow(length(raster::unique(topRaster)),start = 0.75, end = 0.15)
+        
+      }
 
-      colTOP = rainbow(length(raster::unique(topRaster)),start = 0.75, end = 0.15)
 
-      colScheme="GnBu"
+      colScheme="Greys"
       n1=RColorBrewer::brewer.pal.info[colScheme,1]
       colBASE = RColorBrewer::brewer.pal(n1,colScheme)
 
@@ -144,8 +176,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       png(filename=paste(wdExtension,mapName," ",baseRefsDf$baseNm[y],".png", sep = ""),width=1000,height=1000)
 
-      op=par(mar=c(3,4,2.2,5) + 0.1) #  c(bottom, left, top, right)
-
+      par(mar=c(3,4,2.2,5) + 0.1) #  c(bottom, left, top, right)
     }
 
     ###########
@@ -154,36 +185,17 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
     if (mapsVis=="both") {
 
-      plot(baseRaster,col = colBASE,
-           legend = FALSE)
-
-
+      plot(baseRaster,col = colBASE,legend = FALSE)
+      
       plot(baseRaster, legend.only=TRUE, col = colBASE,
            legend.width=1, legend.shrink=0.75,
-           smallplot=c(0.94, 0.95,     0.09, 0.49),
+           smallplot=c(0.94, 0.95, 0.09, 0.49),
            legend.args=list(text=legBASE,
                             side=2, font=2, line=1.2, cex=1.1))
 
     } else if (mapsVis=="base") {
 
       plot(baseRaster,col = colBASE, legend = TRUE)
-
-    }
-
-
-    ############################
-    # Contours and map outline #
-    ############################
-
-    if (mapsVis == "base" || mapsVis == "both") {
-
-      contour(baseRaster,add = TRUE, drawlabels=TRUE,col="darkgrey",lwd=0.5)
-
-    }
-
-    if (is.null(basemapOutline)==FALSE) {
-
-      plot(outline,lwd = 0.5,add = TRUE)
 
     }
 
@@ -195,8 +207,8 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       if (isTRUE(bubble)) {
 
-        points(x,y,cex = cex)
-
+        points(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP,pch = 19)
+        
       } else {
 
         raster::plot(topRaster,col= colTOP,
@@ -213,7 +225,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
       if (isTRUE(bubble)) {
 
-        plot(x,y,cex = cex)
+        plot(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP, pch = 19)
 
       } else {
 
@@ -229,6 +241,50 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
 
     }
 
+    ############################
+    # Contours and map outline #
+    ############################
+    
+    if (mapsVis == "base" || mapsVis == "both") {
+      
+      contour(baseRaster,add = TRUE, drawlabels=TRUE,col="black",lwd=0.01)      
+    }
+    
+    if (is.null(basemapOutline)==FALSE) {
+      
+      plot(outline,lwd = 3,add = TRUE,border = "forestgreen")
+      
+    }
+    
+    
+    ############################
+    # Legends for bubble plots #
+    ############################
+    
+    if (isTRUE(bubble)) {
+      
+      op=par(mar=c(35,60,2.2,0),new = TRUE) #  c(bottom, left, top, right) 
+      
+    
+      
+      plot(t~g,cex = cexLeg,col = colours$colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(min(t)-(lag*2),max(t)), 
+           frame.plot=FALSE, axes = FALSE, xaxt='n',yaxt='n', ann=FALSE)
+      
+      for (legPos in 1:length(t)) {
+        
+        text(1.05,t[legPos],paste(round(t[legPos],digits = 2)))
+        
+      }
+      
+      mid=round(length(t)/2)
+      text(c(1-0.05),c(round(t[mid],digits = 2)),paste(legTOP),srt = 90,font = 2)
+      
+      xline=c(0.975,1.025)
+      yline=c(min(t)-(lag*2),min(t)-(lag*2))
+      lines(xline,y=yline,col = "forestgreen",lwd = 3)
+      text(1,min(t)-(lag),paste("Spatial Extent"),font = 2)
+    }
+    
     ##################################
     # Close device #
     ##################################
