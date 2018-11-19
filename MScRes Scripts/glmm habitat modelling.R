@@ -491,12 +491,13 @@ for (m in c(2)) { # length(formulas$model_index)
             
             
 
-            ##################################
-            # Map of residuals #
-            ##################################
+            ####################################
+            # Bubble map of residuals (mapFun) #
+            ####################################
             
+            topmapDF= data.frame(r, dataset$Lon, dataset$Lat)
+            names(topmapDF)=c("Val","Lon","Lat")
             
-            # arguments #
             
             fileNm = "BAT_raster"
             leglab = "Depth (m)"
@@ -506,15 +507,13 @@ for (m in c(2)) { # length(formulas$model_index)
             
             mapName = paste(ModelRefNo," Map of residuals",sep = "")
             
-            legTOP = bquote("Model residuals for " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+            legTOP = paste("Model residuals of ",formulas$Species[m]," abundance (per km^2)",sep = "")            
             
-            
-            # create map #
             
             mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP, mapsVis = "both",
                    basemapOutline = "Env_outline",
-                   basemapDF = NULL,topmapDF = residualsR,
-                   wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = FALSE)
+                   basemapDF = NULL,topmapDF = topmapDF,
+                   wdExtension = wdExtension ,mapName = mapName,countOnly = FALSE,bubble = TRUE)
 
             ############################
             # Bubble plot of residuals #
@@ -663,10 +662,11 @@ for (m in c(2)) { # length(formulas$model_index)
             rm(dtst)
             
             ##################################
-            # Map of predicted #
+            # Bubble map of predicted #
             ##################################
 
-            # arguments #
+            topmapDF= data.frame(p, dataset$Lon, dataset$Lat)
+            names(topmapDF)=c("Val","Lon","Lat")
 
             fileNm = "BAT_raster"
             leglab = "Depth (m)"
@@ -676,15 +676,15 @@ for (m in c(2)) { # length(formulas$model_index)
 
             mapName = paste(ModelRefNo," Map of predicted",sep = "")
 
-            legTOP = bquote("Model prediction of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+            legTOP = paste("Model prediction of ",formulas$Species[m]," abundance (per km^2)",sep = "")
 
 
             # create map #
 
             mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                                basemapOutline = "Env_outline",
-                               basemapDF = NULL, topmapDF = predictedR, wdExtension = wdExtension,
-                               mapName = mapName,countOnly = FALSE,bubble = FALSE)
+                               basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
+                               mapName = mapName,countOnly = FALSE,bubble = TRUE)
 
             rm(predictedR)
 
