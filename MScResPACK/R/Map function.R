@@ -74,6 +74,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   colLeg = rainbow(length(t),start = 0.675, end = 0.175)
   
   colours=data.frame(colLeg,t)
+  colours$colLeg=as.character(colours$colLeg)
   
   
   ###########################################
