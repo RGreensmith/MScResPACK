@@ -546,6 +546,10 @@ for (m in c(2)) { # length(formulas$model_index)
 
             summaryTable$dwStat[st]=durbinWatsonTest(r,simulate=TRUE)
             
+            
+            write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+            
+            
             # plot(sleepstudy$Reaction~sleepstudy$Days)
             # s=summary(fm1)
             # abline(a = coef(s)$cond[1],b=coef(s)$cond[2])
@@ -861,11 +865,15 @@ for (m in c(2)) { # length(formulas$model_index)
             # Random walk metropolis sampling #
             #########################################################
 
-
-            
             filePath = paste(Path,"Plots/",ModelRefNo, sep = "")
-            summaryTable$metropEqual[st]=metropRW(model,filePath)
             
+            metropolisOut=metropRW(model,filePath)
+            summaryTable$metropEqual[st]=metropolisOut$isEqual
+            
+            write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+            
+            print(metropolisOut$timer)
+
             #################################################################
             # Save Model #
             #################################################################
@@ -890,13 +898,16 @@ for (m in c(2)) { # length(formulas$model_index)
             
             summaryTable$MeansqrErr[st]=meanSqErrs$meanMeanSqrErr
             
-            
             rm(sqrErrStText)
             
             for (fill in 1:k) {
               sqrErrStText=paste("summaryTable$sqrErr",fill,"[st]=round(meanSqErrs$meanSqrErr[",fill,"],digits = 2)",sep = "")
               eval(parse(text = sqrErrStText))
             }
+            
+            
+            write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+            
             
             rm(fill,k,meanSqErrs)
             
