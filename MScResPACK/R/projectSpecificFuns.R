@@ -290,11 +290,6 @@ covStrucData = function(dataset,strucType) {
     
     dataset$monthfrom0 <- as.factor(dataset$monthfrom0)
     
-  } else {
-    
-    dataset$LonSpCov=dataset$Lon
-    dataset$LatSpCov=dataset$Lat
-    
   }
  
   dataset$dummy <- as.factor(dataset$dummy)
@@ -319,9 +314,21 @@ covStrucData = function(dataset,strucType) {
 #'
 
 spACsetup = function(dataset) {
-
-  x=dataset$LonSpCov
-  y=dataset$LatSpCov
+  
+  startLat=max(dataset$Lat)
+  startLon=min(dataset$Lon)
+  
+  
+  endLat=min(dataset$Lat)
+  endLon=max(dataset$Lon)
+  
+  
+  Lat=dataset$Lat
+  Lon=dataset$Lon
+  
+  y=round((startLat-Lat)/5e4,digits = 0)
+  x=round((Lon-startLon)/5e4,digits = 0)
+  
   pos=numFactor(x,y)
   parseNumLevels(levels(pos))
   return(pos)
