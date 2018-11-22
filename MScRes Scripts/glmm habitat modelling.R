@@ -546,6 +546,10 @@ for (m in c(2)) { # length(formulas$model_index)
 
             summaryTable$dwStat[st]=durbinWatsonTest(r,simulate=TRUE)
             
+            
+            write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+            
+            
             # plot(sleepstudy$Reaction~sleepstudy$Days)
             # s=summary(fm1)
             # abline(a = coef(s)$cond[1],b=coef(s)$cond[2])
@@ -639,7 +643,7 @@ for (m in c(2)) { # length(formulas$model_index)
             
             dev.off()
             
-            rm(residualsR)
+            rm(residualsR,predictedR)
 
             ############################
             # Bubble plot of predicted #
@@ -693,60 +697,22 @@ for (m in c(2)) { # length(formulas$model_index)
 
             for (seas in 1:length(seasonsInd$seasonRef)) { # season index
 
-              ############################################
-              # rasterising predicted for selected season #
-              ############################################
+              ###################################################
+              # subsetting dataset (p lon lat season) by season #
+              ###################################################
 
-              pred1S= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat,dataset$Season)
-              pred1S=subset(pred1S,pred1S$dataset.Season == seasonsInd$seasonName[seas])
-
-              predS=ddply(pred1S,"dataset.lonlat",numcolwise(mean))
-
-              x=predS$dataset.Lon
-              y=predS$dataset.Lat
-              z=predS$p
-
-              predictedSR=rastFun(x,y,z,overZero=FALSE)
-
-
-              rm(pred1S,predS)
-              
-              
-              #############################
-              
               dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$Season)
               dtst=subset(dtst,dtst$dataset.Season == seasonsInd$seasonName[seas])
               
               topmapDF= dtst[,1:3]
               names(topmapDF)=c("Val","Lon","Lat")
               
-              ##############################
-
 
               for (cv in 1:length(condVars[[1]])) {
-
-                ########################################################
-                # rasterising explanatory variables for selected season #
-                ########################################################
-
-                # Expl1S= data.frame(dataset[condVars[[1]][cv]], dataset$Lon, dataset$Lat,dataset$lonlat,dataset$Season)
-                # Expl1S=subset(Expl1S,Expl1S$dataset.Season == seasonsInd$seasonName[seas])
-                # 
-                # ExplS=ddply(Expl1S,"dataset.lonlat",numcolwise(mean))
-                # 
-                # x=ExplS$dataset.Lon
-                # y=ExplS$dataset.Lat
-                # zname=paste(condVars[[1]][cv],sep = "")
-                # z=ExplS[zname]
-                # 
-                # ExplVariableSR=rastFun(x,y,z,overZero=FALSE)
-                # 
-                # rm(Expl1S,ExplS)
 
                 ############################################################
                 # Create season plots #
                 ############################################################
-                # seasonsInd
 
                 for (g in 1:length(Ovexpl$Abbrv)) {
                   if (condVars[[1]][cv]==Ovexpl$Abbrv[g]) {
@@ -765,7 +731,7 @@ for (m in c(2)) { # length(formulas$model_index)
                 mapName = paste(ModelRefNo, " P ",
                                 condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],sep = "")
                 
-                legTOP = bquote("Model prediction of " ~ .(formulas$Species[m])~ ~ abundance ~ (per ~ km^2))
+                legTOP = paste("Model prediction of ",formulas$Species[m], " abundance (per km^2), ",seasonsInd$seasonName[seas],sep = "")
                 
                 
                 ################# create map ####################
@@ -780,7 +746,7 @@ for (m in c(2)) { # length(formulas$model_index)
               }
 
             }
-            rm(seas,predictedSR,ExplVariableSR,op,g,var,cv)
+            rm(seas,g,var,cv)
 
             ###################################
             # Coefficients barplots Conditional #
@@ -899,11 +865,15 @@ for (m in c(2)) { # length(formulas$model_index)
             # Random walk metropolis sampling #
             #########################################################
 
-
-            
             filePath = paste(Path,"Plots/",ModelRefNo, sep = "")
-            summaryTable$metropEqual[st]=metropRW(model,filePath)
             
+            metropolisOut=metropRW(model,filePath)
+            summaryTable$metropEqual[st]=metropolisOut$isEqual
+            
+            write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+            
+            print(metropolisOut$timer)
+
             #################################################################
             # Save Model #
             #################################################################
@@ -922,8 +892,24 @@ for (m in c(2)) { # length(formulas$model_index)
             # k-Fold Cross-Validation (k = 5) #
             #######################################
             
-            meanSqErrs=kFoldCV(sppColRef,dataset,NameFull,k=5,formulas)
+            k=5
             
+            meanSqErrs=kFoldCV(sppColRef,dataset,NameFull,k,formulas)
+            
+            summaryTable$MeansqrErr[st]=meanSqErrs$meanMeanSqrErr
+            
+            rm(sqrErrStText)
+            
+            for (fill in 1:k) {
+              sqrErrStText=paste("summaryTable$sqrErr",fill,"[st]=round(meanSqErrs$meanSqrErr[",fill,"],digits = 2)",sep = "")
+              eval(parse(text = sqrErrStText))
+            }
+            
+            
+            write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+            
+            
+            rm(fill,k,meanSqErrs)
             
             rm(NameFull,NameAbbrv)
             
