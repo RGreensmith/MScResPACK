@@ -109,7 +109,7 @@ st=1
 # fam=1
 # link=1
 
-for (m in c(2)) { # length(formulas$model_index)
+for (m in c(3:4)) { # length(formulas$model_index)
 
   Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
              formulas$Model_Type[m],"/",sep = "")
@@ -166,7 +166,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
   #####################################################################
 
-  for (effort in 1:length(effortVec)) { # :length(effortVec)
+  for (effort in c(1)) { # :length(effortVec)
 
     if (length(grep("dummy",effortVec[effort],ignore.case = FALSE))>0) {
       
@@ -184,9 +184,9 @@ for (m in c(2)) { # length(formulas$model_index)
     }
 
 
-    for (fam in 1:length(fams)) {
+    for (fam in c(1)) {
 
-      for (link in 1:length(linkTypes)) {
+      for (link in c(1)) {
 
         NameFull=formulas$Species[m]
         NameAbbrv=formulas$dataset_name[m]
