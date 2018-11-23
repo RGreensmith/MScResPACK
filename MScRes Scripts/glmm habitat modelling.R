@@ -519,14 +519,14 @@ for (m in c(13:14)) { # length(formulas$model_index)
             # Bubble plot of residuals #
             ############################
             
-            dtst=dtst[,-1]
-            coordinates(dtst)=c("Lon","Lat")
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
-            print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
-            dev.off()
-            
-            rm(dtst)
+            # dtst=dtst[,-1]
+            # coordinates(dtst)=c("Lon","Lat")
+            # 
+            # png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
+            # print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
+            # dev.off()
+            # 
+            # rm(dtst)
             
             ##############################################
             # Residuals density #
