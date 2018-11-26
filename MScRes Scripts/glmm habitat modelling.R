@@ -109,7 +109,7 @@ st=1
 # fam=1
 # link=1
 
-for (m in c(2)) { # length(formulas$model_index)
+for (m in c(13:14)) { # length(formulas$model_index)
 
   Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
              formulas$Model_Type[m],"/",sep = "")
@@ -166,7 +166,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
   #####################################################################
 
-  for (effort in 1:length(effortVec)) { # :length(effortVec)
+  for (effort in c(1)) { # :length(effortVec)
 
     if (length(grep("dummy",effortVec[effort],ignore.case = FALSE))>0) {
       
@@ -184,9 +184,9 @@ for (m in c(2)) { # length(formulas$model_index)
     }
 
 
-    for (fam in 1:length(fams)) {
+    for (fam in c(1)) {
 
-      for (link in 1:length(linkTypes)) {
+      for (link in c(1)) {
 
         NameFull=formulas$Species[m]
         NameAbbrv=formulas$dataset_name[m]
@@ -481,13 +481,13 @@ for (m in c(2)) { # length(formulas$model_index)
             r=residuals(model)
             # default is type = "response", pearson residuals aren't compatible with zero-inflation models yet
 
-            dtst= data.frame(r, dataset$Lon, dataset$Lat,dataset$lonlat)
-
-            colnames(dtst)=c("r","Lon","Lat","lonlat")
-
-            dtst=ddply(dtst,"lonlat",numcolwise(mean))
-
-            residualsR = rastFun(dtst$Lon,dtst$Lat,dtst$r,overZero = FALSE)
+            # dtst= data.frame(r, dataset$Lon, dataset$Lat,dataset$lonlat)
+            # 
+            # colnames(dtst)=c("r","Lon","Lat","lonlat")
+            # 
+            # dtst=ddply(dtst,"lonlat",numcolwise(mean))
+            # 
+            # residualsR = rastFun(dtst$Lon,dtst$Lat,dtst$r,overZero = FALSE)
             
             
 
@@ -519,14 +519,14 @@ for (m in c(2)) { # length(formulas$model_index)
             # Bubble plot of residuals #
             ############################
             
-            dtst=dtst[,-1]
-            coordinates(dtst)=c("Lon","Lat")
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
-            print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
-            dev.off()
-            
-            rm(dtst)
+            # dtst=dtst[,-1]
+            # coordinates(dtst)=c("Lon","Lat")
+            # 
+            # png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
+            # print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
+            # dev.off()
+            # 
+            # rm(dtst)
             
             ##############################################
             # Residuals density #
@@ -632,38 +632,38 @@ for (m in c(2)) { # length(formulas$model_index)
             ##################################
             # Map of predicted and residuals #
             ##################################
-            
-            predictedR = rastFun(dataset$Lon,dataset$Lat,p,overZero = FALSE)
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " Maps of p and r.png", sep = ""),width=1000,height=1000)
-            layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
-            plot(r~p, main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),xlab = "Predicted", ylab="Residuals")
-            plot(residualsR, main = paste(ModelRefFull,", Residuals",sep = ""))
-            plot(predictedR, main = paste(ModelRefFull,", Predicted",sep = ""))
-            
-            dev.off()
-            
-            rm(residualsR,predictedR)
+            # 
+            # predictedR = rastFun(dataset$Lon,dataset$Lat,p,overZero = FALSE)
+            # 
+            # png(filename=paste(Path,"Plots/",ModelRefNo, " Maps of p and r.png", sep = ""),width=1000,height=1000)
+            # layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
+            # plot(r~p, main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),xlab = "Predicted", ylab="Residuals")
+            # plot(residualsR, main = paste(ModelRefFull,", Residuals",sep = ""))
+            # plot(predictedR, main = paste(ModelRefFull,", Predicted",sep = ""))
+            # 
+            # dev.off()
+            # 
+            # rm(residualsR,predictedR)
 
             ############################
             # Bubble plot of predicted #
             ############################
             
-            dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat)
-            
-            colnames(dtst)=c("p","Lon","Lat","lonlat")
-            
-            dtst=ddply(dtst,"lonlat",numcolwise(mean))
-            
-            dtst=dtst[,-1]
-
-            coordinates(dtst)=c("Lon","Lat")
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
-            print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
-            dev.off()
-            
-            rm(dtst)
+            # dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat)
+            # 
+            # colnames(dtst)=c("p","Lon","Lat","lonlat")
+            # 
+            # dtst=ddply(dtst,"lonlat",numcolwise(mean))
+            # 
+            # dtst=dtst[,-1]
+            # 
+            # coordinates(dtst)=c("Lon","Lat")
+            # 
+            # png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
+            # print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
+            # dev.off()
+            # 
+            # rm(dtst)
             
             ##################################
             # Bubble map of predicted #
