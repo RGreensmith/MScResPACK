@@ -59,10 +59,10 @@ library(MScResPACK)
 ##################################################################
 
 rm(list=ls())
-wd="C:/Users/Rose/Documents/Rose/"
+# wd="C:/Users/Rose/Documents/Rose/"
 # wd="C:/Users/Tom/Documents/Rose_MScRes/Recent work backup/"
 # wd="C:/Users/Laptop User/Documents/"
-# wd="M:/My Documents/Work/"
+wd="M:/My Documents/Work/"
 setwd(wd)
 
 ##################################################################
@@ -104,12 +104,12 @@ linkTypes=c("log")
 #### LOOPS THROUGH EFFORT FIRST BUT MODEL REF IS STILL: formulas$model_index[m],formulas$Model_number[m],".",fam,".",effort ####
 
 st=1
-m=1
-effort=1
-fam=1
-link=1
+# m=1
+# effort=1
+# fam=1
+# link=1
 
-for (m in c(2)) { # length(formulas$model_index)
+for (m in c(13:14)) { # length(formulas$model_index)
 
   Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
              formulas$Model_Type[m],"/",sep = "")
@@ -166,7 +166,7 @@ for (m in c(2)) { # length(formulas$model_index)
 
   #####################################################################
 
-  for (effort in 1:length(effortVec)) { # :length(effortVec)
+  for (effort in c(1)) { # :length(effortVec)
 
     if (length(grep("dummy",effortVec[effort],ignore.case = FALSE))>0) {
       
@@ -184,9 +184,9 @@ for (m in c(2)) { # length(formulas$model_index)
     }
 
 
-    for (fam in 1:length(fams)) {
+    for (fam in c(1)) {
 
-      for (link in 1:length(linkTypes)) {
+      for (link in c(1)) {
 
         NameFull=formulas$Species[m]
         NameAbbrv=formulas$dataset_name[m]
@@ -481,13 +481,13 @@ for (m in c(2)) { # length(formulas$model_index)
             r=residuals(model)
             # default is type = "response", pearson residuals aren't compatible with zero-inflation models yet
 
-            dtst= data.frame(r, dataset$Lon, dataset$Lat,dataset$lonlat)
-
-            colnames(dtst)=c("r","Lon","Lat","lonlat")
-
-            dtst=ddply(dtst,"lonlat",numcolwise(mean))
-
-            residualsR = rastFun(dtst$Lon,dtst$Lat,dtst$r,overZero = FALSE)
+            # dtst= data.frame(r, dataset$Lon, dataset$Lat,dataset$lonlat)
+            # 
+            # colnames(dtst)=c("r","Lon","Lat","lonlat")
+            # 
+            # dtst=ddply(dtst,"lonlat",numcolwise(mean))
+            # 
+            # residualsR = rastFun(dtst$Lon,dtst$Lat,dtst$r,overZero = FALSE)
             
             
 
@@ -519,14 +519,14 @@ for (m in c(2)) { # length(formulas$model_index)
             # Bubble plot of residuals #
             ############################
             
-            dtst=dtst[,-1]
-            coordinates(dtst)=c("Lon","Lat")
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
-            print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
-            dev.off()
-            
-            rm(dtst)
+            # dtst=dtst[,-1]
+            # coordinates(dtst)=c("Lon","Lat")
+            # 
+            # png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of residuals.png", sep = ""),width=1000,height=1000)
+            # print(bubble(dtst, "r", col = c("grey","blue"),  main = paste(ModelRefFull,", Residuals",sep = "")))
+            # dev.off()
+            # 
+            # rm(dtst)
             
             ##############################################
             # Residuals density #
@@ -632,38 +632,38 @@ for (m in c(2)) { # length(formulas$model_index)
             ##################################
             # Map of predicted and residuals #
             ##################################
-            
-            predictedR = rastFun(dataset$Lon,dataset$Lat,p,overZero = FALSE)
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " Maps of p and r.png", sep = ""),width=1000,height=1000)
-            layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
-            plot(r~p, main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),xlab = "Predicted", ylab="Residuals")
-            plot(residualsR, main = paste(ModelRefFull,", Residuals",sep = ""))
-            plot(predictedR, main = paste(ModelRefFull,", Predicted",sep = ""))
-            
-            dev.off()
-            
-            rm(residualsR,predictedR)
+            # 
+            # predictedR = rastFun(dataset$Lon,dataset$Lat,p,overZero = FALSE)
+            # 
+            # png(filename=paste(Path,"Plots/",ModelRefNo, " Maps of p and r.png", sep = ""),width=1000,height=1000)
+            # layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
+            # plot(r~p, main = paste(ModelRefFull,", Residuals ~ Predicted",sep = ""),xlab = "Predicted", ylab="Residuals")
+            # plot(residualsR, main = paste(ModelRefFull,", Residuals",sep = ""))
+            # plot(predictedR, main = paste(ModelRefFull,", Predicted",sep = ""))
+            # 
+            # dev.off()
+            # 
+            # rm(residualsR,predictedR)
 
             ############################
             # Bubble plot of predicted #
             ############################
             
-            dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat)
-            
-            colnames(dtst)=c("p","Lon","Lat","lonlat")
-            
-            dtst=ddply(dtst,"lonlat",numcolwise(mean))
-            
-            dtst=dtst[,-1]
-
-            coordinates(dtst)=c("Lon","Lat")
-            
-            png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
-            print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
-            dev.off()
-            
-            rm(dtst)
+            # dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$lonlat)
+            # 
+            # colnames(dtst)=c("p","Lon","Lat","lonlat")
+            # 
+            # dtst=ddply(dtst,"lonlat",numcolwise(mean))
+            # 
+            # dtst=dtst[,-1]
+            # 
+            # coordinates(dtst)=c("Lon","Lat")
+            # 
+            # png(filename=paste(Path,"Plots/",ModelRefNo, " bubble plot of predicted.png", sep = ""),width=1000,height=1000)
+            # print(bubble(dtst, "p", col = c("grey","purple"),  main = paste(ModelRefFull,", Predicted",sep = "")))
+            # dev.off()
+            # 
+            # rm(dtst)
             
             ##################################
             # Bubble map of predicted #
@@ -694,59 +694,59 @@ for (m in c(2)) { # length(formulas$model_index)
             ##################################
             # Map of ### JUST PREDICTED ### by SEASON over contour of each expl variable except substrate #
             ##################################
-
-            for (seas in 1:length(seasonsInd$seasonRef)) { # season index
-
-              ###################################################
-              # subsetting dataset (p lon lat season) by season #
-              ###################################################
-
-              dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$Season)
-              dtst=subset(dtst,dtst$dataset.Season == seasonsInd$seasonName[seas])
-              
-              topmapDF= dtst[,1:3]
-              names(topmapDF)=c("Val","Lon","Lat")
-              
-
-              for (cv in 1:length(condVars[[1]])) {
-
-                ############################################################
-                # Create season plots #
-                ############################################################
-
-                for (g in 1:length(Ovexpl$Abbrv)) {
-                  if (condVars[[1]][cv]==Ovexpl$Abbrv[g]) {
-                    var=Ovexpl$Expl_Full[g]
-                  }
-                }
-
-                ################## arguments #####################
-                
-                fileNm = paste(strsplit(condVars[[1]][cv],"_")[[1]][1],"_",seasonsInd$seasonName[seas],"_ras",sep = "")
-                leglab = var
-                baseRefsDf = data.frame(fileNm,leglab)
-                
-                wdExtension = paste(Path,"Plots/predicted maps by season/",sep = "")
-                
-                mapName = paste(ModelRefNo, " P ",
-                                condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],sep = "")
-                
-                legTOP = paste("Model prediction of ",formulas$Species[m], " abundance (per km^2), ",seasonsInd$seasonName[seas],sep = "")
-                
-                
-                ################# create map ####################
-                
-                mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
-                       basemapOutline = "Env_outline",
-                       basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
-                       mapName = mapName,countOnly = FALSE,bubble = TRUE)
-                
-                ###################################################
-
-              }
-
-            }
-            rm(seas,g,var,cv)
+# 
+#             for (seas in 1:length(seasonsInd$seasonRef)) { # season index
+# 
+#               ###################################################
+#               # subsetting dataset (p lon lat season) by season #
+#               ###################################################
+# 
+#               dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$Season)
+#               dtst=subset(dtst,dtst$dataset.Season == seasonsInd$seasonName[seas])
+#               
+#               topmapDF= dtst[,1:3]
+#               names(topmapDF)=c("Val","Lon","Lat")
+#               
+# 
+#               for (cv in 1:length(condVars[[1]])) {
+# 
+#                 ############################################################
+#                 # Create season plots #
+#                 ############################################################
+# 
+#                 for (g in 1:length(Ovexpl$Abbrv)) {
+#                   if (condVars[[1]][cv]==Ovexpl$Abbrv[g]) {
+#                     var=Ovexpl$Expl_Full[g]
+#                   }
+#                 }
+# 
+#                 ################## arguments #####################
+#                 
+#                 fileNm = paste(strsplit(condVars[[1]][cv],"_")[[1]][1],"_",seasonsInd$seasonName[seas],"_ras",sep = "")
+#                 leglab = var
+#                 baseRefsDf = data.frame(fileNm,leglab)
+#                 
+#                 wdExtension = paste(Path,"Plots/predicted maps by season/",sep = "")
+#                 
+#                 mapName = paste(ModelRefNo, " P ",
+#                                 condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],sep = "")
+#                 
+#                 legTOP = paste("Model prediction of ",formulas$Species[m], " abundance (per km^2), ",seasonsInd$seasonName[seas],sep = "")
+#                 
+#                 
+#                 ################# create map ####################
+#                 
+#                 mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
+#                        basemapOutline = "Env_outline",
+#                        basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
+#                        mapName = mapName,countOnly = FALSE,bubble = TRUE)
+#                 
+#                 ###################################################
+# 
+#               }
+# 
+#             }
+#             rm(seas,g,var,cv)
 
             ###################################
             # Coefficients barplots Conditional #
