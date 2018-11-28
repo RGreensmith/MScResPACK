@@ -151,10 +151,19 @@ for (m in c(13:14)) { # length(formulas$model_index)
     # Creating Summary table #
     ###################################
 
-    tableLength=tableLenFun(fams,effortVec)
-    summaryTable=summaryTblFun(tableLength)
-    rm(tableLength)
-
+    summaryTable = try(read.csv(paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""), stringsAsFactors=FALSE))
+    
+    if (exists("summaryTable")==FALSE && typeof(summaryTable)!="list") {
+      
+      tableLength=tableLenFun(fams,effortVec)
+      summaryTable=summaryTblFun(tableLength)
+      rm(tableLength)
+      
+    }
+    
+    write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+    
+    
     ############################################
     # Print model section status #
     ############################################
