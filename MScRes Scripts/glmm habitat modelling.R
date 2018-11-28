@@ -109,7 +109,7 @@ st=1
 # fam=1
 # link=1
 
-for (m in c(13:14)) { # length(formulas$model_index)
+for (m in c(13)) { # length(formulas$model_index)
 
   Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
              formulas$Model_Type[m],"/",sep = "")
@@ -153,7 +153,7 @@ for (m in c(13:14)) { # length(formulas$model_index)
 
     summaryTable = try(read.csv(paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""), stringsAsFactors=FALSE))
     
-    if (exists("summaryTable")==FALSE && typeof(summaryTable)!="list") {
+    if (exists("summaryTable")==FALSE && typeof(summaryTable)!="list" || length(summaryTable) <2) {
       
       tableLength=tableLenFun(fams,effortVec)
       summaryTable=summaryTblFun(tableLength)
