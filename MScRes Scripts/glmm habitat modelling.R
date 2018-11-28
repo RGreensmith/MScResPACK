@@ -1,28 +1,28 @@
 ##################################################################
                       # Packages #
 #################################################################
-
-install.packages("plotrix")
-install.packages("corrplot")
-install.packages("gstat")
-install.packages("sp")
-install.packages("stringr")
-install.packages("plyr")
-install.packages("glmmTMB")
-install.packages("raster")
-install.packages("nlme")
-install.packages("RColorBrewer")
-install.packages("lattice")
-install.packages("caTools")
-install.packages("MCMCpack")
-install.packages("coda")
-install.packages("ggplot2")
-install.packages("reshape2")
-install.packages("emmeans")
-install.packages("car")
-install.packages("devtools")
-
-devtools::install_github("RGreensmith/MScResPACK",subdir = "MScResPACK")
+# 
+# install.packages("plotrix")
+# install.packages("corrplot")
+# install.packages("gstat")
+# install.packages("sp")
+# install.packages("stringr")
+# install.packages("plyr")
+# install.packages("glmmTMB")
+# install.packages("raster")
+# install.packages("nlme")
+# install.packages("RColorBrewer")
+# install.packages("lattice")
+# install.packages("caTools")
+# install.packages("MCMCpack")
+# install.packages("coda")
+# install.packages("ggplot2")
+# install.packages("reshape2")
+# install.packages("emmeans")
+# install.packages("car")
+# install.packages("devtools")
+# 
+# devtools::install_github("RGreensmith/MScResPACK",subdir = "MScResPACK")
 
 
 library(MCMCpack)
@@ -868,11 +868,11 @@ for (m in c(13:14)) { # length(formulas$model_index)
             filePath = paste(Path,"Plots/",ModelRefNo, sep = "")
             
             metropolisOut=metropRW(model,filePath)
-            summaryTable$metropEqual[st]=metropolisOut$isEqual
+            summaryTable$metropEqual[st]=metropolisOut[[2]]
             
             write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
             
-            print(metropolisOut$timer)
+            print(metropolisOut[[3]])
 
             #################################################################
             # Save Model #
