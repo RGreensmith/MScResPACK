@@ -234,6 +234,11 @@ for (m in c(13:14)) { # length(formulas$model_index)
 
 
           if (model$sdr$pdHess==TRUE) {
+            
+            nm=paste(formulas$model_index[m],formulas$Model_number[m],"_",fam,"_",link,"_",effort,sep = "")
+            save(model,file=paste(Path,"Model objects/",nm, sep = ""))
+            
+            rm(nm)
 
             ModelRefNo=paste(formulas$model_index[m],formulas$Model_number[m],".",fam,".",link,".",effort,sep = "")
             ModelRefFull=paste(formulas$Species[m],", model no. ",formulas$Model_number[m],".",fam,".",link,".",effort,sep = "")
@@ -887,10 +892,9 @@ for (m in c(13:14)) { # length(formulas$model_index)
             # Save Model #
             #################################################################
 
-            nm=paste(formulas$model_index[m],formulas$Model_number[m],"_",fam,"_",link,"_",effort,sep = "")
-            save(model,file=paste(Path,"Model objects/",nm, sep = ""))
+           
 
-            rm(ModelRefNo,nm,condVars,ziVars)
+            rm(ModelRefNo,condVars,ziVars)
             
             if (exists("model")==TRUE) {
               rm(model)
