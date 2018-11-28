@@ -158,10 +158,10 @@ for (m in c(13:14)) { # length(formulas$model_index)
       tableLength=tableLenFun(fams,effortVec)
       summaryTable=summaryTblFun(tableLength)
       rm(tableLength)
-      
+      write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
     }
     
-    write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+    
     
     
     ############################################
