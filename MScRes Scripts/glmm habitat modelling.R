@@ -109,7 +109,7 @@ st=1
 # fam=1
 # link=1
 
-for (m in c(13)) { # length(formulas$model_index)
+for (m in c(15)) { # length(formulas$model_index)
 
   Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
              formulas$Model_Type[m],"/",sep = "")
@@ -147,22 +147,6 @@ for (m in c(13)) { # length(formulas$model_index)
 
     effortVec=effectExtensFun(formulas,m)
 
-    ####################################
-    # Creating Summary table #
-    ###################################
-
-    summaryTable = try(read.csv(paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""), stringsAsFactors=FALSE))
-    
-    if (exists("summaryTable")==FALSE && typeof(summaryTable)!="list" || length(summaryTable) <2) {
-      
-      tableLength=tableLenFun(fams,effortVec)
-      summaryTable=summaryTblFun(tableLength)
-      rm(tableLength)
-      write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
-    }
-    
-    
-    
     
     ############################################
     # Print model section status #
@@ -176,7 +160,25 @@ for (m in c(13)) { # length(formulas$model_index)
   #####################################################################
 
   for (effort in c(1)) { # :length(effortVec)
-
+    
+    ####################################
+    # Creating Summary table #
+    ###################################
+    
+    if (formulas$Last_or_first_model_of_section[m]=="first") {
+      
+      summaryTable = try(read.csv(paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""), stringsAsFactors=FALSE))
+      
+      if (exists("summaryTable")==FALSE && typeof(summaryTable)!="list" || length(summaryTable) <2) {
+        
+        tableLength=tableLenFun(fams,effortVec)
+        summaryTable=summaryTblFun(tableLength)
+        rm(tableLength)
+        write.csv(summaryTable, file=paste(Path,formulas$model_index[m],effort, " summary table.csv", sep = ""))
+      }
+      
+    }
+   
     if (length(grep("dummy",effortVec[effort],ignore.case = FALSE))>0) {
       
       if (length(grep("ar1",effortVec[effort],ignore.case = FALSE))>0) {
