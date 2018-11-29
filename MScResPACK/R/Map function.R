@@ -21,7 +21,7 @@
 #'
 #' @param mapName (character) file name
 #'
-#' @param countOnly (logical, TRUE/FALSE) for maps where no zeros are desired, if TRUE, mapFun subsets values > 0 (for raster)
+#' @param countOnly (logical, TRUE/FALSE) for maps where no zeros are desired, if TRUE, mapFun subsets values > 0 (for raster) and for bubble plot, plots zeros as light blue.
 #'
 #' @param bubble (logical, TRUE/FALSE) default = TRUE, should top map be bubble or normal raster
 #'
@@ -43,6 +43,14 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   if (mapsVis == "top" || mapsVis == "both") {
 
     if (isTRUE(bubble)) {
+      
+      if (isTRUE(countOnly)) {
+        
+        zeros=subset(topmapDF,topmapDF$Val==0)
+        topmapDF=subset(topmapDF,topmapDF$Val>0)
+        
+      }
+      
       topmapDF=topmapDF[order(topmapDF$Val),] 
 
       cex=scaleFun(topmapDF$Val,a=0.5,b=4)
@@ -206,7 +214,11 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     if (mapsVis == "both") {
 
       if (isTRUE(bubble)) {
-
+        
+        if (isTRUE(countOnly)) {
+          points(zeros$Lon,zeros$Lat,cex = 0.2,col = "lightblue",pch = 19)
+        }
+        
         points(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP,pch = 19)
         
       } else {
@@ -224,7 +236,11 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
     } else if (mapsVis == "top") {
 
       if (isTRUE(bubble)) {
-
+        
+        if (isTRUE(countOnly)) {
+          points(zeros$Lon,zeros$Lat,cex = 0.2,col = "lightblue",pch = 19)
+        }
+        
         plot(topmapDF$Lon,topmapDF$Lat,cex = cex,col = colTOP, pch = 19)
 
       } else {
