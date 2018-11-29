@@ -15,9 +15,31 @@
 
 seasonsIndFun = function(dataset) {
 
-  seasons=unique(dataset$Season)
-  seasonsInd=data.frame(seasons,c(2,3,4,1))
-  names(seasonsInd)=c("seasonName","seasonRef")
+  seasonName=unique(dataset$Season)
+  seasonRef = rep(NA, times = length(seasons))
+  seasonsInd=data.frame(seasonName,seasonRef)
+  
+  for (seas in 1:length(seasonsInd$seasonName)) {
+    
+    if (seasonsInd$seasonName[seas]=="Spring") { 
+      
+      seasonsInd$seasonRef[seas]=1
+      
+    } else if (seasonsInd$seasonName[seas]=="Summer") {
+      
+      seasonsInd$seasonRef[seas]=2
+      
+    } else if (seasonsInd$seasonName[seas]=="Autumn") {
+      
+      seasonsInd$seasonRef[seas]=3
+      
+    } else if (seasonsInd$seasonName[seas]=="Winter") {
+      
+      seasonsInd$seasonRef[seas]=4
+      
+    }
+  }
+  
   seasonsInd=seasonsInd[order(seasonsInd$seasonRef),]
   seasonsInd$seasonName=as.character(seasonsInd$seasonName)
 
