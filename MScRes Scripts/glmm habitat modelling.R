@@ -60,9 +60,9 @@ library(MScResPACK)
 
 rm(list=ls())
 # wd="C:/Users/Rose/Documents/Rose/"
-# wd="C:/Users/Tom/Documents/Rose_MScRes/Recent work backup/"
+wd="C:/Users/Tom/Documents/Rose_MScRes/Recent work backup/"
 # wd="C:/Users/Laptop User/Documents/"
-wd="M:/My Documents/Work/"
+# wd="M:/My Documents/Work/"
 setwd(wd)
 
 ##################################################################
@@ -195,7 +195,7 @@ for (m in c(15)) { # length(formulas$model_index)
     }
 
 
-    for (fam in c(1)) {
+    for (fam in c(1:3)) {
 
       for (link in c(1)) {
 
