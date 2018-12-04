@@ -16,7 +16,7 @@
 seasonsIndFun = function(dataset) {
 
   seasonName=unique(dataset$Season)
-  seasonRef = rep(NA, times = length(seasons))
+  seasonRef = rep(NA, times = length(seasonName))
   seasonsInd=data.frame(seasonName,seasonRef)
   
   for (seas in 1:length(seasonsInd$seasonName)) {
