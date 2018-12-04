@@ -790,7 +790,7 @@ for (m in c(15)) { # length(formulas$model_index)
             # full count map (not split by season) over contour of each expl variable #
             #################
             
-            topmapDF= data.frame(dataset[formulas$dataset_name[m]], dataset$Lon, dataset$Lat)
+            topmapDF= data.frame(p, dataset$Lon, dataset$Lat)
             names(topmapDF)=c("Val","Lon","Lat")
             
             for (envVar in 1:length(OvexplMaps$Abbrv)) {
