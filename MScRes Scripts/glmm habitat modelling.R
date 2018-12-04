@@ -60,9 +60,9 @@ library(MScResPACK)
 
 rm(list=ls())
 # wd="C:/Users/Rose/Documents/Rose/"
-wd="C:/Users/Tom/Documents/Rose_MScRes/Recent work backup/"
+# wd="C:/Users/Tom/Documents/Rose_MScRes/Recent work backup/"
 # wd="C:/Users/Laptop User/Documents/"
-# wd="M:/My Documents/Work/"
+wd="M:/My Documents/Work/"
 setwd(wd)
 
 ##################################################################
@@ -122,7 +122,7 @@ st=1
 # fam=1
 # link=1
 
-for (m in c(15)) { # length(formulas$model_index)
+for (m in c(13)) { # length(formulas$model_index)
 
   Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
              formulas$Model_Type[m],"/",sep = "")
@@ -172,7 +172,7 @@ for (m in c(15)) { # length(formulas$model_index)
 
   #####################################################################
 
-  for (effort in c(1)) { # :length(effortVec)
+  for (effort in c(2)) { # :length(effortVec)
     
     ####################################
     # Creating Summary table #
