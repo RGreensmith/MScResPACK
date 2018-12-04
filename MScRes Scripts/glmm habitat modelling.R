@@ -77,6 +77,19 @@ formulas = MScResPACK::formulas
 Ovexpl = MScResPACK::Ovexpl
 covFunTable = MScResPACK::covFunTable
 
+OvexplMaps = Ovexpl
+OvexplMaps$Abbrv=unlist(strsplit(OvexplMaps$Abbrv,"_s"))
+OvexplMaps=OvexplMaps[-16,]
+OvexplMaps=OvexplMaps[-10,]
+OvexplMaps=OvexplMaps[-14,]
+OvexplMaps$Trans=rep(NA, times = length(OvexplMaps$Abbrv))
+t="10"
+s="sqrt"
+OvexplMaps$Trans=c(t,t,s,t,t,s,t,t,s,t,t,s,t)
+OvexplMaps$type=rep(NA, times = length(OvexplMaps$Abbrv))
+d = "dynamic"
+s = "static"
+OvexplMaps$type=c(d,d,d,d,s,s,s,s,d,d,d,d,d)
 
 ####################################
 # Families #
@@ -708,61 +721,128 @@ for (m in c(15)) { # length(formulas$model_index)
 
 
             ##################################
-            # Map of ### JUST PREDICTED ### by SEASON over contour of each expl variable except substrate #
+            # Map of ### JUST PREDICTED ### by SEASON over contour of each expl variable #
             ##################################
-# 
-#             for (seas in 1:length(seasonsInd$seasonRef)) { # season index
-# 
-#               ###################################################
-#               # subsetting dataset (p lon lat season) by season #
-#               ###################################################
-# 
-#               dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$Season)
-#               dtst=subset(dtst,dtst$dataset.Season == seasonsInd$seasonName[seas])
-#               
-#               topmapDF= dtst[,1:3]
-#               names(topmapDF)=c("Val","Lon","Lat")
-#               
-# 
-#               for (cv in 1:length(condVars[[1]])) {
-# 
-#                 ############################################################
-#                 # Create season plots #
-#                 ############################################################
-# 
-#                 for (g in 1:length(Ovexpl$Abbrv)) {
-#                   if (condVars[[1]][cv]==Ovexpl$Abbrv[g]) {
-#                     var=Ovexpl$Expl_Full[g]
-#                   }
-#                 }
-# 
-#                 ################## arguments #####################
-#                 
-#                 fileNm = paste(strsplit(condVars[[1]][cv],"_")[[1]][1],"_",seasonsInd$seasonName[seas],"_ras",sep = "")
-#                 leglab = var
-#                 baseRefsDf = data.frame(fileNm,leglab)
-#                 
-#                 wdExtension = paste(Path,"Plots/predicted maps by season/",sep = "")
-#                 
-#                 mapName = paste(ModelRefNo, " P ",
-#                                 condVars[[1]][cv]," s.",seas," ",seasonsInd$seasonName[seas],sep = "")
-#                 
-#                 legTOP = paste("Model prediction of ",formulas$Species[m], " abundance (per km^2), ",seasonsInd$seasonName[seas],sep = "")
-#                 
-#                 
-#                 ################# create map ####################
-#                 
-#                 mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
-#                        basemapOutline = "Env_outline",
-#                        basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
-#                        mapName = mapName,countOnly = FALSE,bubble = TRUE)
-#                 
-#                 ###################################################
-# 
-#               }
-# 
-#             }
-#             rm(seas,g,var,cv)
+            seasonsInd=unique(dataset$Season)
+            
+            for (seas in 1:length(seasonsInd)) { # season index
+              
+              ###################################################
+              # subsetting dataset (p lon lat season) by season #
+              ###################################################
+              
+              dtst= data.frame(p, dataset$Lon, dataset$Lat,dataset$Season)
+              dtst=subset(dtst,dtst$dataset.Season == seasonsInd[seas])
+              
+              
+              topmapDF = dtst[1:3]
+              names(topmapDF)=c("Val","Lon","Lat")
+              
+              rm(dtst)
+              
+              for (envVar in 1:length(OvexplMaps$Abbrv)) {
+                
+                
+                
+                ############################################################
+                # Create season plots #
+                ############################################################
+                
+                
+                ################## arguments #####################
+                
+                if (OvexplMaps$type[envVar]==d) {
+                  seasonRef=seasonsInd[seas]
+                } else {
+                  seasonRef="allYear"
+                }
+                
+                fileNm = paste(OvexplMaps$Abbrv[envVar],"_",seasonRef,"_raster",sep = "")
+                # fileNm = paste(OvexplMaps$Abbrv[envVar],"_","_ras",sep = "")
+                
+                leglab = OvexplMaps$Expl_Condensed[envVar]
+                baseRefsDf = data.frame(fileNm,leglab)
+                
+                wdExtension = paste(Path,"Plots/predicted maps by season/",sep = "")
+                
+                mapName = paste(formulas$dataset_name[m], " predicted ",seasonsInd[seas]," ",
+                                OvexplMaps$Abbrv[envVar]," ",seasonRef,sep = "")
+                
+                legTOP = paste("Predicted ",formulas$Species[m], " abundance (per km^2), ",seasonRef,sep = "")
+                
+                
+                ################# create map ####################
+                
+                mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
+                       basemapOutline = "Env_outline",
+                       basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
+                       mapName = mapName,countOnly = TRUE,bubble = TRUE)
+                
+                ###################################################
+                
+                
+                
+              }
+              
+            }
+            
+            ##############
+            # full count map (not split by season) over contour of each expl variable #
+            #################
+            
+            topmapDF= data.frame(p, dataset$Lon, dataset$Lat)
+            names(topmapDF)=c("Val","Lon","Lat")
+            
+            for (envVar in 1:length(OvexplMaps$Abbrv)) {
+              
+              ################## arguments #####################
+              
+              fileNm = paste(OvexplMaps$Abbrv[envVar],"_","allYear","_raster",sep = "")
+              leglab = OvexplMaps$Expl_Condensed[envVar]
+              baseRefsDf = data.frame(fileNm,leglab)
+              
+              wdExtension = paste(Path,"Plots/",sep = "")
+              
+              mapName = paste(formulas$dataset_name[m], " predict ",
+                              OvexplMaps$Abbrv[envVar],sep = "")
+              
+              legTOP = paste("Predicted ",formulas$Species[m], " abundance (per km^2), ",sep = "")
+              
+              
+              ################# create map ####################
+              
+              mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
+                     basemapOutline = "Env_outline",
+                     basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
+                     mapName = mapName,countOnly = TRUE,bubble = TRUE)
+              
+              
+              ###################################################
+              # Transformed env raster
+              ################## arguments #####################
+              
+              fileNm = paste(OvexplMaps$Abbrv[envVar],OvexplMaps$Trans[envVar],"_","allYear","_raster",sep = "")
+              leglab = paste(OvexplMaps$Expl_Condensed[envVar]," transformed",sep = "")
+              baseRefsDf = data.frame(fileNm,leglab)
+              
+              wdExtension = paste(Path,"Plots/",sep = "")
+              
+              mapName = paste(formulas$dataset_name[m], " count ",
+                              OvexplMaps$Abbrv[envVar]," transformed",sep = "")
+              
+              legTOP = paste(formulas$Species[m], " abundance (per km^2), ",sep = "")
+              
+              
+              ################# create map ####################
+              
+              mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
+                     basemapOutline = "Env_outline",
+                     basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
+                     mapName = mapName,countOnly = TRUE,bubble = TRUE)
+              
+              ###################################################
+              
+            }
 
             ###################################
             # Coefficients barplots Conditional #
