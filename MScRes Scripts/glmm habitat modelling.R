@@ -763,12 +763,12 @@ for (m in c(15)) { # length(formulas$model_index)
                 leglab = OvexplMaps$Expl_Condensed[envVar]
                 baseRefsDf = data.frame(fileNm,leglab)
                 
-                wdExtension = paste(Path,"Plots/maps by season/",sep = "")
+                wdExtension = paste(Path,"Plots/predicted maps by season/",sep = "")
                 
-                mapName = paste(formulas$dataset_name[m], " count ",seasonsInd[seas]," ",
+                mapName = paste(formulas$dataset_name[m], " predicted ",seasonsInd[seas]," ",
                                 OvexplMaps$Abbrv[envVar]," ",seasonRef,sep = "")
                 
-                legTOP = paste(formulas$Species[m], " abundance (per km^2), ",seasonRef,sep = "")
+                legTOP = paste("Predicted ",formulas$Species[m], " abundance (per km^2), ",seasonRef,sep = "")
                 
                 
                 ################# create map ####################
@@ -803,10 +803,10 @@ for (m in c(15)) { # length(formulas$model_index)
               
               wdExtension = paste(Path,"Plots/",sep = "")
               
-              mapName = paste(formulas$dataset_name[m], " count ",
+              mapName = paste(formulas$dataset_name[m], " predict ",
                               OvexplMaps$Abbrv[envVar],sep = "")
               
-              legTOP = paste(formulas$Species[m], " abundance (per km^2), ",sep = "")
+              legTOP = paste("Predicted ",formulas$Species[m], " abundance (per km^2), ",sep = "")
               
               
               ################# create map ####################
