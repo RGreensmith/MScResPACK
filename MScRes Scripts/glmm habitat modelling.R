@@ -172,7 +172,7 @@ for (m in c(13)) { # length(formulas$model_index)
 
   #####################################################################
 
-  for (effort in c(2)) { # :length(effortVec)
+  for (effort in c(1:3)) { # :length(effortVec)
     
     ####################################
     # Creating Summary table #
@@ -765,7 +765,7 @@ for (m in c(13)) { # length(formulas$model_index)
                 
                 wdExtension = paste(Path,"Plots/predicted maps by season/",sep = "")
                 
-                mapName = paste(formulas$dataset_name[m], " predicted ",seasonsInd[seas]," ",
+                mapName = paste(ModelRefNo, " predicted ",seasonsInd[seas]," ",
                                 OvexplMaps$Abbrv[envVar]," ",seasonRef,sep = "")
                 
                 legTOP = paste("Predicted ",formulas$Species[m], " abundance (per km^2), ",seasonRef,sep = "")
@@ -803,7 +803,7 @@ for (m in c(13)) { # length(formulas$model_index)
               
               wdExtension = paste(Path,"Plots/",sep = "")
               
-              mapName = paste(formulas$dataset_name[m], " predict ",
+              mapName = paste(ModelRefNo, " predict ",
                               OvexplMaps$Abbrv[envVar],sep = "")
               
               legTOP = paste("Predicted ",formulas$Species[m], " abundance (per km^2), ",sep = "")
@@ -827,10 +827,10 @@ for (m in c(13)) { # length(formulas$model_index)
               
               wdExtension = paste(Path,"Plots/",sep = "")
               
-              mapName = paste(formulas$dataset_name[m], " count ",
+              mapName = paste(ModelRefNo, " predict ",
                               OvexplMaps$Abbrv[envVar]," transformed",sep = "")
               
-              legTOP = paste(formulas$Species[m], " abundance (per km^2), ",sep = "")
+              legTOP = paste("Predicted ",formulas$Species[m], " abundance (per km^2), ",sep = "")
               
               
               ################# create map ####################
