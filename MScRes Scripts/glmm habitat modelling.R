@@ -152,9 +152,10 @@ for (m in c(13)) { # length(formulas$model_index)
     
     sppColRef=formulas$dataset_name[m]
     
-    originalResponse=dataset[,sppColRef]
-    
     dataset = capXtreme(formulas,m,dataset,"X")
+    
+    origResponseMin = min(dataset[,sppColRef])
+    origResponseMax = max(dataset[,sppColRef])
     
     ##########################
     # Re-scale response data #
@@ -784,7 +785,8 @@ for (m in c(13)) { # length(formulas$model_index)
                 mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                        basemapOutline = "Env_outline",
                        basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
-                       mapName = mapName,countOnly = TRUE,bubble = TRUE)
+                       mapName = mapName,countOnly = TRUE,bubble = TRUE,
+                       topLegReScale = c(origResponseMin,origResponseMax))
                 
                 ###################################################
                 
@@ -822,7 +824,8 @@ for (m in c(13)) { # length(formulas$model_index)
               mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                      basemapOutline = "Env_outline",
                      basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
-                     mapName = mapName,countOnly = TRUE,bubble = TRUE)
+                     mapName = mapName,countOnly = TRUE,bubble = TRUE,
+                     topLegReScale = c(origResponseMin,origResponseMax))
               
               
               ###################################################
@@ -846,7 +849,8 @@ for (m in c(13)) { # length(formulas$model_index)
               mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                      basemapOutline = "Env_outline",
                      basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
-                     mapName = mapName,countOnly = TRUE,bubble = TRUE)
+                     mapName = mapName,countOnly = TRUE,bubble = TRUE,
+                     topLegReScale = c(origResponseMin,origResponseMax))
               
               ###################################################
               
