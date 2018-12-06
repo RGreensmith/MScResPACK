@@ -7,7 +7,7 @@
 mapFun(baseRefsDf = NULL, legTOP = NULL, mapsVis = "both",
   basemapOutline = NULL, basemapDF = NULL, topmapDF = NULL,
   wdExtension = NULL, mapName = NULL, countOnly = FALSE,
-  bubble = TRUE)
+  bubble = TRUE, topLegReScale = NULL)
 }
 \arguments{
 \item{baseRefsDf}{(dataframe) dataframe of basemap refs; names to call in (df[,1] = "fileNm") and legend label (df[,2] = "leglab")}
@@ -26,9 +26,11 @@ mapFun(baseRefsDf = NULL, legTOP = NULL, mapsVis = "both",
 
 \item{mapName}{(character) file name}
 
-\item{countOnly}{(logical, TRUE/FALSE) for maps where no zeros are desired, if TRUE, mapFun subsets values > 0 (for raster)}
+\item{countOnly}{(logical, TRUE/FALSE) for maps where no zeros are desired, if TRUE, mapFun subsets values > 0 (for raster) and for bubble plot, plots zeros as light blue.}
 
 \item{bubble}{(logical, TRUE/FALSE) default = TRUE, should top map be bubble or normal raster}
+
+\item{topLegReScale}{vector of two values: c(a,b), where a is the minimum value to scale the legend to, and b is the maximum value to scale the legend to; MUST BE IN THAT ORDER. Default = NULL.}
 }
 \description{
 This function allows you to plot with max=2 rasters: basemap and top map, with options for contours.
