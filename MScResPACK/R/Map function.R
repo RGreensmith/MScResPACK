@@ -24,6 +24,8 @@
 #' @param countOnly (logical, TRUE/FALSE) for maps where no zeros are desired, if TRUE, mapFun subsets values > 0 (for raster) and for bubble plot, plots zeros as light blue.
 #'
 #' @param bubble (logical, TRUE/FALSE) default = TRUE, should top map be bubble or normal raster
+#' 
+#' @param topLegReScale vector of two values: c(a,b), where a is the minimum value to scale the legend to, and b is the maximum value to scale the legend to; MUST BE IN THAT ORDER. Default = NULL.
 #'
 #' @keywords cats
 #' @export
@@ -33,7 +35,7 @@
 ################################
 
 mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutline = NULL,basemapDF=NULL,topmapDF = NULL,
-                  wdExtension = NULL,mapName = NULL,countOnly = FALSE,bubble = TRUE) {
+                  wdExtension = NULL,mapName = NULL,countOnly = FALSE,bubble = TRUE, topLegReScale = NULL) {
 
 
   #####################################
@@ -75,8 +77,18 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   # create legend colour sequence #
   #################################
   
-  t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
-  lag=(max(topmapDF$Val)-min(topmapDF$Val))/15
+  if (is.null(topLegReScale)) {
+    
+    t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
+    lag=(max(topmapDF$Val)-min(topmapDF$Val))/15
+    
+  } else {
+    
+    t=seq(from = min(topLegReScale[1]), to = max(topLegReScale[2]), length.out = 15)
+    lag=(topLegReScale[2]-topLegReScale[1])/15
+    
+  }
+  
   cexLeg=scaleFun(t,a=0.5,b=4)
   g=rep(1,times = length(t))
   colLeg = rainbow(length(t),start = 0.675, end = 0.175)
@@ -288,12 +300,12 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
       
       for (legPos in 1:length(t)) {
         
-        text(1.05,t[legPos],paste(round(t[legPos],digits = 2)))
+        text(1.05,t[legPos],paste(round(t[legPos],digits = 0)))
         
       }
       
       mid=round(length(t)/2)
-      text(c(1-0.05),c(round(t[mid],digits = 2)),paste(legTOP),srt = 90,font = 2)
+      text(c(1-0.05),c(round(t[mid],digits = 0)),paste(legTOP),srt = 90,font = 2)
       
       xline=c(0.975,1.025)
       yline=c(min(t)-(lag*2),min(t)-(lag*2))
