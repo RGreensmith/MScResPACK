@@ -149,10 +149,18 @@ for (m in c(13)) { # length(formulas$model_index)
     ##################################
     # Cap extreme values #
     ##################################
-
-    dataset = capXtreme(formulas,m,dataset,"X")
-
+    
     sppColRef=formulas$dataset_name[m]
+    
+    originalResponse=dataset[,sppColRef]
+    
+    dataset = capXtreme(formulas,m,dataset,"X")
+    
+    ##########################
+    # Re-scale response data #
+    ##########################
+    
+    dataset[,sppColRef]=scaleFun(dataset[,sppColRef],a=0,b=1)
 
     ############################################
     # effects and extensions vector #
