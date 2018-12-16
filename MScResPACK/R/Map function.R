@@ -94,7 +94,14 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   colours=data.frame(colLeg,t)
   colours$colLeg=as.character(colours$colLeg)
   
+  # legs
   
+  legcexLeg=scaleFun(t,a=0.5,b=4)
+  legg=rep(1,times = length(legt))
+  legcolLeg = rainbow(length(legt),start = 0.675, end = 0.175)
+  
+  legcolours=data.frame(legcolLeg,legt)
+  legcolours$legcolLeg=as.character(legcolours$legcolLeg)
   ###########################################
 
   for (y in 1:length(baseRefsDf$fileNm)) {
@@ -293,22 +300,22 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
       
     
       
-      plot(legt~g,cex = cexLeg,col = colours$colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(min(t)-(lag*2),max(t)), 
+      plot(legt~legg,cex = legcexLeg,col = legcolours$legcolLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(min(legt)-(leglag*2),max(legt)), 
            frame.plot=FALSE, axes = FALSE, xaxt='n',yaxt='n', ann=FALSE)
       
-      for (legPos in 1:length(t)) {
+      for (legPos in 1:length(legt)) {
         
-        text(1.05,t[legPos],paste(round(t[legPos],digits = 2)))
+        text(1.05,legt[legPos],paste(round(legt[legPos],digits = 2)))
         
       }
       
-      mid=round(length(t)/2)
-      text(c(1-0.05),c(round(t[mid],digits = 2)),paste(legTOP),srt = 90,font = 2)
+      mid=round(length(legt)/2)
+      text(c(1-0.05),c(round(legt[mid],digits = 2)),paste(legTOP),srt = 90,font = 2)
       
       xline=c(0.975,1.025)
-      yline=c(min(t)-(lag*2),min(t)-(lag*2))
+      yline=c(min(legt)-(leglag*2),min(legt)-(leglag*2))
       lines(xline,y=yline,col = "forestgreen",lwd = 3)
-      text(1,min(t)-(lag),paste("Spatial Extent"),font = 2)
+      text(1,min(legt)-(leglag),paste("Spatial Extent"),font = 2)
     }
     
     ##################################
