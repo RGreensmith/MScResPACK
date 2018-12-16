@@ -77,15 +77,13 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
   # create legend colour sequence #
   #################################
   
-  if (is.null(topLegReScale)) {
+  t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
+  lag=(max(topmapDF$Val)-min(topmapDF$Val))/15
+  
+  if (is.null(topLegReScale)==FALSE) {
     
-    t=seq(from = min(topmapDF$Val), to = max(topmapDF$Val), length.out = 15)
-    lag=(max(topmapDF$Val)-min(topmapDF$Val))/15
-    
-  } else {
-    
-    t=seq(from = min(topLegReScale[1]), to = max(topLegReScale[2]), length.out = 15)
-    lag=(topLegReScale[2]-topLegReScale[1])/15
+    legt=seq(from = min(topLegReScale[1]), to = max(topLegReScale[2]), length.out = 15)
+    leglag=(topLegReScale[2]-topLegReScale[1])/15
     
   }
   
@@ -295,7 +293,7 @@ mapFun = function(baseRefsDf = NULL,legTOP = NULL,mapsVis = "both",basemapOutlin
       
     
       
-      plot(t~g,cex = cexLeg,col = colours$colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(min(t)-(lag*2),max(t)), 
+      plot(legt~g,cex = cexLeg,col = colours$colLeg,pch = 19,xlim = c(0.9,1.1),ylim = c(min(t)-(lag*2),max(t)), 
            frame.plot=FALSE, axes = FALSE, xaxt='n',yaxt='n', ann=FALSE)
       
       for (legPos in 1:length(t)) {

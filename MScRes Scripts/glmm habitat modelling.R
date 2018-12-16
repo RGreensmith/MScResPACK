@@ -726,7 +726,8 @@ for (m in c(13)) { # length(formulas$model_index)
             mapFun(baseRefsDf = baseRefsDf, legTOP = legTOP,mapsVis = "both",
                                basemapOutline = "Env_outline",
                                basemapDF = NULL, topmapDF = topmapDF, wdExtension = wdExtension,
-                               mapName = mapName,countOnly = FALSE,bubble = TRUE)
+                               mapName = mapName,countOnly = FALSE,bubble = TRUE,
+                   topLegReScale = c(origResponseMin,origResponseMax))
 
 
             ##################################
