@@ -9,8 +9,9 @@
 # data #
 ########
 
-condSummary = read.csv(file = "C:/Users/Rose/Documents/Rose/Abundance models- whole study area/Species/
-                       Cetaceans/Bottlenose Dolphin/glmmTMB/Model objects/Coefficients/BTNDtmb5.2.1.1 coefficients table _ Conditional.csv",stringsAsFactors = FALSE)
+condSummary1 = read.csv("C:/Users/Rose/Documents/Rose/Abundance models- whole study area/Species/Cetaceans/Bottlenose Dolphin/glmmTMB/Model objects/Coefficients/BTNDtmb5.1.1.1 coefficients table _ Conditional.csv",stringsAsFactors = FALSE)
+condSummary2 = read.csv("C:/Users/Rose/Documents/Rose/Abundance models- whole study area/Species/Cetaceans/Bottlenose Dolphin/glmmTMB/Model objects/Coefficients/BTNDtmb5.2.1.1 coefficients table _ Conditional.csv",stringsAsFactors = FALSE)
+
 sppColRef=formulas$dataset_name[m]
 
 dataset = capXtreme(formulas,m,dataset,"X")
@@ -19,19 +20,74 @@ dataset = capXtreme(formulas,m,dataset,"X")
 # Parameters #
 ##############
 
-c = condSummary$Estimate[1]
+c1 = condSummary1$Estimate[1]
+c2 = condSummary2$Estimate[1]
 
 y = dataset$BTND1
 
-estLen = length(condSummary$Estimate)
-m = condSummary$Estimate[2:estLen]
+estLen = length(condSummary1$Estimate)
+m1 = c(condSummary1$Estimate[2:estLen],0)
+
+estLen = length(condSummary2$Estimate)
+m2 = c(condSummary2$Estimate[2:estLen],0)
 rm(estLen)
 
-scaleMin = 0
+scaleMin = -1
 scaleMax = 1
 
 
-slopeSimEq(x1=0.2,x2=0.7,c=c,y=y,m=m,scaleMin = scaleMin,scaleMax = scaleMax)
+poiss = slopeSimEq(x1=0.2,x2=0.7,c=c1,y=y,m=m1,scaleMin = scaleMin,scaleMax = scaleMax)
+
+negbin1 = slopeSimEq(x1=0.2,x2=0.7,c=c2,y=y,m=m2,scaleMin = scaleMin,scaleMax = scaleMax)
+
+poiss$fam = "poiss"
+poiss$cols = "deeppink"
+
+negbin1$fam = "negbin1"
+negbin1$cols = "blue"
+
+
+bothModels = rbind(poiss,negbin1)
+
+##############
+# plot #
+############
+
+op = par(mfrow = c(3,2))
+
+plot(bothModels$slopesScaled,col = bothModels$cols,pch = 20,cex = 2,main = "slope scaled")
+abline(h=bothModels$slopesScaled[6],col = "deeppink")
+abline(h=bothModels$slopesScaled[12],col = "blue",lty = "dashed")
+
+boxplot(bothModels$slopesScaled~bothModels$fam,col=c("blue","deeppink"),main = "slope scaled")
+
+
+plot(bothModels$m,col = bothModels$cols,pch = 20,cex = 2,main = "original slope value (m)")
+abline(h=bothModels$m[6],col = "deeppink")
+abline(h=bothModels$m[12],col = "blue",lty = "dashed")
+
+
+boxplot(bothModels$m~bothModels$fam,col=c("blue","deeppink"),main = "original slope value (m)")
+
+
+plot(bothModels$distFrm0,col = bothModels$cols,pch = 20,cex = 2,main = "distFrm0")
+abline(h=bothModels$distFrm0[6],col = "deeppink")
+abline(h=bothModels$distFrm0[12],col = "blue",lty = "dashed")
+
+
+boxplot(bothModels$distFrm0~bothModels$fam,col=c("blue","deeppink"),main = "distFrm0")
+
+
+par(op)
+
+
+plot(bothModels$distFrm0~bothModels$m,col=c("deeppink","blue"),main = "distFrm0 ~ original slope value (m)")
+abline(h=0,col = "darkorange",lty = "dashed")
+abline(v=0,col = "darkgreen",lty = "dashed")
+
+####################
+# Function #
+####################
 
 slopeSimEq = function(x1=0.1,x2=0.9,c,y,m,scaleMin,scaleMax) {
 
@@ -65,22 +121,57 @@ slopeSimEq = function(x1=0.1,x2=0.9,c,y,m,scaleMin,scaleMax) {
     rm(y1,y2)
   }
   
+  
+  
+  ###################
+  # distance from 0 #
+  ###################
+  
+  distFrm0 = rep(NA, times = (length(m)))
+  
+  mLen = length(m)
+  rescaled0 = slopesScaled[mLen]
+  rm(mLen)
+  
+  for (i in 1:length(distFrm0)) {
+    
+    distFrm0[i]=slopesScaled[i]-rescaled0
+    
+  }
+  
   ##############
   # plot #
   ############
-  op = par(mfrow = c(2,2))
+  
+  op = par(mfrow = c(3,2))
   
   plot(slopesScaled,main = "slope scaled")
   boxplot(slopesScaled,main = "slope scaled")
   
-  plot(m,main = "m")
-  boxplot(m,main = "m")
+  plot(m,main = "original slope value (m)")
+  abline(h=0,col = "purple",lty = "dashed")
+  
+  boxplot(m,main = "original slope value (m)")
+  
+  plot(distFrm0,main = "distFrm0")
+  abline(h=0,col = "darkorange",lty = "dashed")
+  
+  plot(distFrm0~m,main = "distFrm0 ~ original slope value (m)")
+  
+  abline(h=0,col = "darkorange",lty = "dashed")
+  abline(v=0,col = "purple",lty = "dashed")
+  
   
   par(op)
+
+  ###############################
+  # Return data #
+  ###############################
   
-  ##############
+  newSlopes = data.frame(slopesScaled,distFrm0,m)
+  print(newSlopes)
   
-  return(slopesScaled)
+  return(newSlopes)
 }
 
 #######################
