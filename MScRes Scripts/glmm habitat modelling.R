@@ -122,7 +122,7 @@ st=1
 # fam=1
 # link=1
 
-for (m in c(13)) { # length(formulas$model_index)
+for (m in c(1)) { # length(formulas$model_index)
 
   Path=paste(wd,"Abundance models- whole study area/Species/",formulas$spp_Group[m],"/",formulas$Species[m],"/",
              formulas$Model_Type[m],"/",sep = "")
@@ -634,13 +634,15 @@ for (m in c(13)) { # length(formulas$model_index)
             # Fitted and resid vs explanatory variables zero inflated #
             ######################################
             
+            params=strsplit(ziVars[[1]],split = "*",fixed = TRUE)
+            params=unlist(params)
             
             if (fzeroi != "~1") {
               
-              parametersPlotFun(f,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+              parametersPlotFun(f,dataset,params,Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
                                 ModelRefNo,ModelRefFull,"Fitted","zi")
               
-              parametersPlotFun(r,dataset,ziVars[[1]],Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
+              parametersPlotFun(r,dataset,params,Ovexpl$Abbrv,Ovexpl$Expl_Condensed,paste(Path,"Plots/",sep = ""),
                                 ModelRefNo,ModelRefFull,"Residuals","zi")
               
             }
