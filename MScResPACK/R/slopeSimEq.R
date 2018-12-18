@@ -1,9 +1,9 @@
 #################
 # Documentation #
 #################
-#' scale a vector 0 to 1
+#' scale slope values
 #'
-#' This function allows you to scale a vector 0 to 1.
+#' This function allows you to scale slope values.
 #' @param x1 value 1 of explanatory variable (for dy/dx)
 #' @param x2 value 2 of explanatory variable (for dy/dx)
 #' @param c Intercept
@@ -11,6 +11,7 @@
 #' @param m Vector of unscaled slope values
 #' @param scaleMin minimum value to scale to
 #' @param scaleMax maximum value to scale to
+#' @param file file pathway and file name to save plot to
 #' 
 #' @keywords cats
 #' @export
@@ -105,7 +106,7 @@
 # Function #
 ####################
 
-slopeSimEq = function(x1=0.1,x2=0.9,c,y,m,scaleMin,scaleMax) {
+slopeSimEq = function(x1=0.1,x2=0.9,c,y,m,scaleMin,scaleMax,file) {
 
   mByx1 = rep(NA, times = length(m))
   mByx2 = rep(NA, times = length(m))
@@ -159,26 +160,24 @@ slopeSimEq = function(x1=0.1,x2=0.9,c,y,m,scaleMin,scaleMax) {
   # plot #
   ############
   
-  op = par(mfrow = c(3,2))
+  png(filename=paste(file,".png", sep = ""),width=1000,height=1000)
   
-  plot(slopesScaled,main = "slope scaled")
-  boxplot(slopesScaled,main = "slope scaled")
-  
-  plot(m,main = "original slope value (m)")
+  op = par(mfrow = c(2,2))
+
+  plot(m,main = "original slope")
   abline(h=0,col = "purple",lty = "dashed")
   
-  boxplot(m,main = "original slope value (m)")
-  
-  plot(distFrm0,main = "distFrm0")
+  plot(distFrm0,main = "scaled slope")
   abline(h=0,col = "darkorange",lty = "dashed")
   
-  plot(distFrm0~m,main = "distFrm0 ~ original slope value (m)")
+  plot(distFrm0~m,main = "scaled slope ~ original slope")
   
   abline(h=0,col = "darkorange",lty = "dashed")
   abline(v=0,col = "purple",lty = "dashed")
   
   
   par(op)
+  dev.off()
 
   ###############################
   # Return data #
