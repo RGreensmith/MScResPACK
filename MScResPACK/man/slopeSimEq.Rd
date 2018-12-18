@@ -4,7 +4,7 @@
 \alias{slopeSimEq}
 \title{scale a vector 0 to 1}
 \usage{
-slopeSimEq(x1 = 0.1, x2 = 0.9, c, y, m, scaleMin, scaleMax)
+slopeSimEq(x1 = 0.1, x2 = 0.9, c, y, m, scaleMin, scaleMax, file)
 }
 \arguments{
 \item{x1}{value 1 of explanatory variable (for dy/dx)}
@@ -20,6 +20,8 @@ slopeSimEq(x1 = 0.1, x2 = 0.9, c, y, m, scaleMin, scaleMax)
 \item{scaleMin}{minimum value to scale to}
 
 \item{scaleMax}{maximum value to scale to}
+
+\item{file}{file pathway and file name to save plot to}
 }
 \description{
 This function allows you to scale a vector 0 to 1.
