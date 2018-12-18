@@ -414,10 +414,38 @@ for (m in c(1)) { # length(formulas$model_index)
               }
             }
             rm(a,b)
+            
+            #####################
+            # scale coeffcond #
+            ####################
+            
+            ##############
+            # Parameters #
+            ##############
+            
+            c = coeffCond$Estimate[1]
+            
+            y = dataset[,sppColRef]
+            
+            estLen = length(coeffCond$Estimate)
+            coeffs = c(coeffCond$Estimate[2:estLen],0)
+            
+            scaleMin = -1
+            scaleMax = 1
+            
+            filepath = paste(Path,"/Model objects/Coefficients/",ModelRefNo," coeffCondScaled",sep = "")
+            
+            scaled = slopeSimEq(c=c,y=y,m=coeffs,scaleMin = scaleMin, scaleMax = scaleMax, file = filepath)
+            
+            coeffCondScaled = coeffCond
+            coeffCondScaled$Estimate[2:estLen]=scaled$distFrm0[1:estLen]
 
 
             write.csv(coeffCond, file=paste(Path,"Model objects/Coefficients/",ModelRefNo, " coefficients table ~ Conditional.csv", sep = ""))
-
+            write.csv(coeffCondScaled, file=paste(Path,"/Model objects/Coefficients/",ModelRefNo, " scaled coefficients ~ Conditional.csv", sep = ""))
+            write.csv(scaled, file=paste(Path,"/Model objects/Coefficients/",ModelRefNo, " scaled coefficients ~ cond with orig slopes.csv", sep = ""))
+            
+            rm(scaled,estLen,c,y,coeffs,scaleMin,scaleMax)
             ##############################
             # Zero-inflated coefficients #
             ##############################
@@ -446,9 +474,39 @@ for (m in c(1)) { # length(formulas$model_index)
               }
             }
             rm(a,b)
+            
+            #####################
+            # scale coeffzi #
+            ####################
+            
+            ##############
+            # Parameters #
+            ##############
+            
+            c = coeffZi$Estimate[1]
 
+            y = dataset[,sppColRef]
+            
+            estLen = length(coeffZi$Estimate)
+            coeffs = c(coeffZi$Estimate[2:estLen],0)
+
+            scaleMin = -1
+            scaleMax = 1
+            
+            filepath = paste(Path,"/Model objects/Coefficients/",ModelRefNo," coeffZiScaled",sep = "")
+            
+            scaled = slopeSimEq(c=c,y=y,m=coeffs,scaleMin = scaleMin, scaleMax = scaleMax, file = filepath)
+            
+            coeffZiScaled = coeffZi
+            coeffZiScaled$Estimate[2:estLen]=scaled$distFrm0[1:estLen]
+            
+            
             write.csv(coeffZi, file=paste(Path,"/Model objects/Coefficients/",ModelRefNo, " coefficients table ~ Zero-inflated.csv", sep = ""))
-
+            write.csv(coeffZiScaled, file=paste(Path,"/Model objects/Coefficients/",ModelRefNo, " scaled coefficients ~ Zero-inflated.csv", sep = ""))
+            write.csv(scaled, file=paste(Path,"/Model objects/Coefficients/",ModelRefNo, " scaled coefficients ~ Zi with orig slopes.csv", sep = ""))
+            
+            rm(scaled,estLen,c,y,coeffs,scaleMin,scaleMax)
+            
             ######################################
             # Creating coeffCond_AllModels table #
             ######################################
@@ -915,6 +973,65 @@ for (m in c(1)) { # length(formulas$model_index)
             dev.off()
 
             rm(c1,op)
+            
+            ###################################
+            # Coefficients barplots coeffCondScaled #
+            #####################################
+            
+            
+            coeffCondScaled=subset(coeffCondScaled,coeffCondScaled$variables!="(Intercept)")
+            
+            coeffCondScaled=coeffCondScaled[order(coeffCondScaled$Estimate),]
+            
+            
+            c1=coeffCondScaled$variables
+            
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " Scaled slope Coeff ~ Cond.png", sep = ""),width=1000,height=1000)
+            op=par(mfrow=c(2,2),mar=c(7.5,12,1,0.5) + 0.1) #  c(bottom, left, top, right)
+            
+            
+            barplot(coeffCondScaled$Estimate,
+                    horiz=TRUE, names.arg=c1, cex.names=1,las = 2,col="lightgrey")
+            title(main = "(a)",cex.main=1.9, adj=1)
+            title( xlab="Scaled Slope Estimate",cex.lab=1.5,line = 5)
+            
+            barplot(coeffCondScaled$Std..Error,
+                    horiz=TRUE, names.arg=c1, cex.names=1,las = 2,col="lightgrey")
+            title( main = "(b)",cex.main=1.9, adj=1)
+            title( xlab="Std Error", cex.lab=1.5,line = 5)
+            
+            barplot(coeffCondScaled$z.value,
+                    horiz=TRUE, names.arg=c1, cex.names=1,las = 2,col="lightgrey")
+            title(main = "(c)",cex.main=1.9, adj=1)
+            title( xlab="z value", cex.lab=1.5,line = 5)
+            
+            barplot(coeffCondScaled$Pr...z..,
+                    horiz=TRUE, names.arg=c1, cex.names=1,las = 2,col="lightgrey")
+            title(main = "(d)",cex.main=1.9, adj=1)
+            title( xlab="Pr(>|z|)", cex.lab=1.5,line = 5)
+            
+            par(op)
+            
+            dev.off()
+            
+            
+            
+            
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " Scaled Slope only ~ Cond.png", sep = ""),width=1000,height=1000)
+            
+            op=par(mar=c(5,12,1,0.5) + 0.1) #  c(bottom, left, top, right)
+            
+            barplot(coeffCondScaled$Estimate, xlab="Scaled Slope Estimate (Conditional)",
+                    horiz=TRUE, names.arg=c1, cex.lab=1.5, cex.names=1,las = 2,col="lightgrey")
+            
+            
+            
+            dev.off()
+            
+            rm(c1,op)
+            
 
             #######################################
             # Coefficients barplots Zero_inflated #
@@ -969,6 +1086,62 @@ for (m in c(1)) { # length(formulas$model_index)
             dev.off()
 
             rm(c2,op)
+            
+            
+            #######################################
+            # Coefficients barplots coeffZiScaled #
+            #######################################
+            
+            coeffZiScaled=subset(coeffZiScaled,coeffZiScaled$variables!="(Intercept)")
+            coeffZiScaled=coeffZiScaled[order(coeffZiScaled$Estimate),]
+            
+            c2=coeffZiScaled$variables
+            
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " Scaled slope Coeff ~ Zi.png", sep = ""),width=1000,height=1000)
+            op=par(mfrow=c(2,2),mar=c(7.5,12,1,0.5) + 0.1) #  c(bottom, left, top, right)
+            
+            
+            barplot(coeffZiScaled$Estimate,
+                    horiz=TRUE, names.arg=c2, cex.names=1,las = 2,col="lightgrey")
+            title(main = "(a)",cex.main=1.9, adj=1)
+            title( xlab="Scaled Slope Estimate",cex.lab=1.5,line = 5)
+            
+            barplot(coeffZiScaled$Std..Error,
+                    horiz=TRUE, names.arg=c2, cex.names=1,las = 2,col="lightgrey")
+            title( main = "(b)",cex.main=1.9, adj=1)
+            title( xlab="Std Error", cex.lab=1.5,line = 5)
+            
+            barplot(coeffZiScaled$z.value,
+                    horiz=TRUE, names.arg=c2, cex.names=1,las = 2,col="lightgrey")
+            title(main = "(c)",cex.main=1.9, adj=1)
+            title( xlab="z value", cex.lab=1.5,line = 5)
+            
+            barplot(coeffZiScaled$Pr...z..,
+                    horiz=TRUE, names.arg=c2, cex.names=1,las = 2,col="lightgrey")
+            title(main = "(d)",cex.main=1.9, adj=1)
+            title( xlab="Pr(>|z|)", cex.lab=1.5,line = 5)
+            
+            par(op)
+            
+            dev.off()
+            
+            
+            
+            
+            png(filename=paste(Path,"Plots/",ModelRefNo, " Scaled Slope only ~ zi.png", sep = ""),width=1000,height=1000)
+            
+            op=par(mar=c(5,12,1,0.5) + 0.1) #  c(bottom, left, top, right)
+            
+            barplot(coeffZiScaled$Estimate, xlab="Scaled Slope Estimate (Zero-inflated)",
+                    horiz=TRUE, names.arg=c2, cex.lab=1.5, cex.names=1,las = 2,col="lightgrey")
+            
+            
+            
+            dev.off()
+            
+            rm(c2,op)
+            
 
             
 
