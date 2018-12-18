@@ -2,7 +2,7 @@
 % Please edit documentation in R/slopeSimEq.R
 \name{slopeSimEq}
 \alias{slopeSimEq}
-\title{scale a vector 0 to 1}
+\title{scale slope values}
 \usage{
 slopeSimEq(x1 = 0.1, x2 = 0.9, c, y, m, scaleMin, scaleMax, file)
 }
@@ -24,7 +24,7 @@ slopeSimEq(x1 = 0.1, x2 = 0.9, c, y, m, scaleMin, scaleMax, file)
 \item{file}{file pathway and file name to save plot to}
 }
 \description{
-This function allows you to scale a vector 0 to 1.
+This function allows you to scale slope values.
 }
 \examples{
 slopeSimEq()

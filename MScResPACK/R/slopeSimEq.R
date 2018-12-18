@@ -1,9 +1,9 @@
 #################
 # Documentation #
 #################
-#' scale a vector 0 to 1
+#' scale slope values
 #'
-#' This function allows you to scale a vector 0 to 1.
+#' This function allows you to scale slope values.
 #' @param x1 value 1 of explanatory variable (for dy/dx)
 #' @param x2 value 2 of explanatory variable (for dy/dx)
 #' @param c Intercept
