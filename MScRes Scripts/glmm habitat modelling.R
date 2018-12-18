@@ -157,19 +157,12 @@ for (m in c(1)) { # length(formulas$model_index)
     origResponseMin = min(dataset[,sppColRef])
     origResponseMax = max(dataset[,sppColRef])
     
-    ##########################
-    # Re-scale response data #
-    ##########################
-    
-    dataset[,sppColRef]=scaleFun(dataset[,sppColRef],a=0,b=1)
-
     ############################################
     # effects and extensions vector #
     ############################################
 
     effortVec=effectExtensFun(formulas,m)
 
-    
     ############################################
     # Print model section status #
     ############################################
